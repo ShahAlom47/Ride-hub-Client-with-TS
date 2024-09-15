@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.max-w{
+
+    max-width: 1400px;
+    margin: auto;
+}
+.active{
+    background: white;
+
+}
+
+.btn-p {
+    background-color: #ff0000;
+    border-radius: 3px;
+   
+    color: white;
+}
+
+.btn-p:hover{
+    background-color: #ce0909;
+}
+
+.bb{
+    border: 3px solid white;
+}
