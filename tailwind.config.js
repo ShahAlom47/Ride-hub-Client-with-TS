@@ -7,8 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'color-p': '#1d1f21', 
-        'color-s': '#ff0000', 
+        'color-p': '#1d1f21',
+        'color-s': '#ff0000',
+      },
+      fontFamily: {
+        pFont: ['Oswald', 'sans-serif'],
+        
       },
     },
   },
@@ -16,4 +20,3 @@ export default {
     require('daisyui'),
   ],
 }
-

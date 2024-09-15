@@ -36,7 +36,7 @@ const BikeFinder: React.FC = () => {
     return (
         <div className="max-w">
             <div className="bg-color-p p-6 w-10/12 m-auto h-auto">
-                <h1 className="text-white font-bold border-b-2 border-white pb-3 text-2xl">FIND YOUR MOTORBIKE</h1>
+                <h1 className="text-white font-bold border-b-2 border-white pb-3 text-2xl font-pFont">FIND YOUR MOTORBIKE</h1>
                 <div className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4 md:grid-cols-2 justify-center">
                     {/* Brand selection */}
                     <select
