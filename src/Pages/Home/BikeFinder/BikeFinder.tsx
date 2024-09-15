@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BikeFinder: React.FC = () => {
     const [brand, setBrand] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [engine, setEngine] = useState<string>('');
+    const navigate= useNavigate()
 
     
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -20,10 +22,15 @@ const BikeFinder: React.FC = () => {
     };
 
     const handleSearch = (): void => {
-        console.log('Brand:', brand);
-        console.log('Model:', model);
-        console.log('Engine Capacity:', engine);
-        alert(`Searching for ${brand} ${model} with ${engine}cc engine`);
+        interface BikeSearchData {
+            brand:string;
+            model:string;
+            engine:string;
+        }
+       const data:BikeSearchData={ brand, model,engine };
+       
+       localStorage.setItem('bikeSearchData', JSON.stringify(data));
+       navigate('/our-bikes')
     };
 
     return (
