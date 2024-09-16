@@ -12,7 +12,7 @@ const BikeFind: React.FC = () => {
     const handleGoClick = () => {
         setIsRunning(true);
         setTimeout(() => {
-            // navigate('/our-bikes');
+            navigate('/our-bikes');
             setIsRunning(false);
         }, 1000);
     };
@@ -45,13 +45,13 @@ const BikeFind: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    
 
-                    <button 
-                     onClick={handleGoClick}
-                    className='relative'>
-                        <IoPlaySharp className=' text-color-s lg:text-8xl md:text-7xl text-6xl -ml-3  hover:text-red-600' />
-                        <p className=' absolute right-[57%] md:top-[36%] lg:top-[38%] top-[32%]  lg:text-lg md:text-sm text-xs font-semibold hover:text-black'>GO</p>
+
+                    <button
+                        onClick={handleGoClick}
+                        className='relative'>
+                        <IoPlaySharp className=' text-color-s lg:text-8xl md:text-7xl text-6xl -ml-3  hover:text-red-500' />
+                        <p className=' absolute right-[57%] md:top-[36%] lg:top-[37%] top-[32%]  lg:text-lg md:text-sm text-xs font-semibold hover:text-black'>GO</p>
                     </button>
 
                 </div>

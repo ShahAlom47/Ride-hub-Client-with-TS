@@ -11,7 +11,7 @@ interface PropsType {
 
 
 const PageHeading = ({ img, subTitle, title, titleColor,path,pathName }:PropsType) => {
-    console.log(path);
+    
     return (
         <div>
             <div className="relative lg:min-h-[260px] md:min-h-[150px] min-h-100 bg-cover bg-center flex flex-col justify-center items-start" style={{ backgroundImage: `url(${img})` }}>

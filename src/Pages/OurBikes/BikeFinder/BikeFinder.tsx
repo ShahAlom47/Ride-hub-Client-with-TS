@@ -1,5 +1,4 @@
 import React  from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 interface FinderValueType {
     brand: string;
@@ -8,16 +7,12 @@ interface FinderValueType {
     setModel: (sort: string) => void;
     engine: string;
     setEngine: (sort: string) => void;
+    handleSearch: () => void;
 }
 
-const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine}:FinderValueType) => {
+const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearch}:FinderValueType) => {
 
 
-    
-    const navigate = useNavigate()
-    const location = useLocation()
-
-    console.log(location);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -32,21 +27,10 @@ const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine}:FinderValue
         }
     };
 
-    const handleSearch = (): void => {
-        // interface BikeSearchData {
-        //     brand: string;
-        //     model: string;
-        //     engine: string;
-        // }
-        // const data: BikeSearchData = { brand, model, engine };
-
-        // localStorage.setItem('bikeSearchData', JSON.stringify(data));
-        // navigate('/our-bikes')
-    };
-
+  
     return (
         <div className="max-w">
-            <div className="bg-color-p p-6 w-10/12 m-auto h-auto">
+            <div className="bg-color-p p-6 w-11/12 m-auto h-auto">
                 <h1 className="text-white font-bold border-b-2 border-white pb-3 text-2xl font-pFont">FIND YOUR MOTORBIKE</h1>
                 <div className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4 md:grid-cols-2 justify-center">
                     {/* Brand selection */}

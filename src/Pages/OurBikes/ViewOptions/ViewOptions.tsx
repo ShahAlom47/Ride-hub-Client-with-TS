@@ -12,8 +12,8 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue }: ViewOpt
 
 
     return (
-        <div className="  my-5 p-4 w-10/12 mx-auto">
-            <div className=" flex items-center justify-between mb-4">
+        <div className="  my-5 p-4 w-11/12 mx-auto">
+            <div className=" flex gap-4 items-center justify-between  lg:flex-row md:flex-row flex-col mb-4">
                 <h1 className=" text-white font-medium">Available Bike 10</h1>
                 <div className=" flex gap-5 items-center justify-end">
                     <div className=" flex justify-center items-center gap-3 ">
@@ -31,9 +31,9 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue }: ViewOpt
                             <option value="priceDes">Price Low to High</option>
                         </select>
                     </div>
-                    <div className="flex justify-center items-center gap-3" >
-                        <button onClick={()=>setCardView('grid')} className={`text-3xl ${cardView==='grid'?'text-color-s':'text-white'}`}><RiGridFill /></button>
-                        <button onClick={()=>setCardView('row')} className={`text-4xl ${cardView==='row'?'text-color-s':'text-white'}`}><GiHamburgerMenu /></button>
+                    <div className="items-center justify-between  lg:flex md:flex hidden gap-3" >
+                        <button onClick={()=>setCardView('grid')} className={` bg-gray-800 hover:bg-color-s p-4 text-2xl ${cardView==='grid'?'bg-color-s text-white':''}`}><RiGridFill /></button>
+                        <button onClick={()=>setCardView('row')} className={`bg-gray-800 p-4 text-2xl hover:bg-color-s ${cardView==='row'?'bg-color-s text-white':''}`}><GiHamburgerMenu /></button>
                     </div>
                 </div>
 

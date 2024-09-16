@@ -3,6 +3,8 @@ import PageHeading from '../../SharedComponent/PageHeading/PageHeading';
 import headingImg from '../../assets/Banner-Img/bike-page-banner.jpg';
 import BikeFinder from './BikeFinder/BikeFinder';
 import ViewOptions from './ViewOptions/ViewOptions';
+import { bikes } from './bikeData'
+import BikeCard from './BikeCard/BikeCard';
 
 const OurBikes: React.FC = () => {
     const path: string[] = ['/', '/our-bikes'];
@@ -15,25 +17,51 @@ const OurBikes: React.FC = () => {
     const [cardView, setCardView] = useState<string>('grid');
     const [sortValue, setSortValue] = useState<string>('titleAse');
 
-    console.log(cardView, sortValue);
+
+    console.log(bikes);
+
+    const handleSearch = () => {
+
+        console.log(cardView, sortValue, brand, model, engine);
+    }
+
 
     return (
         <div className="bg-color-p">
             <PageHeading img={headingImg} title="OUR BIKE" path={path} pathName={pathName} />
+
             <div className="my-5">
-                <BikeFinder 
-                brand={brand} setBrand={setBrand} model={model} setModel={setModel} engine={engine} setEngine={setEngine}
+                <BikeFinder
+                    brand={brand}
+                    setBrand={setBrand}
+                    model={model}
+                    setModel={setModel}
+                    engine={engine}
+                    setEngine={setEngine}
+                    handleSearch={handleSearch}
                 />
             </div>
+
             <div className="sortSection max-w">
-                <ViewOptions 
-                    cardView={cardView} 
-                    setCardView={setCardView} 
-                    sortValue={sortValue} 
-                    setSortValue={setSortValue} 
+                <ViewOptions
+                    cardView={cardView}
+                    setCardView={setCardView}
+                    sortValue={sortValue}
+                    setSortValue={setSortValue}
                 />
             </div>
-            our bikes
+
+            <div className=' max-w mx-auto '>
+                <div className={` w-11/12 mx-auto grid gap-4 ${cardView === 'grid' ? ' lg:grid-cols-3 md:grid-cols-2 grid-cols-1  ' : ' grid-cols-1'}`}>
+                    {
+                        bikes?.map((bike, index) => <div className=' mx-auto' key={index}>
+
+                            <BikeCard bikeData={bike} cardView={cardView} ></BikeCard>
+                        </div>)
+                    }
+                </div>
+            </div>
+
         </div>
     );
 };
