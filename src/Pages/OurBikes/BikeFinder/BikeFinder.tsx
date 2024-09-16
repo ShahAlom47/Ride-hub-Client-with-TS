@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React  from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const BikeFinder: React.FC = () => {
-    const [brand, setBrand] = useState<string>('');
-    const [model, setModel] = useState<string>('');
-    const [engine, setEngine] = useState<string>('');
-    const navigate= useNavigate()
+interface FinderValueType {
+    brand: string;
+    setBrand: (view: string) => void;
+    model: string;
+    setModel: (sort: string) => void;
+    engine: string;
+    setEngine: (sort: string) => void;
+}
+
+const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine}:FinderValueType) => {
+
 
     
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    console.log(location);
+
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
 
-       
+
         if (name === 'brand') {
             setBrand(value);
         } else if (name === 'model') {
@@ -22,15 +33,15 @@ const BikeFinder: React.FC = () => {
     };
 
     const handleSearch = (): void => {
-        interface BikeSearchData {
-            brand:string;
-            model:string;
-            engine:string;
-        }
-       const data:BikeSearchData={ brand, model,engine };
-       
-       localStorage.setItem('bikeSearchData', JSON.stringify(data));
-       navigate('/our-bikes')
+        // interface BikeSearchData {
+        //     brand: string;
+        //     model: string;
+        //     engine: string;
+        // }
+        // const data: BikeSearchData = { brand, model, engine };
+
+        // localStorage.setItem('bikeSearchData', JSON.stringify(data));
+        // navigate('/our-bikes')
     };
 
     return (

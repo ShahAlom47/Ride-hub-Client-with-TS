@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
-import img1 from '../../../assets/Banner-Img/banner1.jpg';
+import img1 from '../../../assets/Banner-Img/banner6.jpg';
 import img2 from '../../../assets/Banner-Img/banner4.jpg';
-import img3 from '../../../assets/Banner-Img/banner3.jpg';
-import BikeFinder from '../BikeFinder/BikeFinder';
+import img3 from '../../../assets/Banner-Img/banner7.jpg';
+import BikeFind from '../BikeFind/BikeFind';
 
 const images = [img1, img2, img3];
 
@@ -78,8 +78,8 @@ const Banner: React.FC = () => {
             </div>
 
             <div className='relative  py-5 lg:min-h-40 min-h-56'>
-                <div className=' absolute -top-1/4 w-full h-full'>
-                    <BikeFinder></BikeFinder>
+                <div className=' absolute -top-2/4 w-full h-full'>
+                  <BikeFind></BikeFind>
                 </div>
             </div>
         </div>
