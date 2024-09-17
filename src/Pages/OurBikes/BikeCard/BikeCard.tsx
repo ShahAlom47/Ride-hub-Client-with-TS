@@ -1,6 +1,10 @@
 
 import bikeImg from '../../../assets/image/bikeCard.jpg'
-
+import { FaMotorcycle } from "react-icons/fa";
+import { BsStack } from "react-icons/bs";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { IoMdSpeedometer } from "react-icons/io";
+import { GrManual } from "react-icons/gr";
 
 interface bikeDataType {
     brand: string;
@@ -27,19 +31,33 @@ interface BikeCardProps {
 }
 
 const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
-console.log(cardView);
+    console.log(cardView);
 
     return (
-        <div className={` grid gap-3  ${cardView ==='grid'?' gird-col-1':' lg:grid-cols-2 md:grid-cols-2 grid-cols-1'}`}>
-            <img src={bikeImg} alt={`${bikeData.brand} ${bikeData.model}`} />
-            <div>
-                <h2>{bikeData.brand} {bikeData.model}</h2>
-                <p>Engine Capacity: {bikeData.engine_capacity}</p>
-                <p>Color: {bikeData.color}</p>
-                <p>Year: {bikeData.year}</p>
-                <p>Rental Price Per Day: ${bikeData.rental_price_per_day}</p>
-                <p>Mileage: {bikeData.mileage}</p>
-                <p>Transmission: {bikeData.transmission}</p>
+        <div className={` grid gap-3  bg-gray-800 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1'}`}>
+            <div className="   relative  overflow-hidden">
+
+                <img src={bikeImg} alt={`${bikeData?.brand} ${bikeData?.model}`} />
+                <p className={` absolute top-6 -right-[40%]  w-full text-white font-semibold inline' inline-block p-2 text-center  rotate-45 ${bikeData?.availability ? 'bg-green-500 text-black' : 'bg-red-500'}`}>
+                    {bikeData?.availability ? 'Available' : 'Not Available'}
+                </p>
+            </div>
+            <div className=' text-white'>
+                <h2 className='font-bold uppercase font-pFont text-3xl text-center border-b mb-4 pb-4 '>{bikeData?.brand} {bikeData?.model}</h2>
+                <div className="p-4 space-y-2 text-gray-300">
+                    <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Engine Capacity: <span className='text-color-s'><FaMotorcycle /> </span > <span className='font-bold text-white'> {bikeData?.engine_capacity}</span></p>
+                    <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Color: <span className='text-color-s'><BsStack /></span> <span className='font-bold text-white'> {bikeData?.color}</span></p>
+                    <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Year: <span className='text-color-s'><FaRegCalendarAlt /> </span> <span className='font-bold text-white'> {bikeData?.year}</span></p>
+                    <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Mileage: <span className='text-color-s'><IoMdSpeedometer /> </span>  <span className='font-bold text-white'> {bikeData?.mileage}</span></p>
+                    <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Transmission: <span className='text-color-s'><GrManual /> </span> <span className='font-bold text-white'> {bikeData?.transmission}</span></p>
+                </div>
+                <div className=' border-t p-4 flex items-center justify-between' >
+                    <div className=''>
+                       <p className=' text-gray-300'> Price  (Per day)</p>
+                       <h1 className=' uppercase font-bold text-xl font-pFont'>$  {bikeData.rental_price_per_day}</h1>
+                    </div>
+                    <button  className=' btn-p  p-4 py-1'>View More </button>
+                </div>
             </div>
         </div>
     );

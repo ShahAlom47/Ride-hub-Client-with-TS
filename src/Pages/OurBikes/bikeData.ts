@@ -45,7 +45,7 @@ export const bikes: Bike[] = [
         year: 2021,
         fuel_type: "Petrol",
         rental_price_per_day: 55,
-        availability: true,
+        availability: false,
         mileage: "40 kmpl",
         transmission: "Manual",
         location: "Dubai, UAE",
