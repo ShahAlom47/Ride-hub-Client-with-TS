@@ -49,9 +49,9 @@ const BikeFind: React.FC = () => {
 
                     <button
                         onClick={handleGoClick}
-                        className='relative'>
-                        <IoPlaySharp className=' text-color-s lg:text-8xl md:text-7xl text-6xl -ml-3  hover:text-red-500' />
-                        <p className=' absolute right-[57%] md:top-[36%] lg:top-[37%] top-[32%]  lg:text-lg md:text-sm text-xs font-semibold hover:text-black'>GO</p>
+                        className='relative group '>
+                        <IoPlaySharp className=' text-color-s lg:text-8xl md:text-7xl text-6xl -ml-3  group-hover:text-red-600' />
+                        <p className=' absolute right-[57%] md:top-[36%] lg:top-[37%] top-[32%]  lg:text-lg md:text-sm text-xs font-semibold group-hover:text-black'>GO</p>
                     </button>
 
                 </div>

@@ -7,6 +7,7 @@ import Root from "../LayOut/Root/Root";
 import Home from "../Pages/Home/Home";
 import OurService from "../Pages/OurService/OurService";
 import OurBikes from "../Pages/OurBikes/OurBikes";
+import BikeDetails from "../Pages/OurBikes/BikeDetails/BikeDetails";
 
 
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
      {
       path: "/our-bikes",
       element: <OurBikes></OurBikes>
+     },
+     {
+      path: "/bike-details/:model",
+      element: <BikeDetails></BikeDetails>
      },
      {
       path: "/our-service",
