@@ -32,8 +32,8 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue }: ViewOpt
                         </select>
                     </div>
                     <div className="items-center justify-between  lg:flex md:flex hidden gap-3" >
-                        <button onClick={()=>setCardView('grid')} className={` bg-gray-800 hover:bg-color-s p-4 text-2xl ${cardView==='grid'?'bg-color-s text-white':''}`}><RiGridFill /></button>
-                        <button onClick={()=>setCardView('row')} className={`bg-gray-800 p-4 text-2xl hover:bg-color-s ${cardView==='row'?'bg-color-s text-white':''}`}><GiHamburgerMenu /></button>
+                        <button onClick={()=>setCardView('grid')} className={` hover:bg-color-s p-4 text-2xl ${cardView==='grid'?'bg-color-s text-white':'bg-gray-800'}`}><RiGridFill /></button>
+                        <button onClick={()=>setCardView('row')} className={` p-4 text-2xl hover:bg-color-s ${cardView==='row'?'bg-color-s text-white':'bg-gray-800'}`}><GiHamburgerMenu /></button>
                     </div>
                 </div>
 

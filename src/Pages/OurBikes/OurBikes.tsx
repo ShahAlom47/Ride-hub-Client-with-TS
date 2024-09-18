@@ -3,8 +3,10 @@ import PageHeading from '../../SharedComponent/PageHeading/PageHeading';
 import headingImg from '../../assets/Banner-Img/bike-page-banner.jpg';
 import BikeFinder from './BikeFinder/BikeFinder';
 import ViewOptions from './ViewOptions/ViewOptions';
-import { bikes } from './bikeData'
+// import { bikes } from './bikeData'
 import BikeCard from './BikeCard/BikeCard';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from '../../CustomHocks/useAxiosPublic';
 
 const OurBikes: React.FC = () => {
     const path: string[] = ['/', '/our-bikes'];
@@ -17,6 +19,16 @@ const OurBikes: React.FC = () => {
     const [cardView, setCardView] = useState<string>('grid');
     const [sortValue, setSortValue] = useState<string>('titleAse');
 
+    const  AxiosPublic=useAxiosPublic()
+
+
+    const {data: bikes, error, isLoading }=useQuery({
+        queryKey:['allBikeData'],
+        queryFn:async()=>{
+            const res= await AxiosPublic.get('/bikeData/all-bikeData')
+            return res.data
+        }
+    })
 
     console.log(bikes);
 

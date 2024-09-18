@@ -1,4 +1,4 @@
-// const data:string[]=[
+//[
 //     {
 //       "brand": "Yamaha",
 //       "model": "R15",
