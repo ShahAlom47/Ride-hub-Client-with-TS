@@ -1,4 +1,6 @@
 import React  from 'react';
+import { CiSearch } from "react-icons/ci";
+
 
 interface FinderValueType {
     brand: string;
@@ -7,10 +9,11 @@ interface FinderValueType {
     setModel: (sort: string) => void;
     engine: string;
     setEngine: (sort: string) => void;
-    handleSearch: () => void;
+    handleFine: () => void;
+    handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearch}:FinderValueType) => {
+const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearch,handleFine}:FinderValueType) => {
 
 
 
@@ -27,11 +30,20 @@ const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearc
         }
     };
 
+
+
   
     return (
         <div className="max-w">
             <div className="bg-color-p p-6 w-11/12 m-auto h-auto">
-                <h1 className="text-white font-bold border-b-2 border-white pb-3 text-2xl font-pFont">FIND YOUR MOTORBIKE</h1>
+                <div className=" flex gap-4 justify-between items-center lg:flex-row md:flex-row flex-col border-b-2 border-white  pb-3">
+                <h1 className="text-white font-bold  text-2xl font-pFont">FIND YOUR MOTORBIKE</h1>
+                <form onSubmit={handleSearch}  className=' h-10  flex justify-center items-center'>
+                    <input className='px-3 py-1 h-full bg-gray-800' type="text" name="search"  placeholder='Search Brand Or Model ' />
+                    <button className='btn-p py-1 px-4 text-white h-full  font-bold text-xl'><CiSearch/></button>
+                </form>
+
+                </div>
                 <div className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4 md:grid-cols-2 justify-center">
                     {/* Brand selection */}
                     <select
@@ -40,10 +52,11 @@ const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearc
                         value={brand}
                         onChange={handleChange}
                     >
-                        <option value="">Select Brand</option>
+                        <option value="">All Brand</option>
                         <option value="Yamaha">Yamaha</option>
                         <option value="Honda">Honda</option>
                         <option value="Suzuki">Suzuki</option>
+
                         <option value="Kawasaki">Kawasaki</option>
                     </select>
 
@@ -54,7 +67,7 @@ const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearc
                         value={model}
                         onChange={handleChange}
                     >
-                        <option value="">Select Model</option>
+                        <option value="">All Model</option>
                         <option value="R15">R15</option>
                         <option value="CBR150R">CBR150R</option>
                         <option value="GSX-R150">GSX-R150</option>
@@ -68,18 +81,22 @@ const BikeFinder = ({brand,setBrand,model,setModel,engine,setEngine ,handleSearc
                         value={engine}
                         onChange={handleChange}
                     >
-                        <option value="">Select Engine Capacity</option>
-                        <option value="150">150cc</option>
-                        <option value="200">200cc</option>
-                        <option value="300">300cc</option>
+                        <option value="">All Engine Capacity</option>
+                        <option value="150cc">150cc</option>
+                        <option value="200cc">200cc</option>
+                        <option value="250cc">250cc</option>
+                        <option value="300cc">300cc</option>
+                        <option value="321cc">321cc</option>
+                        <option value="636cc">636cc</option>
+                        <option value="1340cc">1340cc</option>
                     </select>
 
                     {/* Search button */}
                     <button
                         className="btn-p my-0 max-h-[50px]"
-                        onClick={handleSearch}
+                        onClick={handleFine}
                     >
-                        Search Bike
+                        Find Bike
                     </button>
                 </div>
             </div>

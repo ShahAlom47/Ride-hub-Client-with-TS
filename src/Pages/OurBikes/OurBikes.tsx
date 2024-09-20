@@ -23,30 +23,39 @@ const OurBikes: React.FC = () => {
     const [brand, setBrand] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [engine, setEngine] = useState<string>('');
+    const [searchValue,setSearchValue]=useState<string>('')
 
     const [cardView, setCardView] = useState<string>('grid');
     const [sortValue, setSortValue] = useState<string>('titleAse');
 
     const AxiosPublic = useAxiosPublic();
 
-    const [page, setPage] = useState<number>(2);
+    const [page, setPage] = useState<number>(1);
     const item: number = 6;
 
-    const { data: bikesData, isLoading, error } = useQuery<BikeResponse, Error>({
-        queryKey: ['allBikeData', page],
+    const { data: bikesData, isLoading, error, refetch } = useQuery<BikeResponse, Error>({
+        queryKey: ['allBikeData', page,sortValue,searchValue],
         queryFn: async (): Promise<BikeResponse> => {
-            const res = await AxiosPublic.get(`/bikeData/all-bikeData?item=${item}&page=${page}`);
+            const res = await AxiosPublic.get(`/bikeData/all-bikeData?item=${item}&page=${page}&brand=${brand}&model=${model}&engine=${engine}&sortValue=${sortValue}&searchValue=${searchValue}`);
             return res.data as BikeResponse;
         }
     });
+    
 
     console.log(bikesData);
+    console.log(brand);
 
-    const handleSearch = () => {
-        console.log(cardView, sortValue, brand, model, engine);
+    const handleFine = () => {
+        setPage(1)
+        refetch()
     }
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault(); 
+        const value: string = e.currentTarget.search.value;
+        const trimmedValue: string = value.trim(); 
+        setSearchValue(trimmedValue);
+    };
 
-    console.log(page);
 
 
     if (isLoading) return <div>Loading...</div>;
@@ -65,6 +74,7 @@ const OurBikes: React.FC = () => {
                     engine={engine}
                     setEngine={setEngine}
                     handleSearch={handleSearch}
+                    handleFine={handleFine}
                 />
             </div>
 
@@ -74,6 +84,8 @@ const OurBikes: React.FC = () => {
                     setCardView={setCardView}
                     sortValue={sortValue}
                     setSortValue={setSortValue}
+                    totalAvailableBike={bikesData?.totalAvailableBike||0}
+
                 />
             </div>
 

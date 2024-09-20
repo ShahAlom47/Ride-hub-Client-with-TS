@@ -6,15 +6,16 @@ interface ViewOptionsType {
     setCardView: (view: string) => void;
     sortValue: string;
     setSortValue: (sort: string) => void;
+    totalAvailableBike:number;
 }
 
-const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue }: ViewOptionsType) => {
+const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue,totalAvailableBike }: ViewOptionsType) => {
 
 
     return (
         <div className="  my-5 p-4 w-11/12 mx-auto">
             <div className=" flex gap-4 items-center justify-between  lg:flex-row md:flex-row flex-col mb-4">
-                <h1 className=" text-white font-medium">Available Bike 10</h1>
+                <h1 className=" text-white font-medium">Available Bike <span className="text-xl  ">{totalAvailableBike}</span></h1>
                 <div className=" flex gap-5 items-center justify-end">
                     <div className=" flex justify-center items-center gap-3 ">
                         <h4 className="text-white">Sort By</h4>
