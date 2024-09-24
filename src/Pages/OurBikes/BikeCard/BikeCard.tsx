@@ -8,6 +8,7 @@ import { GrManual } from "react-icons/gr";
 import { Link } from 'react-router-dom';
 
 export interface bikeDataType {
+    _id:string,
     brand: string;
     model: string;
     engine_capacity: string;
@@ -62,7 +63,7 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
                         <p className=' text-gray-300'> Price  (Per day)</p>
                         <h1 className=' uppercase font-bold text-xl font-pFont'>$  {bikeData.rental_price_per_day}</h1>
                     </div>
-                    <Link to={`/bike-details/${bikeData.model}`}> <button role='button' className=' btn-p  p-4 py-1'>View More </button></Link>
+                    <Link to={`/bike-details/${bikeData._id}`}> <button role='button' className=' btn-p  p-4 py-1'>View More </button></Link>
                 </div>
             </div>
         </div>

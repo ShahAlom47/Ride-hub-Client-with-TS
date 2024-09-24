@@ -8,6 +8,8 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '../../CustomHocks/useAxiosPublic';
 import { BikeData } from './BikeDataInterFace/bikeDataIterFace';
 import { GrNext } from "react-icons/gr";
+import Loading from '../../SharedComponent/Loading/Loading';
+import ErrorPage from '../../SharedComponent/ErrorPage/ErrorPage';
 
 interface BikeResponse {
     data: BikeData[];
@@ -42,9 +44,7 @@ const OurBikes: React.FC = () => {
     });
     
 
-    console.log(bikesData);
-    console.log(brand);
-
+    
     const handleFine = () => {
         setPage(1)
         refetch()
@@ -58,8 +58,8 @@ const OurBikes: React.FC = () => {
 
 
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error fetching bike data</div>;
+    if (isLoading) return <Loading></Loading>;
+    if (error) return <ErrorPage></ErrorPage>;
 
     return (
         <div className="bg-color-p">

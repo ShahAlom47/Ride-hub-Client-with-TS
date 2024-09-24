@@ -32,7 +32,7 @@ interface RouteError {
 
     return (
         <div id="error-page" className="min-h-screen max-w">
-            <div className="  flex flex-col justify-center items-center">
+            <div className="  flex flex-col justify-center items-center  min-h-screen">
                 <Lottie options={defaultOptions} height={160} width={160} />
                 <p className=" font-semibold">Sorry, an unexpected error has occurred.</p>
 
