@@ -8,6 +8,7 @@ import Home from "../Pages/Home/Home";
 import OurService from "../Pages/OurService/OurService";
 import OurBikes from "../Pages/OurBikes/OurBikes";
 import BikeDetails from "../Pages/OurBikes/BikeDetails/BikeDetails";
+import ErrorPage from "../SharedComponent/ErrorPage/ErrorPage";
 
 
 
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
+    errorElement: <ErrorPage />,
     children: [
      {
       path: "/",
