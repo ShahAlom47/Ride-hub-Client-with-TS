@@ -5,6 +5,7 @@ import { BikeData } from "../BikeDataInterFace/bikeDataIterFace";
 import img from "../../../assets/image/bikeCard.jpg"
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+import ContactForm from "../../../SharedComponent/ContactForm/ContactForm";
 
 const BikeDetails = () => {
     const path: string[] = ['/', '/our-bikes', 'bike-details'];
@@ -57,7 +58,7 @@ const BikeDetails = () => {
                     </div>
 
                     <div className="bg-gray-800 p-3 mt-4">
-                       
+                       <ContactForm></ContactForm>
 
                     </div>
                 </div>
