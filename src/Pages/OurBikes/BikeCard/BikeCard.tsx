@@ -6,9 +6,10 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdSpeedometer } from "react-icons/io";
 import { GrManual } from "react-icons/gr";
 import { Link } from 'react-router-dom';
+import useAxiosPublic from '../../../CustomHocks/useAxiosPublic';
 
 export interface bikeDataType {
-    _id:string,
+    _id: string,
     brand: string;
     model: string;
     engine_capacity: string;
@@ -33,7 +34,16 @@ interface BikeCardProps {
 }
 
 const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
-  
+
+    const AxiosPublic = useAxiosPublic();
+
+    const handelBikeView = async (id: string) : Promise<void> => {
+
+        const viewUpdateRes = await AxiosPublic.patch(`/bikeData/updateBikeView/${id}`)
+        console.log(viewUpdateRes);
+      
+    }
+
 
     return (
         <div className={` grid   bg-gray-800 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'} overflow-hidden group`}>
@@ -47,7 +57,7 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
             </div>
             <div className=' text-white p-4 h-full'>
                 <h2 className='font-bold uppercase font-pFont text-3xl text-center border-b  p-4  group-hover:text-color-s group-hover:bg-color-p'>{bikeData?.brand} {bikeData?.model}</h2>
-                <div className={` flex p-4   bg-gray-800 rounded-ss-sm ${cardView === 'grid' ?' flex-col':' flex-row justify-between '}`}>
+                <div className={` flex p-4   bg-gray-800 rounded-ss-sm ${cardView === 'grid' ? ' flex-col' : ' flex-row justify-between '}`}>
                     <div className=" space-y-2 text-gray-300">
                         <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Engine Capacity: <span className='text-color-s'><FaMotorcycle /> </span > <span className='font-bold text-white'> {bikeData?.engine_capacity}</span></p>
                         <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Color: <span className='text-color-s'><BsStack /></span> <span className='font-bold text-white'> {bikeData?.color}</span></p>
@@ -63,7 +73,7 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
                         <p className=' text-gray-300'> Price  (Per day)</p>
                         <h1 className=' uppercase font-bold text-xl font-pFont'>$  {bikeData.rental_price_per_day}</h1>
                     </div>
-                    <Link to={`/bike-details/${bikeData._id}`}> <button role='button' className=' btn-p  p-4 py-1'>View More </button></Link>
+                    <Link to={`/bike-details/${bikeData._id}`}> <button onClick={() => handelBikeView(bikeData?._id)} role='button' className=' btn-p  p-4 py-1'>View More </button></Link>
                 </div>
             </div>
         </div>

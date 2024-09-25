@@ -6,16 +6,21 @@ import img from "../../../assets/image/bikeCard.jpg"
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import ContactForm from "../../../SharedComponent/ContactForm/ContactForm";
+import Loading from "../../../SharedComponent/Loading/Loading";
+import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
 
 const BikeDetails = () => {
-    const path: string[] = ['/', '/our-bikes', 'bike-details'];
-    const pathName: string[] = ['Home', 'Our Bike', 'Bike Details'];
+   
 
-    const { id } = useParams<{ id: string }>(); // Type the id parameter
-    const { data } = useBikeDetailsData(id);
+    const { id } = useParams<{ id: string }>(); 
+    const { data, isLoading, error, } = useBikeDetailsData(id);
     const bikeData = data as BikeData | undefined;
 
-    console.log(data);
+    const path: string[] = ['/', `/our-bikes`, `/our-bikes/bike-details/${id}`];
+    const pathName: string[] = ['Home', 'Our Bike', 'Bike Details'];
+
+    if (isLoading) return <Loading></Loading>
+    if (error) return <ErrorPage></ErrorPage>
     return (
         <div>
             <PageHeading title={`${bikeData?.brand}  ${bikeData?.model}`} path={path} pathName={pathName} />
@@ -58,7 +63,7 @@ const BikeDetails = () => {
                     </div>
 
                     <div className="bg-gray-800 p-3 mt-4">
-                       <ContactForm></ContactForm>
+                        <ContactForm></ContactForm>
 
                     </div>
                 </div>
