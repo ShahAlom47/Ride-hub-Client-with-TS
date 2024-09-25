@@ -17,12 +17,23 @@
 .btn-p {
     background-color: #ff0000;
     border-radius: 3px;
-   
+   padding: 4px 8px;
     color: white;
 }
 
 .btn-p:hover{
     background-color: #ba0e0e;
+}
+.btn-s {
+    background-color: #b8b5b5;
+    border-radius: 3px;
+   padding: 4px 8px;
+    color: rgb(48, 46, 46);
+    font-weight: 600;
+}
+
+.btn-s:hover{
+    background-color: #918c8c;
 }
 
 .bb{
