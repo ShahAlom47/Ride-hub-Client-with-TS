@@ -1,4 +1,4 @@
-import { NavLink, } from "react-router-dom";
+import { Link, NavLink, } from "react-router-dom";
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "./Logo";
@@ -53,6 +53,7 @@ const Navbar: React.FC = () => {
             </div>
             <div className="navbar-end">
                 <a className="btn btn-sm rounded-sm bg-opacity-70">Login</a>
+                <Link to={'/register'} className="btn btn-sm rounded-sm bg-opacity-70">Register</Link>
             </div>
         </div>
     );
