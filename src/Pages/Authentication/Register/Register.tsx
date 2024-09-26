@@ -66,6 +66,7 @@ const Register: React.FC = () => {
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="password">
                             Password
                         </label>
+                        <div className=" relative">
                         <input
                             type="password"
                             id="password"
@@ -78,13 +79,15 @@ const Register: React.FC = () => {
                             })}
                             className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
+                      <button></button>
+                        </div>
                         {errors.password && (
                             <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
                         )}
                     </div>
 
                     {/* Remember Me and Forgot Password */}
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col items-center justify-between mb-4">
                         <p>Already have an Account ? <Link className={'btn btn-link'} to={'/login'}> Login</Link></p>
 
                        

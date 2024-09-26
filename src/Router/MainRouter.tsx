@@ -10,6 +10,7 @@ import OurBikes from "../Pages/OurBikes/OurBikes";
 import BikeDetails from "../Pages/OurBikes/BikeDetails/BikeDetails";
 import ErrorPage from "../SharedComponent/ErrorPage/ErrorPage";
 import Register from "../Pages/Authentication/Register/Register";
+import Login from "../Pages/Authentication/Login/Login";
 
 
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
      {
       path: "/our-service",
       element: <OurService></OurService>
+     },
+     {
+      path: "/login",
+      element: <Login></Login>
      },
      {
       path: "/register",

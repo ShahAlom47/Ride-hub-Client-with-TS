@@ -9,7 +9,7 @@ interface IFormInput {
     password: string;
 }
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
     // Initialize the useForm hook with the form input types
     const {
         register,  // Register inputs
@@ -25,7 +25,7 @@ const Register: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-bl from-black via-slate-900 to-black flex items-center justify-center mt-5 py-16 ">
             <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md ">
-                <h2 className="text-center text-white text-3xl mb-6 font-bold">User Register</h2>
+                <h2 className="text-center text-white text-3xl mb-6 font-bold">User Login</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                  
                     {/* email Field */}
@@ -67,8 +67,8 @@ const Register: React.FC = () => {
                     </div>
 
                     {/* Remember Me and Forgot Password */}
-                    <div className="flex items-center justify-between mb-4">
-                        <p>Already have an Account ? <Link className={'btn btn-link'} to={'/login'}> Register</Link></p>
+                    <div className="flex flex-col items-center justify-between mb-4">
+                        <p>Already have an Account ? <Link className={'btn btn-link'} to={'/register'}> Register</Link></p>
                         <button className=" btn btn-link">Forget Password</button>
                     </div>
 
@@ -97,4 +97,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default Login;
