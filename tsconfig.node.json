@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2023"],
+    "lib": [
+      "ES2023"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -19,8 +19,9 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "vite.config.ts",           // Keep the existing file
-    "src/**/*.ts",              // Include all TypeScript files in the src directory
-    "firebase.config.ts"         // Specifically include your Firebase config
+    "vite.config.ts", // Keep the existing file
+    "src/**/*.ts", // Include all TypeScript files in the src directory
+    "firebase.config.ts", // Specifically include your Firebase config
+    "env.d.ts",
   ]
 }

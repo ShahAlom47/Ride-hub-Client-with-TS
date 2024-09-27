@@ -6,12 +6,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDeV9POyKPmQjWHqtQRXgsw6wKHKwvhrps",
-  authDomain: "ridehub-bf542.firebaseapp.com",
-  projectId: "ridehub-bf542",
-  storageBucket: "ridehub-bf542.appspot.com",
-  messagingSenderId: "1030009237568",
-  appId: "1:1030009237568:web:9fe751eb09ea4be6a6afa5"
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID
 };
 
 // Initialize Firebase

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useUser from "../../../CustomHocks/useUser";
 import { updateProfile } from "firebase/auth";
-import  auth  from "../../../../firebase.config.ts";
 
 
 // Define the form field types
@@ -22,15 +21,22 @@ const Register: React.FC = () => {
         formState: { errors }  
     } = useForm<IFormInput>();
 
-    const {user,registerUser}= useUser();
-    
- console.log(user);
+    const {registerUser , addUser}= useUser();
 
  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const registerRes = await registerUser({ email: data.email, password: data.password });
 
     if (registerRes.user) {
         await updateProfile(registerRes.user, { displayName: data.name });
+        
+        const userData={
+            userName:data.name,
+            userEmail:data.email,
+            userPassword:data.password,
+            userRole:'user',
+        }
+        await addUser(userData);
+
     } else {
         console.error("User registration failed, user is null.");
     }
