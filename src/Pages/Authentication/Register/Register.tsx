@@ -2,6 +2,10 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import useUser from "../../../CustomHocks/useUser";
+import { updateProfile } from "firebase/auth";
+import  auth  from "../../../../firebase.config.ts";
+
 
 // Define the form field types
 interface IFormInput {
@@ -18,15 +22,28 @@ const Register: React.FC = () => {
         formState: { errors }  
     } = useForm<IFormInput>();
 
-  
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data);
-    };
+    const {user,registerUser}= useUser();
+    
+ console.log(user);
+
+ const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const registerRes = await registerUser({ email: data.email, password: data.password });
+
+    if (registerRes.user) {
+        await updateProfile(registerRes.user, { displayName: data.name });
+    } else {
+        console.error("User registration failed, user is null.");
+    }
+    
+    console.log(registerRes.user);
+};
 
     return (
         <div className="min-h-screen bg-gradient-to-bl from-black via-slate-900 to-black flex items-center justify-center mt-5 py-16 ">
             <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md ">
                 <h2 className="text-center text-white text-3xl mb-6 font-bold">User Register</h2>
+
+
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* name Field */}
                     <div className="mb-4">

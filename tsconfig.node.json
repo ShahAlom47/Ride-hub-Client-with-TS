@@ -18,5 +18,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",           // Keep the existing file
+    "src/**/*.ts",              // Include all TypeScript files in the src directory
+    "firebase.config.ts"         // Specifically include your Firebase config
+  ]
 }
