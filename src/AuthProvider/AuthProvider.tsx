@@ -1,12 +1,12 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, User as FirebaseUser, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged,signOut, User as FirebaseUser, UserCredential } from "firebase/auth";
 import auth from '../../firebase.config'; // Ensure the path is correct
 import useAxiosPublic from "../CustomHocks/useAxiosPublic";
 
 interface AuthContextType {
   user: FirebaseUser | null;
   registerUser: (data: registerDataType) => Promise<UserCredential>;
-  addUser: (userData: UserDataType) => Promise<void>;
+  logOutUser: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,17 +20,8 @@ interface registerDataType {
   password: string;
 }
 
-interface UserDataType  {
-  userName: string;
-  userEmail: string;
-  userPassword: string;
-  userRole: string;
-}
-interface AddUserResponse {
-  status: boolean;
-  message?: string; 
-  error?: string; 
-}
+
+
 
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -45,26 +36,25 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     const user = userCredential.user;
     setUser(user);
-    
     setLoading(false);
     return userCredential;
   }
 
 
   
-const addUser = async (userData: UserDataType): Promise<void> => {
+
+
+const logOutUser = async () => {
   try {
-    const addUserRes = await axiosPublic.post<AddUserResponse>('/users/addUser', userData);
-    console.log(addUserRes.data);
-    if(addUserRes.data.status===false){
-      setUser(null)
-      localStorage.removeItem('token')
-    }
-    console.log(addUserRes.data);
+    await signOut(auth);
+    localStorage.removeItem('token')
+    
   } catch (error) {
-    console.error("Error adding user", error);
+    console.error("Error signing out:", error);
   }
 };
+
+
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user: FirebaseUser | null) => {
@@ -103,7 +93,7 @@ const addUser = async (userData: UserDataType): Promise<void> => {
     user, 
     loading,
     registerUser,
-    addUser,
+    logOutUser,
   };
 
   return (

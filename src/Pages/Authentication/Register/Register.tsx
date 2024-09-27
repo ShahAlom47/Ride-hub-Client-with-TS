@@ -1,10 +1,11 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useUser from "../../../CustomHocks/useUser";
 import { updateProfile } from "firebase/auth";
-
+import Swal from 'sweetalert2'
+import useAxiosPublic from "../../../CustomHocks/useAxiosPublic";
 
 // Define the form field types
 interface IFormInput {
@@ -14,82 +15,134 @@ interface IFormInput {
     rememberMe: boolean;
 }
 
+interface AddUserResponse {
+    status: boolean;
+    message: string;
+}
+
+interface UserDataType {
+    userName: string;
+    userEmail: string;
+    userPassword: string;
+    userRole: string;
+}
+
 const Register: React.FC = () => {
-    const {
-        register, 
-        handleSubmit,
-        formState: { errors }  
-    } = useForm<IFormInput>();
+    const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
-    const {registerUser , addUser}= useUser();
+    const { registerUser } = useUser();
+    const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
 
- const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const registerRes = await registerUser({ email: data.email, password: data.password });
+   
+    const addUser = async (userData: UserDataType): Promise<AddUserResponse | null> => {
+        try {
+            const addUserRes = await axiosPublic.post<AddUserResponse>('/users/addUser', userData);
 
-    if (registerRes.user) {
-        await updateProfile(registerRes.user, { displayName: data.name });
-        
-        const userData={
-            userName:data.name,
-            userEmail:data.email,
-            userPassword:data.password,
-            userRole:'user',
+            if (addUserRes.data.status === false) {
+                localStorage.removeItem('token');
+            }
+            return addUserRes.data;
+        } catch (error) {
+            console.error("Error adding user", error);
+            return null;  
         }
-        await addUser(userData);
+    };
 
-    } else {
-        console.error("User registration failed, user is null.");
-    }
+    // Form submit handler
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+        try {
+            const registerRes = await registerUser({ email: data.email, password: data.password });
     
-    console.log(registerRes.user);
-};
+            if (registerRes.user) {
+                await updateProfile(registerRes.user, { displayName: data.name });
+    
+                const userData = {
+                    userName: data.name,
+                    userEmail: data.email,
+                    userPassword: data.password,
+                    userRole: 'user',
+                };
+    
+                // Add user to database
+                const addRes = await addUser(userData);
+                if (addRes?.status === true) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: addRes.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+    
+                    navigate('/');
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: addRes ? addRes.message : "User registration failed!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          
+            if (error.code === 'auth/email-already-in-use') {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Account already exists with this email!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Registration failed! Please try again.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
+    };
+    
 
     return (
         <div className="min-h-screen bg-gradient-to-bl from-black via-slate-900 to-black flex items-center justify-center mt-5 py-16 ">
             <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md ">
                 <h2 className="text-center text-white text-3xl mb-6 font-bold">User Register</h2>
 
-
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* name Field */}
+                    {/* Name Field */}
                     <div className="mb-4">
-                        <label className="block text-gray-300 text-sm mb-2" htmlFor="name">
-                            Name
-                        </label>
+                        <label className="block text-gray-300 text-sm mb-2" htmlFor="name">Name</label>
                         <input
                             type="text"
                             id="name"
                             {...register("name", { required: "name is required" })}
                             className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
-                        {errors.name && (
-                            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                        )}
+                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                     </div>
 
-
-                    {/* email Field */}
+                    {/* Email Field */}
                     <div className="mb-4">
-                        <label className="block text-gray-300 text-sm mb-2" htmlFor="email">
-                            Email
-                        </label>
+                        <label className="block text-gray-300 text-sm mb-2" htmlFor="email">Email</label>
                         <input
                             type="email"
                             id="email"
                             {...register("email", { required: "email is required" })}
                             className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                        )}
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                     </div>
 
                     {/* Password Field */}
                     <div className="mb-4">
-                        <label className="block text-gray-300 text-sm mb-2" htmlFor="password">
-                            Password
-                        </label>
-                        <div className=" relative">
+                        <label className="block text-gray-300 text-sm mb-2" htmlFor="password">Password</label>
                         <input
                             type="password"
                             id="password"
@@ -102,28 +155,17 @@ const Register: React.FC = () => {
                             })}
                             className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
-                      <button></button>
-                        </div>
-                        {errors.password && (
-                            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-                        )}
+                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </div>
 
-                    {/* Remember Me and Forgot Password */}
+                    {/* Already have an account */}
                     <div className="flex flex-col items-center justify-between mb-4">
-                        <p>Already have an Account ? <Link className={'btn btn-link'} to={'/login'}> Login</Link></p>
-
-                       
+                        <p>Already have an Account? <Link className="btn btn-link" to="/login">Login</Link></p>
                     </div>
 
-                    {/* Sign In Button */}
+                    {/* Register Button */}
                     <div className="mb-6">
-                        <button
-                            type="submit"
-                            className="w-full py-2 btn-p transition"
-                        >
-                            Register
-                        </button>
+                        <button type="submit" className="w-full py-2 btn-p transition">Register</button>
                     </div>
 
                     {/* OR Separator */}
@@ -131,9 +173,9 @@ const Register: React.FC = () => {
                         <span className="mr-2">OR</span>
                     </div>
 
-                    {/* Register Button */}
+                    {/* Social Login */}
                     <div>
-                        <SocialLogin></SocialLogin>
+                        <SocialLogin />
                     </div>
                 </form>
             </div>

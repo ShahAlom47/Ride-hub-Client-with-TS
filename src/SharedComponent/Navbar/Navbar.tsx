@@ -2,10 +2,12 @@ import { Link, NavLink, } from "react-router-dom";
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "./Logo";
+import useUser from "../../CustomHocks/useUser";
 
 
 
 const Navbar: React.FC = () => {
+const {user,logOutUser}=useUser();
 
 
 
@@ -52,7 +54,9 @@ const Navbar: React.FC = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn btn-sm rounded-sm bg-opacity-70">Login</a>
+                <p>{user?.email}</p>
+                <button onClick={()=>logOutUser()}>Logout</button>
+                <Link to={'/login'} className="btn btn-sm rounded-sm bg-opacity-70">Login</Link>
                 <Link to={'/register'} className="btn btn-sm rounded-sm bg-opacity-70">Register</Link>
             </div>
         </div>
