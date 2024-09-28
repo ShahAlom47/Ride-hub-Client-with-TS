@@ -1,11 +1,12 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged,signOut, User as FirebaseUser, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged,signOut, User as FirebaseUser, UserCredential, signInWithEmailAndPassword } from "firebase/auth";
 import auth from '../../firebase.config'; // Ensure the path is correct
 import useAxiosPublic from "../CustomHocks/useAxiosPublic";
 
 interface AuthContextType {
   user: FirebaseUser | null;
   registerUser: (data: registerDataType) => Promise<UserCredential>;
+  loginUser: (data: registerDataType) => Promise<UserCredential>;
   logOutUser: () => Promise<void>;
 }
 
@@ -33,6 +34,17 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const registerUser = async ({ email, password }: registerDataType): Promise<UserCredential> => {
     setLoading(true);
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    const user = userCredential.user;
+    setUser(user);
+    setLoading(false);
+    return userCredential;
+  }
+
+
+  const loginUser = async ({ email, password }: registerDataType): Promise<UserCredential> => {
+    setLoading(true);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     
     const user = userCredential.user;
     setUser(user);
@@ -94,6 +106,7 @@ const logOutUser = async () => {
     loading,
     registerUser,
     logOutUser,
+    loginUser,
   };
 
   return (

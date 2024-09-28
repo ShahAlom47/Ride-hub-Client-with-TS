@@ -55,7 +55,7 @@ const {user,logOutUser}=useUser();
             </div>
             <div className="navbar-end">
                 <p>{user?.email}</p>
-                <button onClick={()=>logOutUser()}>Logout</button>
+                <button className=" mx-3" onClick={()=>logOutUser()}>Logout</button>
                 <Link to={'/login'} className="btn btn-sm rounded-sm bg-opacity-70">Login</Link>
                 <Link to={'/register'} className="btn btn-sm rounded-sm bg-opacity-70">Register</Link>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
@@ -6,6 +6,8 @@ import useUser from "../../../CustomHocks/useUser";
 import { updateProfile } from "firebase/auth";
 import Swal from 'sweetalert2'
 import useAxiosPublic from "../../../CustomHocks/useAxiosPublic";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FiEyeOff } from "react-icons/fi";
 
 // Define the form field types
 interface IFormInput {
@@ -33,7 +35,7 @@ const Register: React.FC = () => {
     const { registerUser } = useUser();
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
-
+    const [showPass, setShowPass]=useState <boolean>();
    
     const addUser = async (userData: UserDataType): Promise<AddUserResponse | null> => {
         try {
@@ -60,7 +62,7 @@ const Register: React.FC = () => {
                 const userData = {
                     userName: data.name,
                     userEmail: data.email,
-                    userPassword: data.password,
+                    userPassword: '',
                     userRole: 'user',
                 };
     
@@ -72,7 +74,8 @@ const Register: React.FC = () => {
                         icon: "success",
                         title: addRes.message,
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
+                        toast: true
                     });
     
                     navigate('/');
@@ -82,7 +85,8 @@ const Register: React.FC = () => {
                         icon: "error",
                         title: addRes ? addRes.message : "User registration failed!",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
+                        toast: true
                     });
                 }
             }
@@ -143,8 +147,9 @@ const Register: React.FC = () => {
                     {/* Password Field */}
                     <div className="mb-4">
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="password">Password</label>
-                        <input
-                            type="password"
+                     <div className=" relative  ">
+                     <input
+                            type={showPass?'text':"password"}
                             id="password"
                             {...register("password", {
                                 required: "Password is required",
@@ -155,6 +160,8 @@ const Register: React.FC = () => {
                             })}
                             className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                         />
+                        <button className="absolute top-1/3 right-6" type="button" onClick={()=>setShowPass(!showPass)}>{showPass? <MdOutlineRemoveRedEye />:<FiEyeOff />}</button>
+                     </div>
                         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </div>
 
