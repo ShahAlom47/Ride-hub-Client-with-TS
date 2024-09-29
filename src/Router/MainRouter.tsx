@@ -11,6 +11,7 @@ import BikeDetails from "../Pages/OurBikes/BikeDetails/BikeDetails";
 import ErrorPage from "../SharedComponent/ErrorPage/ErrorPage";
 import Register from "../Pages/Authentication/Register/Register";
 import Login from "../Pages/Authentication/Login/Login";
+import Shop from "../Pages/Shop/Shop";
 
 
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
      {
       path: "/bike-details/:id",
       element: <BikeDetails></BikeDetails>
+     },
+     {
+      path: "/shop",
+      element: <Shop></Shop>
      },
      {
       path: "/our-service",

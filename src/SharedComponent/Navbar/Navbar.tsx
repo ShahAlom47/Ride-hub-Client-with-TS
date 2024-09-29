@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
     
     const [visible, setVisible] = useState(true);
 
-console.log(visible);
+
 
     useEffect(() => {
         let prevSPos = window.pageYOffset;
@@ -45,6 +45,9 @@ console.log(visible);
         <NavLink key="our-service" to="/our-service"
             className={({ isActive }) => `  hover:text-color-s px-3 rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
         >Our Service</NavLink>,
+        <NavLink key="our-service" to="/shop"
+            className={({ isActive }) => `  hover:text-color-s px-3 rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
+        >Shop</NavLink>,
         <NavLink key="about-us" to="/about-us"
             className={({ isActive }) => `  hover:text-color-s px-3 rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
         >About Us</NavLink>
