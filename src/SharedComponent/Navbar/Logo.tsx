@@ -1,8 +1,11 @@
+import { Link } from "react-router-dom";
+import logo from '../../assets/png/RideHub_logo (2).png'
 
 
 const Logo = () => {
     return (
-        <a className="btn btn-ghost text-2xl text-white font-bold " ><span className="text-color-s upp">Ride</span>Hub</a>
+        
+        <Link to={'/'}> <img className=" lg:ml-6 lg:w-24 lg:h-12 md:w-20 md:h-12  w-16 h-10" src={logo} alt="rideHub logo" /></Link>
     );
 };
 

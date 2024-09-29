@@ -23,7 +23,7 @@ const Root = () => {
 
   return (
     loading ? <Loading></Loading> :
-      <div className="">
+      <div className=" ">
        
         <Navbar></Navbar>
         {

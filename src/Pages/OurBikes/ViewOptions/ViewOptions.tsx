@@ -21,7 +21,7 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue,totalAvail
                         <h4 className="text-white">Sort By</h4>
                         <select
                             name="brand"
-                            className="p-4 bg-gray-800 rounded inline-block"
+                            className="p-2 bg-gray-800 rounded inline-block"
                             value={sortValue}
                             onChange={(e) => setSortValue(e.target.value)}
                         >
@@ -33,8 +33,8 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue,totalAvail
                         </select>
                     </div>
                     <div className="items-center justify-between  lg:flex md:flex hidden gap-3" >
-                        <button onClick={()=>setCardView('grid')} className={` hover:bg-color-s p-4 text-2xl ${cardView==='grid'?'bg-color-s text-white':'bg-gray-800'}`}><RiGridFill /></button>
-                        <button onClick={()=>setCardView('row')} className={` p-4 text-2xl hover:bg-color-s ${cardView==='row'?'bg-color-s text-white':'bg-gray-800'}`}><GiHamburgerMenu /></button>
+                        <button onClick={()=>setCardView('grid')} className={` hover:bg-color-s p-2 text-xl ${cardView==='grid'?'bg-color-s text-white':'bg-gray-800'}`}><RiGridFill /></button>
+                        <button onClick={()=>setCardView('row')} className={` p-2 text-xl hover:bg-color-s ${cardView==='row'?'bg-color-s text-white':'bg-gray-800'}`}><GiHamburgerMenu /></button>
                     </div>
                 </div>
 

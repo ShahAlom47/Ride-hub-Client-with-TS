@@ -1,13 +1,36 @@
 import { Link, NavLink, } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "./Logo";
 import useUser from "../../CustomHocks/useUser";
+import img from '../../assets/png/user-pp.png'
 
 
 
 const Navbar: React.FC = () => {
-const {user,logOutUser}=useUser();
+    const { user, logOutUser } = useUser();
+    
+    const [visible, setVisible] = useState(true);
+
+console.log(visible);
+
+    useEffect(() => {
+        let prevSPos = window.pageYOffset;
+
+        const handleScroll = () => {
+            const currentSPos = window.pageYOffset;
+            const isVisible = prevSPos > currentSPos;
+            setVisible(isVisible);
+            prevSPos = currentSPos;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [ visible ]);
+
 
 
 
@@ -28,9 +51,9 @@ const {user,logOutUser}=useUser();
     ];
 
     return (
-        <div className="navbar bg-color-p absolute top-0 z-50 text-gray-300">
+        <div className={` ${visible? 'top-0':'-top-16'} transition-all duration-500 ease-in-out   navbar bg-color-p   sticky z-50 text-gray-300 `}>
             <div className="navbar-start">
-                <div className="dropdown">
+                <div className="dropdown flex justify-between">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                         <GiHamburgerMenu />
                     </div>
@@ -53,11 +76,36 @@ const {user,logOutUser}=useUser();
                     }
                 </ul>
             </div>
-            <div className="navbar-end">
-                <p>{user?.email}</p>
-                <button className=" mx-3" onClick={()=>logOutUser()}>Logout</button>
-                <Link to={'/login'} className="btn btn-sm rounded-sm bg-opacity-70">Login</Link>
-                <Link to={'/register'} className="btn btn-sm rounded-sm bg-opacity-70">Register</Link>
+            <div className="navbar-end pr-5" >
+
+
+                {
+                    user ?
+                        <div className=' flex items-center justify-end gap-4'>
+                            <div className='pt-2'>
+
+                            </div>
+                            <div className="dropdown dropdown-end p-0 m-0">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar p-0 m-0">
+                                    <div className="w-8 rounded-full flex justify-center items-center border text-center">
+                                            <img alt="profile phot" src={user.photoURL?user.photoURL:img} />
+                                    </div>
+                                </div>
+                                <ul tabIndex={0} className="-mt-1 z-[1] text-white p-2 shadow menu menu-sm dropdown-content bg-color-p rounded-sm w-32">
+                                    <li className='border-b-2 pl-2  uppercase' >{user?.displayName} </li>
+                                    <li><a onClick={() => logOutUser()}>Logout</a></li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        :
+                        <Link to={'/login'} className="btn btn-sm rounded-sm bg-opacity-70">Login</Link>
+                }
+
+
+
             </div>
         </div>
     );
