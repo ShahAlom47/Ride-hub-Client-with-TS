@@ -6,8 +6,9 @@ import ErrorPage from "../../SharedComponent/ErrorPage/ErrorPage";
 import Loading from "../../SharedComponent/Loading/Loading";
 import headingImg from '../../assets/Banner-Img/bike-page-banner.jpg';
 import { GrNext } from "react-icons/gr";
+import ProductCard from "./ProductCard/ProductCard";
 
-interface Products {
+ export interface Products {
     name: string;
     category: string;
     brand: string;
@@ -26,7 +27,6 @@ interface Products {
 interface ProductResponse {
     data: Products[];
     totalPage: number;
-    totalAvailableBike: number;
     currentPage: number;
 }
 const Shop = () => {
@@ -61,9 +61,9 @@ const Shop = () => {
             <div className='max-w mx-auto'>
                 <div className={`w-11/12 mx-auto grid gap-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1' : 'grid-cols-1`}>
                     {
-                        products?.data?.map((item, index) => (
-                            <div className='mx-auto' key={index}>
-                                <p>Card</p>
+                        products?.data.map((item, index) => (
+                            <div className='mx-auto mt-5' key={index}>
+                                 <ProductCard data={item}></ProductCard>
                             </div>
                         ))
                     }
