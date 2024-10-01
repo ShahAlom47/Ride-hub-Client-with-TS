@@ -11,6 +11,8 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
+        padding:'0px',
+        zIndex:'999'
     },
 };
 interface ModalProps {
@@ -34,8 +36,8 @@ const ReactModal = ({ children, modalIsOpen, setIsOpen }: ModalProps) => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <div className="relative p-2">
-                    <button onClick={closeModal} className='absolute -top-4 -right-4 hover:text-color-s text-black text-3xl bg-transparent'>
+                <div className="relative z-50 ">
+                    <button onClick={closeModal} className='absolute top-4 right-4 hover:text-color-s text-white text-3xl bg-transparent'>
                         <MdOutlineCancel />
                     </button>
                     {children}
