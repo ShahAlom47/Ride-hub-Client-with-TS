@@ -4,14 +4,17 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { ImEye } from "react-icons/im";
 import 'react-tooltip/dist/react-tooltip.css'
 import { Tooltip } from 'react-tooltip'
+import ReactModal from "../../../SharedComponent/ReactModal/ReactModal";
+import { useState } from "react";
+import ProductDetails from "../ProductDetails/ProductDetails";
 
 interface ProductCardProps {
-
     data: Products;
 }
 
 
 const ProductCard = ({ data }: ProductCardProps) => {
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     console.log(data);
 
@@ -24,6 +27,7 @@ const ProductCard = ({ data }: ProductCardProps) => {
                     data-tooltip-id="my-tooltip" data-tooltip-content="Add To Wishlist"
                     className="   transition-all duration-500 ease-in-out  absolute -top-20 group-hover:top-2 right-2 text-3xl p-4 bg-color-p text-white hover:bg-color-s "><MdFavoriteBorder /></button>
                     <button 
+                    onClick={()=>setIsOpen(true)}
                       data-tooltip-id="my-tooltip" data-tooltip-content="View Details"
                     className="   transition-all duration-500 ease-in-out  absolute -top-20 group-hover:top-20 right-2 text-3xl p-4 bg-color-p text-white hover:bg-color-s "><ImEye /></button>
                     <img src="https://m.media-amazon.com/images/I/61xv8k5p1gL._AC_SL1500_.jpg" alt={ ` ${data?.name||'Product Photo'} Photo`}/>
@@ -39,6 +43,10 @@ const ProductCard = ({ data }: ProductCardProps) => {
                     activeColor="#ffd700"
                 />
                 <p className="text-3xl font-bold font-pFont text-color-s">$ {data?.price}</p>
+
+                <ReactModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} >
+                    <ProductDetails id={data?._id}></ProductDetails>
+                </ReactModal>
             </div>
             <Tooltip id="my-tooltip" />
         </div>

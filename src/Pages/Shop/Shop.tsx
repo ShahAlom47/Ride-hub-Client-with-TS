@@ -9,6 +9,7 @@ import { GrNext } from "react-icons/gr";
 import ProductCard from "./ProductCard/ProductCard";
 
  export interface Products {
+    _id:string;
     name: string;
     category: string;
     brand: string;
