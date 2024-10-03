@@ -4,7 +4,7 @@ import Banner from "./Banner/Banner";
 
 const Home = () => {
     return (
-        <div className="bg-color-p mt-16">
+        <div className="bg-color-p m">
             <Banner></Banner>
            
             

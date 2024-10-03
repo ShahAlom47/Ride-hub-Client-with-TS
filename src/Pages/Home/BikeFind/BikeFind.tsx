@@ -18,23 +18,14 @@ const BikeFind: React.FC = () => {
     };
 
     return (
-        <div className="max-w mx-auto p-6 py-7 text-white">
-            <div className="w-8/12 mx-auto bg-color-p p-4 space-y-4 shadow-md shadow-white overflow-hidden">
-                <div className='border-b md:hidden lg:hidden'>
-                    <div className={`flex  items-center justify-start ${isRunning ? 'animate-bike' : ''}`}>
-                        <img
-                            className={`transition-transform w-20 h-18 ${isRunning ? 'translate-x-full' : ''}`}
-                            src={bike}
-                            alt="Bike"
-                        />
-                    </div>
-                </div>
+        <div className="max-w mx-auto   text-white">
+            <div className="w-8/12 mx-auto bg-color-p p-1 space-y-4 shadow-md shadow-white overflow-hidden">
 
 
                 <div className="flex items-center justify-between ">
 
-                    <div className='flex flex-1 gap-2 items-end overflow-hidden'>
-                        <h2 className="lg:text-4xl md:text-2xl text-xl font-bold mb-4 font-pFont uppercase">Find Your Bike</h2>
+                    <div className='flex flex-1 gap-2 items-center overflow-hidden px-2'>
+                        <h2 className="lg:text-4xl md:text-2xl text-xl font-bold  font-pFont uppercase">Find Your Bike</h2>
                         <div className="flex-1  w-full md:flex lg:flex hidden ">
                             <div className={`flex  items-center justify-start ${isRunning ? 'animate-bike' : ''}`}>
                                 <img
