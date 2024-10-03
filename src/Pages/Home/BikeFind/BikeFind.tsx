@@ -25,11 +25,11 @@ const BikeFind: React.FC = () => {
                 <div className="flex items-center justify-between ">
 
                     <div className='flex flex-1 gap-2 items-center overflow-hidden px-2'>
-                        <h2 className="lg:text-4xl md:text-2xl text-xl font-bold  font-pFont uppercase">Find Your Bike</h2>
+                        <h2 className="lg:text-3xl md:text-xl text-lg font-bold  font-pFont uppercase">Find Your Bike</h2>
                         <div className="flex-1  w-full md:flex lg:flex hidden ">
                             <div className={`flex  items-center justify-start ${isRunning ? 'animate-bike' : ''}`}>
                                 <img
-                                    className={`transition-transform w-20 h-18 ${isRunning ? 'translate-x-full' : ''}`}
+                                    className={`transition-transform lg:w-20 lg:h-18 md:w-18 md:h-16 h-10 w-12 ${isRunning ? 'translate-x-full' : ''}`}
                                     src={bike}
                                     alt="Bike"
                                 />
@@ -41,8 +41,8 @@ const BikeFind: React.FC = () => {
                     <button
                         onClick={handleGoClick}
                         className='relative group '>
-                        <IoPlaySharp className=' text-color-s lg:text-8xl md:text-7xl text-6xl -ml-3  group-hover:text-red-600' />
-                        <p className=' absolute right-[57%] md:top-[36%] lg:top-[37%] top-[32%]  lg:text-lg md:text-sm text-xs font-semibold group-hover:text-black'>GO</p>
+                        <IoPlaySharp className=' text-color-s lg:text-8xl md:text-6xl text-4xl -ml-3  group-hover:text-red-600' />
+                        <p className=' absolute lg:right-[57%] md:right-[56%] right-3/4 md:top-[36%] lg:top-[37%] top-[32%]  lg:text-lg md:text-sm text-[7px] font-semibold group-hover:text-black'>GO</p>
                     </button>
 
                 </div>

@@ -88,7 +88,7 @@ const Banner: React.FC = () => {
                 </AnimatePresence>
 
                 {/* Title and Subtitle with Animation */}
-                <div className={`absolute inset-0 flex ${currentIndex===0 || currentIndex===3?'justify-end text-end':'justify-start'} items-center   px-8  bg-opacity-40 mx-8`}>
+                <div style={{ textShadow: '4px 4px 8px #090808' }} className={`absolute inset-0 flex ${currentIndex===0 || currentIndex===3?'justify-end text-end right-[10%]':'justify-start left-[8%]'} items-center   lg:px-8  md:px-4 px-2 bg-opacity-40 lg:mx-8`}>
                     <motion.div
                         key={currentIndex} // Key added to ensure animation triggers on slide change
                         initial={{ opacity: 0, y: -100 }}  // Change 'y' for top-down animation (-100 for top, 100 for bottom)
@@ -96,10 +96,10 @@ const Banner: React.FC = () => {
                         exit={{ opacity: 0, y: 100 }}  // Optional: add exit animation (for bottom-up exit)
                         transition={{ duration: 1.2, ease: 'easeInOut' }}  // Adjust duration as needed
                     >
-                        <h1 style={{ whiteSpace: 'pre-line' }} className="text-5xl font-bold mb-4 w-8/1 font-pFont text-white ">
+                        <h1 style={{ whiteSpace: 'pre-line' }} className="lg:text-5xl md:text-3xl text-xl font-bold mb-4 w-8/1 font-pFont text-white ">
                             {bannerContent[currentIndex].title}
                         </h1>
-                        <p className="text-xl mb-8 text-gray-200">
+                        <p className="lg:text-xl md:text-lg text-sm mb-8 text-gray-200">
                             {bannerContent[currentIndex].subtitle}
                         </p>
                     </motion.div>
@@ -107,7 +107,7 @@ const Banner: React.FC = () => {
 
 
                 {/* Navigation Buttons */}
-                <div className="absolute inset-0 flex justify-between items-center px-4">
+                <div className="absolute inset-0 lg:flex md:flex hidden justify-between items-center px-4">
                     <button
                         onClick={handlePrev}
                         className="bg-gray-800 bg-opacity-45 text-white p-2 rounded-full shadow-md hover:bg-gray-600 transition"
@@ -125,7 +125,7 @@ const Banner: React.FC = () => {
 
             {/* BikeFind Section */}
             <div className='relative py-5 lg:min-h-40 min-h-56'>
-                <div className='absolute -top-1/4 w-full h-full'>
+                <div className='absolute lg:-top-1/4 md:-top-4 -top-2 w-full h-full'>
                     <BikeFind />
                 </div>
             </div>
