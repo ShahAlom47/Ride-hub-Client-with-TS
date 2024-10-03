@@ -7,10 +7,31 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { BikeData } from "../../OurBikes/BikeDataInterFace/bikeDataIterFace";
+import useAxiosPublic from "../../../CustomHocks/useAxiosPublic";
+import Loading from "../../../SharedComponent/Loading/Loading";
+import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
 
-
+interface BikeResponse {
+    data: BikeData[];
+}
 
 const LatestBike = () => {
+    const AxiosPublic = useAxiosPublic();
+
+    const { data, isLoading, error } = useQuery<BikeResponse, Error>({
+        queryKey: ['latestBikeData'],
+        queryFn: async (): Promise<BikeResponse> => {
+            const res = await AxiosPublic.get(`/bikeData/latest-bike`);
+            return res.data as BikeResponse;
+        }
+    });
+
+    console.log(data);
+
+    if (isLoading) return <Loading></Loading>;
+    if (error) return <ErrorPage></ErrorPage>;
     return (
         <div className=" max-w p-4">
             <div className="header flex justify-between items-end my-4 p-2">
@@ -40,15 +61,12 @@ const LatestBike = () => {
                     navigation
                     className="mySwiper"
                 >
-                    <SwiperSlide>Slide 1</SwiperSlide>
-                    <SwiperSlide>Slide 2</SwiperSlide>
-                    <SwiperSlide>Slide 3</SwiperSlide>
-                    <SwiperSlide>Slide 4</SwiperSlide>
-                    <SwiperSlide>Slide 5</SwiperSlide>
-                    <SwiperSlide>Slide 6</SwiperSlide>
-                    <SwiperSlide>Slide 7</SwiperSlide>
-                    <SwiperSlide>Slide 8</SwiperSlide>
-                    <SwiperSlide>Slide 9</SwiperSlide>
+                    {
+                        data?.data.map((bike) => <div key={bike?._id}>
+                            <SwiperSlide>{bike.brand}</SwiperSlide>
+                        </div>)
+                    }
+
                 </Swiper>
             </div>
         </div>
