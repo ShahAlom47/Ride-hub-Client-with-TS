@@ -6,8 +6,8 @@ import img2 from '../../../assets/Banner-Img/Post Design-02.png';
 import img3 from '../../../assets/Banner-Img/Post Design-03.png';
 import img4 from '../../../assets/Banner-Img/Post Design-04.png';
 import BikeFind from '../BikeFind/BikeFind';
+ 
 
-// Array for banner data including title, subtitle, and image
 const bannerContent = [
     {
         img: img1,
@@ -52,14 +52,14 @@ const Banner: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState<'next' | 'prev'>('next');
 
-    // Auto-slide functionality using setTimeout
+   
     useEffect(() => {
         const autoSlide = setTimeout(() => {
             setDirection('next');
             setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerContent.length);
-        }, 5000); // Slide every 5 seconds
+        }, 5000); 
 
-        return () => clearTimeout(autoSlide); // Clear timeout on cleanup
+        return () => clearTimeout(autoSlide); 
     }, [currentIndex]);
 
     const handleNext = () => {
@@ -90,11 +90,11 @@ const Banner: React.FC = () => {
                 {/* Title and Subtitle with Animation */}
                 <div style={{ textShadow: '4px 4px 8px #090808' }} className={`absolute inset-0 flex ${currentIndex===0 || currentIndex===3?'justify-end text-end right-[10%]':'justify-start left-[8%]'} items-center   lg:px-8  md:px-4 px-2 bg-opacity-40 lg:mx-8`}>
                     <motion.div
-                        key={currentIndex} // Key added to ensure animation triggers on slide change
-                        initial={{ opacity: 0, y: -100 }}  // Change 'y' for top-down animation (-100 for top, 100 for bottom)
+                        key={currentIndex}
+                        initial={{ opacity: 0, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 100 }}  // Optional: add exit animation (for bottom-up exit)
-                        transition={{ duration: 1.2, ease: 'easeInOut' }}  // Adjust duration as needed
+                        exit={{ opacity: 0, y: 100 }} 
+                        transition={{ duration: 1.2, ease: 'easeInOut' }}  
                     >
                         <h1 style={{ whiteSpace: 'pre-line' }} className="lg:text-5xl md:text-3xl text-xl font-bold mb-4 w-8/1 font-pFont text-white ">
                             {bannerContent[currentIndex].title}
