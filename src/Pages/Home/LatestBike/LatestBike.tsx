@@ -12,6 +12,7 @@ import { BikeData } from "../../OurBikes/BikeDataInterFace/bikeDataIterFace";
 import useAxiosPublic from "../../../CustomHocks/useAxiosPublic";
 import Loading from "../../../SharedComponent/Loading/Loading";
 import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
+import LatestBikeCard from "./LatestBikeCard/LatestBikeCard";
 
 interface BikeResponse {
     data: BikeData[];
@@ -59,11 +60,13 @@ const LatestBike = () => {
                         disableOnInteraction: false, // Disable autoplay on interaction
                     }}
                     navigation
-                    className="mySwiper"
+                    className="mySwiper "
                 >
                     {
                         data?.data.map((bike) => <div key={bike?._id}>
-                            <SwiperSlide>{bike.brand}</SwiperSlide>
+                            <SwiperSlide>
+                                < LatestBikeCard  bikeData={bike}/>
+                            </SwiperSlide>
                         </div>)
                     }
 

@@ -6,7 +6,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdSpeedometer } from "react-icons/io";
 import { GrManual } from "react-icons/gr";
 import { Link } from 'react-router-dom';
-import useAxiosPublic from '../../../CustomHocks/useAxiosPublic';
+import useBikeCardViewUpdate from '../../../CustomHocks/useBikeCardViewUpdate';
 
 export interface bikeDataType {
     _id: string,
@@ -35,15 +35,7 @@ interface BikeCardProps {
 
 const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
 
-    const AxiosPublic = useAxiosPublic();
-
-    const handelBikeView = async (id: string) : Promise<void> => {
-
-        const viewUpdateRes = await AxiosPublic.patch(`/bikeData/updateBikeView/${id}`)
-        console.log(viewUpdateRes);
-      
-    }
-
+  const {handelBikeView}=useBikeCardViewUpdate();
 
     return (
         <div className={` grid   bg-gray-800 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'} overflow-hidden group`}>
