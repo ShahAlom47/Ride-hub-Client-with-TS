@@ -1,6 +1,6 @@
 import { TbArrowUpRight } from "react-icons/tb";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from 'swiper/modules';
+import {  Autoplay } from 'swiper/modules';
 
 // Import Swiper styles
 import "swiper/css";
@@ -50,26 +50,35 @@ const LatestBike = () => {
                 </Link>
 
             </div>
-            <div className="Slider p-6">
+            <div className="Slider p-2">
                 <Swiper
-                    modules={[Navigation, Autoplay]}
+                    modules={[Autoplay]}
                     watchSlidesProgress={true}
-                    slidesPerView={3}
                     autoplay={{
-                        delay: 2500, // Set autoplay delay in milliseconds
-                        disableOnInteraction: false, // Disable autoplay on interaction
+                        delay: 3000,
+                        disableOnInteraction: false,
                     }}
-                    navigation
-                    className="mySwiper "
+                    spaceBetween={20} // space between slides
+                    breakpoints={{
+                        640: {
+                          slidesPerView: 1,
+                        },
+                        768: {
+                          slidesPerView: 2,
+                        },
+                        1024: {
+                          slidesPerView: 3,
+                        },
+                      }}
+                    className="mySwiper"
                 >
                     {
-                        data?.data.map((bike) => <div key={bike?._id}>
-                            <SwiperSlide>
-                                < LatestBikeCard  bikeData={bike}/>
+                        data?.data.map((bike) => (
+                            <SwiperSlide key={bike?._id}>
+                                <LatestBikeCard bikeData={bike} />
                             </SwiperSlide>
-                        </div>)
+                        ))
                     }
-
                 </Swiper>
             </div>
         </div>

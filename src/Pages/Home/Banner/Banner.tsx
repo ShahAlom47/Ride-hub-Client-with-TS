@@ -124,7 +124,7 @@ const Banner: React.FC = () => {
             </div>
 
             {/* BikeFind Section */}
-            <div className='relative py-5 lg:min-h-40 min-h-56'>
+            <div className='relative py-5 lg:min-h-40 min-h-20'>
                 <div className='absolute lg:-top-1/4 md:-top-4 -top-2 w-full h-full'>
                     <BikeFind />
                 </div>

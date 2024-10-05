@@ -21,12 +21,12 @@ type BikeDataTypes = {
 const LatestBikeCard = ({ bikeData }: BikeDataTypes) => {
     const {handelBikeView}=useBikeCardViewUpdate();
 
-    
+
     return (
-        <div className=" bg-zinc-800 p-5  m-2">
+        <div className=" bg-zinc-800 p-6">
             <div className=" flex justify-between items-center my-3">
                 <div>
-                    <h1 className="text-4xl font-bold font-pFont text-white ">{bikeData?.brand} {bikeData?.model}</h1>
+                    <h1 className="lg:text-4xl md:text-3xl text-2xl font-bold font-pFont text-white ">{bikeData?.brand} {bikeData?.model}</h1>
                     <p className=" flex items-center gap-1 mt-2 text-color-s"> <FaRegEye className="mt-1" /> {bikeData?.total_view}</p>
                 </div>
                 <button
