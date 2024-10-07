@@ -109,23 +109,23 @@ const Banner: React.FC = () => {
             </div>
 
 
-            <div className='max-w relative  lg:min-h-24 min-h-18 '>
+            <div className='max-w relative  lg:min-h-24 min-h-16  '>
                 <div
                     style={{ clipPath: 'polygon(0 0, 100% 0, 90% 100%, 10% 100%)', }}
-                    className='  bg-color-s bg-gradient-to-r from-color-p  absolute lg:-top-1/4 md:-top-4 -top-2  w-full  py-2 shadow-slate-50 -shadow-lg '
+                    className='  bg-color-s bg-gradient-to-r from-color-p  absolute lg:-top-1/4 md:-top-4 -top-2   w-full  py-2 shadow-slate-50 -shadow-lg '
                 >
 
-                    <div className="flex justify-between items-center px-4 w-8/12 mx-auto">
+                    <div className="flex justify-between items-center px-4 lg:w-8/12  w-10/12 mx-auto ">
                         {/* Previous Button */}
                         <button
                             onClick={handlePrev}
                             style={{ clipPath: 'polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%, 0% 50%)', }}
-                            className="relative bg-gradient-to-l from-transparent to-red-700 text-black font-bold py-2 px-8 pr-16   min-w-[200px] ">
-                            <span className="relative z-10">PREVIOUS</span>
+                            className="relative bg-gradient-to-l from-transparent to-red-700 hover:to-red-600 text-white font-bold py-1 pl-5 text-start   pr-10 md:w-[150px] lg:w-[200px] w-[110px] ">
+                            <span className="relative z-10">PREV</span>
                         </button>
 
                         {/* Middle Dots */}
-                        <div className="flex items-center gap-3">
+                        <div className="lg:flex  hidden items-center gap-3">
                             {bannerContent.map((_, i) => (
                                 <p
                                     className={`transition-all ease-in-out duration-700 ${i === currentIndex ? 'text-color-p text-2xl' : 'text-white' }`}
@@ -138,7 +138,7 @@ const Banner: React.FC = () => {
                         <button
                             onClick={handleNext}
                             style={{ clipPath: 'polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%)', }}
-                            className="relative bg-gradient-to-r from-transparent to-color-p text-black font-bold py-2 px-8 pl-16  min-w-[200px]">
+                            className="relative bg-gradient-to-r from-transparent to-color-p hover:to-gray-700 text-white font-bold  py-1   pr-5 text-end md:min-w-[150px] lg:min-w-[200px] min-w-[110px]">
                            
                             <span className="relative z-10">NEXT</span>
                         </button>

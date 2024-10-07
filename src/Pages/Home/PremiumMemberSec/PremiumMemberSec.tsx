@@ -2,12 +2,12 @@ import img from '../../../assets/image/premiumMemberBannerImg.jpg'
 
 const PremiumMemberSec = () => {
     return (
-        <div className="relative flex  min-h-[500px] bg-center bg-cover" style={{ backgroundImage: `url(${img})` }}>
+        <div className="relative mt-8 flex  min-h-[500px] bg-center bg-cover" style={{ backgroundImage: `url(${img})` }}>
 
-<div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
 
             {/* Content */}
-            <div className="max-w">
+            <div className="max-w ">
                 <div className="relative z-10 space-y-5   p-5 text-white my-auto flex justify-center items-start flex-col  lg:w-1/2 md:w-1/2 w-full">
 
                     <h1 className="font-bold text-4xl font-pFont uppercase ">Free service for premium members</h1>

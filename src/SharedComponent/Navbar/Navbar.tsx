@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <div className={` ${visible? 'top-0':'-top-16'} transition-all duration-500 ease-in-out   navbar bg-color-p   sticky z-50 text-gray-300 `}>
+        <div className={` ${visible? 'top-0':'-top-16'} transition-all duration-500 ease-in-out   navbar bg-black  sticky z-50 text-gray-300 `}>
             <div className="navbar-start">
                 <div className="dropdown flex justify-between">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

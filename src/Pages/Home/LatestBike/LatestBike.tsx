@@ -34,7 +34,7 @@ const LatestBike = () => {
     if (isLoading) return <Loading></Loading>;
     if (error) return <ErrorPage></ErrorPage>;
     return (
-        <div className=" max-w p-4">
+        <div className=" max-w p-4 ">
             <div className="header flex justify-between items-end my-4 p-2">
                 <div className=" text-white space-y-3 uppercase">
                     <p className=" bg-color-s px-3 py-1 inline  ">Our Categories</p>
