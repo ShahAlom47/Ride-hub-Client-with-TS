@@ -38,7 +38,7 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
   const {handelBikeView}=useBikeCardViewUpdate();
 
     return (
-        <div className={` grid   bg-gray-800 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'} overflow-hidden group`}>
+        <div className={` grid   bg-gray-950 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'} overflow-hidden group`}>
             <div className="   relative  overflow-hidden">
 
                 <img className=" h-full object-cover transition-transform duration-300 group-hover:scale-105 "

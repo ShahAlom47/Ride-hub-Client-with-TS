@@ -2,12 +2,18 @@ import Logo from "../Navbar/Logo";
 import { MdLocationPin } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { TfiEmail } from "react-icons/tfi";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import ReactModal from "../ReactModal/ReactModal";
+import ContactForm from "../ContactForm/ContactForm";
 
 const Footer = () => {
+
+    const [modalIsOpen,setIsOpen]=useState(false)
+
     return (
         <div className="bg-black">
-            <div className=" max-w p-5 py-16  flex justify-between items-center">
+            <div className=" max-w p-5 py-16  grid grid-cols-3 items-start">
 
                 <div  >
                     <h1 className=" text-3xl font-bold font-pFont mb-4 ">DO YOU HAVE QUESTIONS?<br />
@@ -17,9 +23,39 @@ const Footer = () => {
                     < p className=" flex gap-2  items-center "><FaPhoneAlt />  (+012) 33 5566 8888</p>
                     < p className=" flex gap-2  items-center "><TfiEmail />  ridehub47@gmail.com</p>
                 </div>
+                <div className="">
+                    <h1 className="uppercase text-2xl font-bold font-pFont mb-4">Quick links</h1>
+                    <div className="flex flex-col text-xl">
+                        <NavLink
+                            key="home" to="/"
+                            className={({ isActive }) => ` hover:text-color-s rounded-sm ${isActive ? 'text-color-s font-bold ' : ''}`}
+                        > Home </NavLink>
+                        <NavLink key="our-bikes" to="/our-bikes"
+                            className={({ isActive }) => `   hover:text-color-s rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
+                        >Our Bikes</NavLink>
+                        <NavLink key="our-service" to="/our-service"
+                            className={({ isActive }) => `  hover:text-color-s rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
+                        >Our Service</NavLink>
 
-                <Link to={'/contact'}><button className="btn-p w-72 h-12 font-bold"> CONTACT US</button></Link>
+                        <NavLink key="our-service" to="/shop"
+                            className={({ isActive }) => `  hover:text-color-s rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
+                        >Shop</NavLink>
+                        <NavLink key="about-us" to="/about-us"
+                            className={({ isActive }) => `  hover:text-color-s rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
+                        >About Us</NavLink>
 
+                    </div>
+                </div>
+                <div>
+                    <h1 className="uppercase text-2xl font-bold font-pFont mb-4">Quick Contact</h1>
+                    <p className="mb-3">Have any questions or need assistance? Click the 'Contact Us' button to reach out to us directly. Simply enter your name and email, and we'll get back to you as soon as possible. We're here to help make your bike rental experience smooth and enjoyable!</p>
+                   <button onClick={()=>setIsOpen(true)} className="btn-p  h-10 font-bold "> Send a Message</button>
+                    <ReactModal modalIsOpen={modalIsOpen}  setIsOpen={setIsOpen} label="footer contact modal" >
+                       <div className="bg-color-p  mx-auto">
+                       <ContactForm></ContactForm>
+                       </div>
+                    </ReactModal>
+                </div>
             </div>
             <div className=" border-t"></div>
             <footer className="footer  text-neutral-content items-center p-5 max-w ">

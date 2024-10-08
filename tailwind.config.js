@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'color-p': '#1d1f21',
+        'color-p': '#100f0f',
         'color-s': '#ff0000',
       },
       fontFamily: {

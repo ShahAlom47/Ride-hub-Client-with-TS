@@ -16,7 +16,7 @@ const PageHeading = ({ img , subTitle, title, titleColor,path,pathName }:PropsTy
         <div>
             <div className="relative lg:min-h-[260px] md:min-h-[150px] min-h-100 bg-cover bg-center flex flex-col justify-center items-start" style={{ backgroundImage: `url(${img ||banner})` }}>
                 <div className="absolute inset-0 bg-black opacity-60"></div>
-                <div className=' relative z-10  mt-16 space-y-6 pb-5  h-full ml-[10%]  text-white'>
+                <div className=' relative z-0  mt-16 space-y-6 pb-5  h-full ml-[10%]  text-white'>
                 <div>
                         {path?.map((item, i) => (
                             <Link className="hover:text-color-s" key={i} to={item}>
