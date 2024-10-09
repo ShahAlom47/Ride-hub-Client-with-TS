@@ -29,7 +29,7 @@ const LatestBike = () => {
         }
     });
 
-    console.log(data);
+
 
     if (isLoading) return <Loading></Loading>;
     if (error) return <ErrorPage></ErrorPage>;
