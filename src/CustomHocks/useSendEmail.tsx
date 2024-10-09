@@ -1,5 +1,5 @@
 
-import { AxiosResponse } from 'axios';
+
 import useAxiosPublic from './useAxiosPublic';
 
 export interface MailDataType {
@@ -18,11 +18,14 @@ export interface ResType {
 
 
 const useSendEmail = () => {
- const AxiosPublic = useAxiosPublic()
-  const sendEmail = async (mailData: MailDataType): Promise<AxiosResponse<ResType>> => {
-    const mailRes = await AxiosPublic.post<ResType>('/sendEmail', mailData );
-   
-    return mailRes.data;
+  const AxiosPublic = useAxiosPublic();
+  const sendEmail = async (mailData: MailDataType): Promise<{ message: string; success: boolean; }> => {
+    const mailRes = await AxiosPublic.post<ResType>('/sendEmail', mailData);
+
+    return {
+      message: mailRes?.data?.message,
+      success: mailRes?.data?.success
+    };
   };
 
   return { sendEmail };

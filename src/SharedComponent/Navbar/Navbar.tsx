@@ -4,12 +4,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "./Logo";
 import useUser from "../../CustomHocks/useUser";
 import img from '../../assets/png/user-pp.png'
+import wishIcon from '../../assets/icons/wishListIcon-2.png'
 
 
 
 const Navbar: React.FC = () => {
     const { user, logOutUser } = useUser();
-    
+
     const [visible, setVisible] = useState(true);
 
 
@@ -29,7 +30,7 @@ const Navbar: React.FC = () => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [ visible ]);
+    }, [visible]);
 
 
 
@@ -54,7 +55,7 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <div className={` ${visible? 'top-0':'-top-16'} transition-all duration-500 ease-in-out   navbar bg-black  sticky z-50 text-gray-300 `}>
+        <div className={` ${visible ? 'top-0' : '-top-16'} transition-all duration-500 ease-in-out   navbar bg-black  sticky z-50 text-gray-300 `}>
             <div className="navbar-start">
                 <div className="dropdown flex justify-between">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -72,14 +73,22 @@ const Navbar: React.FC = () => {
                 </div>
                 <Logo></Logo>
             </div>
-            <div className="navbar-center hidden lg:flex">
+
+            <div className="navbar-center hidden lg:flex   ">
                 <ul className="menu menu-horizontal px-1  uppercase  ">
                     {
                         nav.map((item, idx) => <li key={idx}>{item}</li>)
                     }
                 </ul>
+
             </div>
+
             <div className="navbar-end pr-5" >
+                <div className=" flex items-center   ">
+                    <NavLink key="wishList" to="/wish-list"
+                        className={({ isActive }) => ` hover:text-color-s text-2xl px-3 rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
+                    > <img className="w-6 h-6" src={wishIcon} alt="wishIcon" /> </NavLink>
+                </div>
 
 
                 {
@@ -91,7 +100,7 @@ const Navbar: React.FC = () => {
                             <div className="dropdown dropdown-end p-0 m-0">
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar p-0 m-0">
                                     <div className="w-8 rounded-full flex justify-center items-center border text-center">
-                                            <img alt="profile phot" src={user.photoURL?user.photoURL:img} />
+                                        <img alt="profile phot" src={user.photoURL ? user.photoURL : img} />
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="-mt-1 z-[1] text-white p-2 shadow menu menu-sm dropdown-content bg-color-p rounded-sm w-32">

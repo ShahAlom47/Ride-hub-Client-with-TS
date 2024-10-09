@@ -35,7 +35,8 @@ interface BikeCardProps {
 
 const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
 
-  const {handelBikeView}=useBikeCardViewUpdate();
+    const { handelBikeView } = useBikeCardViewUpdate();
+   
 
     return (
         <div className={` grid   bg-gray-950 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'} overflow-hidden group`}>
@@ -49,7 +50,7 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
             </div>
             <div className=' text-white p-4 h-full'>
                 <h2 className='font-bold uppercase font-pFont text-3xl text-center border-b  p-4  group-hover:text-color-s group-hover:bg-color-p'>{bikeData?.brand} {bikeData?.model}</h2>
-                <div className={` flex p-4   bg-gray-800 rounded-ss-sm ${cardView === 'grid' ? ' flex-col' : ' flex-row justify-between '}`}>
+                <div className={` flex p-4    bg-gray-950 rounded-ss-sm ${cardView === 'grid' ? ' flex-col' : ' flex-row justify-between '}`}>
                     <div className=" space-y-2 text-gray-300">
                         <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Engine Capacity: <span className='text-color-s'><FaMotorcycle /> </span > <span className='font-bold text-white'> {bikeData?.engine_capacity}</span></p>
                         <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Color: <span className='text-color-s'><BsStack /></span> <span className='font-bold text-white'> {bikeData?.color}</span></p>

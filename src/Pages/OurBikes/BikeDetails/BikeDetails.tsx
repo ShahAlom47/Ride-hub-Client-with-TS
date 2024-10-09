@@ -8,16 +8,26 @@ import { FaEye } from "react-icons/fa";
 import ContactForm from "../../../SharedComponent/ContactForm/ContactForm";
 import Loading from "../../../SharedComponent/Loading/Loading";
 import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
+import useHandelBikeWishList from "../../../CustomHocks/useHandelBikeWishList";
+import { useEffect, useState } from "react";
 
 const BikeDetails = () => {
-   
 
-    const { id } = useParams<{ id: string }>(); 
+
+    const { id } = useParams<{ id: string }>();
     const { data, isLoading, error, } = useBikeDetailsData(id);
     const bikeData = data as BikeData | undefined;
+    const { getBikeWishList, addBikeWishList } = useHandelBikeWishList();
+    const [currentWishList, setCurrentWishList] = useState<string[]>([]);
 
     const path: string[] = ['/', `/our-bikes`, `/our-bikes/bike-details/${id}`];
     const pathName: string[] = ['Home', 'Our Bike', 'Bike Details'];
+
+
+    useEffect(() => {
+        const wishList = getBikeWishList();
+        setCurrentWishList(wishList);
+    }, [getBikeWishList]);
 
     if (isLoading) return <Loading></Loading>
     if (error) return <ErrorPage></ErrorPage>
@@ -57,7 +67,13 @@ const BikeDetails = () => {
                         </h1>
                         <p className="">(per day)</p>
                         <div className=" grid grid-cols-2 items-center gap-3 my-4 border-t-2 pt-4">
-                            <button className="btn-s">Add To List</button>
+                            <button
+                             onClick={() => bikeData?._id && addBikeWishList(bikeData._id)}
+                                className="btn-s "
+                                style={ bikeData?._id && currentWishList.includes(bikeData?._id )?{backgroundColor:'#ce7878'}:{}}
+                                >
+                                
+                                Add To List</button>
                             <button className=" btn-p w-full'">Rent Now</button>
                         </div>
                     </div>
