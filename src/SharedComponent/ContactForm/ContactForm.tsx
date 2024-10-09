@@ -1,6 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import useSendEmail, { ResType } from "../../CustomHocks/useSendEmail";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import ButtonLoading from "../ButtonLoading/ButtonLoading";
 
 
 interface IFormInput {
@@ -14,46 +16,50 @@ interface IFormInput {
 
 const ContactForm = () => {
   const { register, handleSubmit, reset } = useForm<IFormInput>();
-  const { sendEmail } = useSendEmail()
+  const { sendEmail } = useSendEmail();
+  const [isLoading, setIsLoading] = useState(false)
 
 
 
-const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setIsLoading(true)
     //  mail data object
     const mailData = {
-        from:'ridehub47@gmail.com',
-        to: data.email,
-        subject: data.subject,
-        html: `Hi, I'm ${data.name} . ${data.message}`,
+      from: 'ridehub47@gmail.com',
+      to: data.email,
+      subject: data.subject,
+      html: `Hi, I'm ${data.name} . ${data.message}`,
     };
 
 
     const mailRes: ResType = await sendEmail(mailData);
-    console.log(mailRes);
-
-    if (mailRes?.success) {
-        reset();
-        Swal.fire({
-            toast: true,
-            icon: 'success',
-            title: mailRes?.message,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-        });
-        return;
+    if (mailRes) {
+      setIsLoading(false)
     }
 
-   
-    Swal.fire({
+    if (mailRes?.success) {
+      reset();
+      Swal.fire({
         toast: true,
-        icon: 'error',
-        title: mailRes?.message || 'Something is Wrong ,Please Try again',
+        icon: 'success',
+        title: mailRes?.message,
         position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
+      });
+      return;
+    }
+
+
+    Swal.fire({
+      toast: true,
+      icon: 'error',
+      title: mailRes?.message || 'Something is Wrong ,Please Try again',
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
     });
-};
+  };
 
 
 
@@ -64,7 +70,8 @@ const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         <input placeholder="Your Email" type="email" className="bg-gray-900 rounded-sm py-2 px-4 w-full outline-none" {...register("email")} required />
         <input placeholder="Subject" type="text" className="bg-gray-900 rounded-sm py-2 px-4 w-full outline-none" {...register("subject")} required />
         <textarea placeholder="Your Message" className="bg-gray-900 rounded-sm py-2 px-4 w-full outline-none" {...register("message")} required></textarea>
-        <button type="submit" className="btn-p cursor-pointer w-full">Submit</button>
+        <button type="submit" className="btn-p cursor-pointer w-full max-h-10 overflow-y-hidden flex justify-center items-center">{isLoading?<ButtonLoading/>:'Submit'}</button>
+        
       </form>
     </div>
   );
