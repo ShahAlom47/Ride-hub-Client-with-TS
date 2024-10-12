@@ -15,11 +15,11 @@ const useHandelWishList = () => {
           });
     }
 
-    const getBikeWishList = () => {
+    const getBikeWishList = () :string[]  => {
         const existingWishList = localStorage.getItem('bikeWishList');
         return existingWishList ? JSON.parse(existingWishList) : [];
     };
-    const getShopWishList = () => {
+    const getShopWishList = ():string[] => {
         const existingWishList = localStorage.getItem('shopWishList');
         return existingWishList ? JSON.parse(existingWishList) : [];
     };

@@ -4,7 +4,7 @@ import Loading from "../../SharedComponent/Loading/Loading";
 import Navbar from "../../SharedComponent/Navbar/Navbar";
 import Footer from "../../SharedComponent/Footer/Footer";
 import usePageLoading from "../../CustomHocks/usePageLoading";
-import WishList from "../../Pages/DrawerComponent/WishList/WishList/WishList";
+import WishList from "../../Pages/DrawerComponent/WishList/WishList";
 import CartList from "../../Pages/DrawerComponent/CartList/CartList"
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
@@ -45,7 +45,7 @@ const Root = () => {
           <h1 className=" w-full  mt-16 text-2xl font-bold font-pFont text-center  bg-color-s text-white p-3 ">{drawerContent==='wishList'?'Wish List':'Cart List'}</h1>
           {
             drawerLoading ? <div className={` ${drawerContent !== false ? '' : 'hidden'}`}><Loading></Loading></div> :
-              <div className="w-full">
+              <div className="w-full ml-4">
                 {drawerContent === 'wishList' ? <WishList></WishList> : ''}
                 {drawerContent === 'cartList' ? <CartList></CartList> : ''}
               </div>
