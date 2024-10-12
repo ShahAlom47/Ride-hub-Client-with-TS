@@ -8,8 +8,8 @@ import { FaEye } from "react-icons/fa";
 import ContactForm from "../../../SharedComponent/ContactForm/ContactForm";
 import Loading from "../../../SharedComponent/Loading/Loading";
 import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
-import useHandelBikeWishList from "../../../CustomHocks/useHandelBikeWishList";
 import { useEffect, useState } from "react";
+import useHandelWishList from "../../../CustomHocks/useHandelWishList";
 
 const BikeDetails = () => {
 
@@ -17,7 +17,7 @@ const BikeDetails = () => {
     const { id } = useParams<{ id: string }>();
     const { data, isLoading, error, } = useBikeDetailsData(id);
     const bikeData = data as BikeData | undefined;
-    const { getBikeWishList, addBikeWishList } = useHandelBikeWishList();
+    const { getBikeWishList, addBikeWishList } = useHandelWishList();
     const [currentWishList, setCurrentWishList] = useState<string[]>([]);
 
     const path: string[] = ['/', `/our-bikes`, `/our-bikes/bike-details/${id}`];

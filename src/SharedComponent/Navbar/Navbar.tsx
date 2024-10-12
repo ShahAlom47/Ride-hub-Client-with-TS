@@ -4,11 +4,15 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "./Logo";
 import useUser from "../../CustomHocks/useUser";
 import img from '../../assets/png/user-pp.png'
-import wishIcon from '../../assets/icons/wishListIcon-2.png'
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
+
+interface DrawerProps {
+    drawerContent:string| boolean;
+    setDrawerContent: React.Dispatch<React.SetStateAction<string|boolean>>
+}
 
 
-
-const Navbar: React.FC = () => {
+const Navbar = ({drawerContent,setDrawerContent}:DrawerProps) => {
     const { user, logOutUser } = useUser();
 
     const [visible, setVisible] = useState(true);
@@ -32,8 +36,28 @@ const Navbar: React.FC = () => {
         };
     }, [visible]);
 
+    const handelDrawer= (value:string) :void=>{
+        if(drawerContent===value){
+            setDrawerContent(false);
+            return
+        }
+        setDrawerContent(value);
+    }
 
 
+    const drawerNav: React.ReactNode = (
+        <div className=" flex items-center   ">
+            <button
+            onClick={()=>handelDrawer('wishList')}
+                className={` hover:text-color-s text-2xl px-3 rounded-sm ${drawerContent==='wishList'?'text-color-s':''} `}
+            >  <FaHeart></FaHeart></button>
+            <button
+             onClick={()=>handelDrawer('cartList')}
+                className={` hover:text-color-s text-2xl px-3 rounded-sm  ${drawerContent==='cartList'?'text-color-s':''}`}
+            >  <FaShoppingCart></FaShoppingCart></button>
+
+        </div>
+    )
 
     const nav: React.ReactNode[] = [
         <NavLink
@@ -84,12 +108,10 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="navbar-end pr-5" >
-                <div className=" flex items-center   ">
-                    <NavLink key="wishList" to="/wish-list"
-                        className={({ isActive }) => ` hover:text-color-s text-2xl px-3 rounded-sm ${isActive ? 'text-color-s font-bold' : ''}`}
-                    > <img className="w-6 h-6" src={wishIcon} alt="wishIcon" /> </NavLink>
-                </div>
 
+                {
+                    drawerNav
+                }
 
                 {
                     user ?

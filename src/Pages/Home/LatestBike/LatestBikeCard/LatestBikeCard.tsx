@@ -12,8 +12,8 @@ import { Tooltip } from 'react-tooltip'
 import { FaRegEye } from "react-icons/fa";
 import img from '../../../../assets/image/bikeCard.jpg'
 import useBikeCardViewUpdate from "../../../../CustomHocks/useBikeCardViewUpdate";
-import useHandelBikeWishList from "../../../../CustomHocks/useHandelBikeWishList";
 import { useEffect, useState } from "react";
+import useHandelWishList from "../../../../CustomHocks/useHandelWishList";
 
 
 type BikeDataTypes = {
@@ -22,7 +22,7 @@ type BikeDataTypes = {
 
 const LatestBikeCard = ({ bikeData }: BikeDataTypes) => {
     const { handelBikeView } = useBikeCardViewUpdate();
-    const { getBikeWishList, addBikeWishList } = useHandelBikeWishList();
+    const { getBikeWishList, addBikeWishList } = useHandelWishList();
 
     const [currentWishList, setCurrentWishList] = useState<string[]>([]);
 
