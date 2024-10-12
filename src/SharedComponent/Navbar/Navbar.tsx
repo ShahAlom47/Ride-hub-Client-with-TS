@@ -9,10 +9,11 @@ import { FaHeart, FaShoppingCart } from "react-icons/fa";
 interface DrawerProps {
     drawerContent:string| boolean;
     setDrawerContent: React.Dispatch<React.SetStateAction<string|boolean>>
+    setNavbarPosition: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-const Navbar = ({drawerContent,setDrawerContent}:DrawerProps) => {
+const Navbar = ({drawerContent,setDrawerContent,setNavbarPosition}:DrawerProps) => {
     const { user, logOutUser } = useUser();
 
     const [visible, setVisible] = useState(true);
@@ -26,6 +27,7 @@ const Navbar = ({drawerContent,setDrawerContent}:DrawerProps) => {
             const currentSPos = window.pageYOffset;
             const isVisible = prevSPos > currentSPos;
             setVisible(isVisible);
+            setNavbarPosition(isVisible);
             prevSPos = currentSPos;
         };
 
