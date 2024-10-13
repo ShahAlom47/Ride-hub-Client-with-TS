@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 
 
 const useHandelWishList = () => {
+    
 
     // alert
     const alert =(value:string):void =>{
@@ -19,6 +20,7 @@ const useHandelWishList = () => {
         const existingWishList = localStorage.getItem('bikeWishList');
         return existingWishList ? JSON.parse(existingWishList) : [];
     };
+
     const getShopWishList = ():string[] => {
         const existingWishList = localStorage.getItem('shopWishList');
         return existingWishList ? JSON.parse(existingWishList) : [];
@@ -38,6 +40,17 @@ const useHandelWishList = () => {
         }
 
     }
+
+const removeItemFromWishList = async ( listName:string,id:string)=>{
+    const currentWishList = getBikeWishList();
+
+        const updatedList= currentWishList.filter((i:string)=> i!= id)
+        localStorage.setItem(listName,JSON.stringify(updatedList))
+        alert('remove')
+   
+
+}
+
     const addShopWishList = async (productId:string)=>{
         const currentWishList = getShopWishList();
 
@@ -59,6 +72,7 @@ const useHandelWishList = () => {
         getBikeWishList,
         addShopWishList,
         getShopWishList,
+        removeItemFromWishList,
     }
 };
 

@@ -36,17 +36,17 @@ const Root = () => {
 
   }, [drawerContent]);
 
-  console.log(drawerContent);
+
 
   return (
     loading ? <Loading></Loading> :
       <div className=" relative">
-        <div className={` drawer transition-all ease-in-out duration-500 flex flex-col   fixed  min-h-screen -right-1  bg-color-p  z-50   border-color-s border-l border-b ${navbarPosition?'top-[65px]':'top-0'}  ${drawerContent !== false ? 'w-96 ' : 'w-0 -right-30'}`}>
+        <div className={` drawer transition-all ease-in-out duration-500 flex flex-col   fixed  min-h-screen -right-1  bg-color-p  z-50   border-color-s border-l border-b ${navbarPosition?'top-[65px]':'top-0'}  ${drawerContent !== false ? 'w-[40vw] right-0 ' : 'w-0 -right-30'}`}>
           <button onClick={() => setDrawerContent(false)} className=" hover:bg-red-800 group text-white bg-color-s h-16 rounded-r-xl absolute left-0 top-1/2  text-xl"><MdOutlineKeyboardArrowRight /></button>
           <h1 className=" w-full  text-2xl font-bold font-pFont text-center  bg-color-s text-white p-3 ">{drawerContent==='wishList'?'Wish List':'Cart List'}</h1>
           {
             drawerLoading ? <div className={` ${drawerContent !== false ? '' : 'hidden'}`}><Loading></Loading></div> :
-              <div className="w-full ml-4">
+              <div className="w-full px-4 ">
                 {drawerContent === 'wishList' ? <WishList></WishList> : ''}
                 {drawerContent === 'cartList' ? <CartList></CartList> : ''}
               </div>
@@ -55,7 +55,7 @@ const Root = () => {
 
         <Navbar drawerContent={drawerContent} setDrawerContent={setDrawerContent} setNavbarPosition={setNavbarPosition} ></Navbar>
         {
-          pageLoading ? <div className=" min-h-screen flex justify-center items-center"> <Loading></Loading></div> : <Outlet ></Outlet>
+          pageLoading ? <div  className=" min-h-screen flex justify-center items-center"> <Loading></Loading></div> : <div onClick={():void =>setDrawerContent(false)}> <Outlet  ></Outlet> </div>
         }
         <Footer></Footer>
 

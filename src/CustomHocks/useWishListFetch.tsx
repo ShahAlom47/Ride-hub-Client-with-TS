@@ -3,22 +3,42 @@ import useAxiosPublic from "./useAxiosPublic";
 import { BikeData } from "../Pages/OurBikes/BikeDataInterFace/bikeDataIterFace";
 import { Products } from "../Pages/Shop/Shop";
 
-// Response Interface
-interface WishListResponse {
-    data: (BikeData | Products)[]; // Data can be either BikeData or Products array
-}
+
+type BikeDataResponse = BikeData[];
+type ProductDataResponse = Products[];
+
 
 const useWishListFetch = (category: string, wishItemIds: string[]) => {
     const AxiosPublic = useAxiosPublic();
 
-    return useQuery<WishListResponse, Error>({
-        queryKey: ['wishList', category, wishItemIds],
-        queryFn: async (): Promise<WishListResponse> => {
-            const res = await AxiosPublic.post(`/bikeData/getWishListData/${category}`, { ids: wishItemIds });
-            return res.data as WishListResponse;
-        },
-        enabled: !!category && wishItemIds.length > 0,
+   
+    const fetchBikeData = async (): Promise<BikeDataResponse> => {
+        const res = await AxiosPublic.post(`/bikeData/getWishListData/bike`, { ids: wishItemIds });
+        return res.data as BikeDataResponse;
+    };
+
+  
+    const fetchProductData = async (): Promise<ProductDataResponse> => {
+        const res = await AxiosPublic.post(`/bikeData/getWishListData/product`, { ids: wishItemIds });
+        return res.data as ProductDataResponse;
+    };
+
+   // fetch BikeData based on category
+    const bikeData = useQuery<BikeDataResponse, Error>({
+        queryKey: ['bikeWishList', wishItemIds],
+        queryFn: fetchBikeData,
+        enabled: category === 'bike' && wishItemIds.length > 0,
     });
+
+    // fetch Products based on category
+    const productQuery = useQuery<ProductDataResponse, Error>({
+        queryKey: ['productWishList', wishItemIds],
+        queryFn: fetchProductData,
+        enabled: category === 'product' && wishItemIds.length > 0,
+    });
+
+  
+    return { bikeData, productQuery };
 };
 
 export default useWishListFetch;
