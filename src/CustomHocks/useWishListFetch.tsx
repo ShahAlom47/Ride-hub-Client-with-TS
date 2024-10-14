@@ -31,14 +31,14 @@ const useWishListFetch = (category: string, wishItemIds: string[]) => {
     });
 
     // fetch Products based on category
-    const productQuery = useQuery<ProductDataResponse, Error>({
+    const productData = useQuery<ProductDataResponse, Error>({
         queryKey: ['productWishList', wishItemIds],
         queryFn: fetchProductData,
         enabled: category === 'product' && wishItemIds.length > 0,
     });
 
   
-    return { bikeData, productQuery };
+    return { bikeData, productData };
 };
 
 export default useWishListFetch;

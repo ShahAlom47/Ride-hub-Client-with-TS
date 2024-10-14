@@ -52,9 +52,9 @@ const BikeList = () => {
 
                     </div>
                   
-                    <div className=" col-span-3 space-y-2">
-                        <button className=" btn-p p-2 w-full"> Rent Now</button>
-                        <button  onClick={()=>handelRemove(bike?._id)} className=" btn-s w-full text-black"> Remove</button>
+                    <div className=" col-span-3 space-y-2 items-end flex flex-col  justify-end">
+                        <button className=" text-xs btn-p p-2 w-full"> Rent Now</button>
+                        <button  onClick={()=>handelRemove(bike?._id)} className=" text-xs btn-s w-full text-black"> Remove</button>
                     </div>
 
 

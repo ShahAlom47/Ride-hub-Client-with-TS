@@ -9,7 +9,7 @@ const WishList = () => {
 
 
     return (
-        <div className=" p-3  w-full  relative  ">
+        <div className=" p-3  w-full  h-full  ">
 
             <div className=" border-b border-color-s flex gap-2" >
                 <button onClick={() => setCurrentPage('bike')} className={`${currentPage === 'bike' ? 'bg-color-s ' : ''}  hover:bg-color-s hover:bg-opacity-50 transition-all ease-linear duration-200 rounded-t-lg text-white p-2 px-4 text-lg font-bold`}>Bike</button>
@@ -17,9 +17,11 @@ const WishList = () => {
 
             </div>
 
-           {
+          <div className=" h-full overflow-y-scroll">
+          {
             currentPage === 'bike' ?<BikeList  />:<ShopList  />
            }
+          </div>
         </div>
     );
 };
