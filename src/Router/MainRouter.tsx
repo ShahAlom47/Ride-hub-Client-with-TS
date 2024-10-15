@@ -12,6 +12,7 @@ import ErrorPage from "../SharedComponent/ErrorPage/ErrorPage";
 import Register from "../Pages/Authentication/Register/Register";
 import Login from "../Pages/Authentication/Login/Login";
 import Shop from "../Pages/Shop/Shop";
+import AboutUs from "../Pages/AboutUs/AboutUs";
 
 
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
      {
       path: "/our-service",
       element: <OurService></OurService>
+     },
+     {
+      path: "/about-us",
+      element: <AboutUs></AboutUs>
      },
      {
       path: "/login",

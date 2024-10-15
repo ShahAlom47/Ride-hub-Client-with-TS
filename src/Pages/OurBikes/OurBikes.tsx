@@ -25,7 +25,7 @@ const OurBikes: React.FC = () => {
     const [brand, setBrand] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [engine, setEngine] = useState<string>('');
-    const [searchValue,setSearchValue]=useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>('')
 
     const [cardView, setCardView] = useState<string>('grid');
     const [sortValue, setSortValue] = useState<string>('titleAse');
@@ -36,34 +36,36 @@ const OurBikes: React.FC = () => {
     const item: number = 6;
 
     const { data: bikesData, isLoading, error, refetch } = useQuery<BikeResponse, Error>({
-        queryKey: ['allBikeData', page,sortValue,searchValue],
+        queryKey: ['allBikeData', page, sortValue, searchValue],
         queryFn: async (): Promise<BikeResponse> => {
             const res = await AxiosPublic.get(`/bikeData/all-bikeData?item=${item}&page=${page}&brand=${brand}&model=${model}&engine=${engine}&sortValue=${sortValue}&searchValue=${searchValue}`);
             return res.data as BikeResponse;
         }
     });
-    
 
-    
+
+
     const handleFine = () => {
         setPage(1)
         refetch()
     }
     const handleSearch = (e: React.FormEvent<HTMLFormElement>): void => {
-        e.preventDefault(); 
+        e.preventDefault();
         const value: string = e.currentTarget.search.value;
-        const trimmedValue: string = value.trim(); 
+        const trimmedValue: string = value.trim();
         setSearchValue(trimmedValue);
     };
 
 
 
     if (isLoading) return <Loading></Loading>;
-    if (error) return <ErrorPage></ErrorPage>;
 
     return (
-        <div className="bg-color-p">
+        <div className="">
             <PageHeading img={headingImg} title="OUR BIKE" path={path} pathName={pathName} />
+          {
+            error?<ErrorPage></ErrorPage>:
+            <div className="bg-color-p">
 
             <div className="my-5">
                 <BikeFinder
@@ -84,7 +86,7 @@ const OurBikes: React.FC = () => {
                     setCardView={setCardView}
                     sortValue={sortValue}
                     setSortValue={setSortValue}
-                    totalAvailableBike={bikesData?.totalAvailableBike||0}
+                    totalAvailableBike={bikesData?.totalAvailableBike || 0}
 
                 />
             </div>
@@ -111,14 +113,14 @@ const OurBikes: React.FC = () => {
 
                     ))}
                     <button
-                   
+
                         key={'next button'}
                         onClick={() => {
                             if ((bikesData?.currentPage || 0) < (bikesData?.totalPage || 0)) {
                                 setPage((prevPage) => prevPage + 1);
                             }
                         }}
-                        className={`flex items-center page-button p-3 font-bold bg-gray-600 hover:bg-gray-700 text-white ${(bikesData?.currentPage || 0) >= (bikesData?.totalPage || 0) ?'hidden ':''}`}
+                        className={`flex items-center page-button p-3 font-bold bg-gray-600 hover:bg-gray-700 text-white ${(bikesData?.currentPage || 0) >= (bikesData?.totalPage || 0) ? 'hidden ' : ''}`}
                     >
                         <GrNext /> <GrNext />
                     </button>
@@ -126,6 +128,8 @@ const OurBikes: React.FC = () => {
 
                 </div>
             </div>
+        </div>
+          }
         </div>
     );
 };
