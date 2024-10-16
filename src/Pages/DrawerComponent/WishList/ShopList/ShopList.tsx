@@ -4,12 +4,14 @@ import useWishListFetch from "../../../../CustomHocks/useWishListFetch";
 import DataNotAvailable from "../../../../SharedComponent/DataNotAvailable/DataNotAvailable";
 import ErrorPage from "../../../../SharedComponent/ErrorPage/ErrorPage";
 import Loading from "../../../../SharedComponent/Loading/Loading";
+import useHandelAddToCart from "../../../../CustomHocks/useHandelAddToCart";
 
 
 const ShopList = () => {
     const { getShopWishList ,removeItemFromWishList} = useHandelWishList()
     const shopProductIds = getShopWishList();
     const { productData } = useWishListFetch('product', shopProductIds)
+    const {addProduct}=useHandelAddToCart()
     const [reload,setReload]=useState(false)
 
     console.log(productData?.data)
@@ -47,7 +49,7 @@ const ShopList = () => {
                     </div>
 
                     <div className=" col-span-3 space-y-2 items-end flex flex-col  justify-end">
-                        <button className=" btn-p p-2 w-full text-xs"> Add to Cart</button>
+                        <button onClick={() => product?._id && addProduct(product._id)}  className=" btn-p p-2 w-full text-xs"> Add to Cart</button>
                         <button onClick={() => handelRemove(product?._id)} className=" text-xs btn-s w-full text-black"> Remove</button>
                     </div>
 

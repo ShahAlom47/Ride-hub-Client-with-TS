@@ -4,6 +4,7 @@ import useAxiosPublic from "../../../CustomHocks/useAxiosPublic";
 import ReactStars from "react-rating-stars-component";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import useHandelAddToCart from "../../../CustomHocks/useHandelAddToCart";
 
 
 type DetailsProps = {
@@ -13,6 +14,8 @@ type DetailsProps = {
 const ProductDetails = ({ id }: DetailsProps) => {
 
     const AxiosPublic = useAxiosPublic()
+    const {addProduct}=useHandelAddToCart()
+
     const [productQ,setProductQ]=useState(1)
 
     const { data } = useQuery({
@@ -41,6 +44,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
         }
     }
     
+  
 
     console.log(data);
     return (
@@ -77,7 +81,7 @@ const ProductDetails = ({ id }: DetailsProps) => {
                             <p className="text-xl font-bold px-2">{productQ}</p>
                             <button onClick={()=>handelProductQ('increase')} className="bg-gray-700 rounded-full pb-1 h-8 w-8 items-center flex justify-center text-4xl">+</button>
                         </div>
-                        <button  className=" btn-p p-4 h-10">ADD TO CART</button>
+                        <button onClick={() => data?._id && addProduct(data._id)}  className=" btn-p p-4 h-10">ADD TO CART</button>
                     </div>
                       <p className=" text-lg"> <span className="font-bold text-white">Brand:  </span>{data?.brand}</p>
                       <p className=" text-lg"> <span className="font-bold text-white">Category: </span>{data?.category}</p>

@@ -16,12 +16,9 @@ interface DrawerProps {
 
 const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerProps) => {
     const { user, logOutUser } = useUser();
-
     const [visible, setVisible] = useState(true);
     const { getBikeWishList, getShopWishList } = useHandelWishList();
-    const totalWishListItem: number = getBikeWishList().length + getShopWishList().length
-
-    console.log(getBikeWishList().length, getShopWishList().length)
+    const totalWishListItem: number = getBikeWishList().length + getShopWishList().length;
 
     useEffect(() => {
         let prevSPos = window.pageYOffset;
