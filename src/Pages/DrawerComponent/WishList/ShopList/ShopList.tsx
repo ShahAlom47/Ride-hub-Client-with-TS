@@ -8,16 +8,19 @@ import useHandelAddToCart from "../../../../CustomHocks/useHandelAddToCart";
 
 
 const ShopList = () => {
-    const { getShopWishList ,removeItemFromWishList} = useHandelWishList()
+    const { getShopWishList } = useHandelWishList()
     const shopProductIds = getShopWishList();
     const { productData } = useWishListFetch('product', shopProductIds)
     const {addProduct}=useHandelAddToCart()
     const [reload,setReload]=useState(false)
 
-    console.log(productData?.data)
+    
 
     const handelRemove =( id:string)=>{
-        removeItemFromWishList('shopWishList',id)
+        const currentWishList = getShopWishList();
+        const updatedList= currentWishList.filter((i:string)=> i!= id)
+        console.log(updatedList,currentWishList);
+        localStorage.setItem('shopWishList',JSON.stringify(updatedList))
         productData.refetch()
         setReload(!reload)
     }

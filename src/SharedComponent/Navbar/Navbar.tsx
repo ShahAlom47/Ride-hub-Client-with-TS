@@ -53,7 +53,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                 onClick={() => handelDrawer('wishList')}
                 className={` relative  group hover:text-color-s text-2xl px-3 rounded-sm ${drawerContent === 'wishList' ? 'text-color-s' : ''} `}
             >  <FaHeart></FaHeart>
-                <p className=" -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
+                <p className="  text-white -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
                     {totalWishListItem > 99 ? '99' : totalWishListItem}
                     </p>
             </button>
