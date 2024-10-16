@@ -9,18 +9,18 @@ const WelComeSection = () => {
         <div className="bg max-w px-4 py-10 my-8">
             <div className=" grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-4 ">
                 <div className=" col-span-6   mb-28 py-5 ">
-                    <div className=" w-3/5   relative group ">
+                    <div className=" w-4/5   relative group ">
                         <img className=" group-hover:border-opacity-100 border border-opacity-0 border-color-s relative  top-0 right-0  transition-all duration-300 ease-in-out  " src={img} alt="Welcome Section Bike Photo" />
 
                         <div className=" hover:-bottom-10 transition-all duration-300 ease-in-out absolute -bottom-12 -right-1/4 w-[50%] h-[60%] bg-gray-950 p-3">
                             <div className=" border border-white h-full w-full p-3 flex flex-col justify-between">
 
-                                <h1 className=" text-xl font-pFont font-extrabold text-white uppercase text-end">Since
+                                <h1 className=" lg:text-xl md:text-lg text-sm  font-pFont font-extrabold text-white uppercase text-end">Since
                                     <br />
                                     {sinceYear}</h1>
                                 <div>
-                                    <h1 className=" text-5xl font-extrabold font-pFont text-color-s">{date - sinceYear}</h1>
-                                    <p className=" text-xl font-extrabold text-white font-pFont uppercase">Years <br />
+                                    <h1 className=" lg:text-5xl md:text-4xl text-3xl   font-extrabold font-pFont text-color-s">{date - sinceYear}</h1>
+                                    <p className=" lg:text-xl md:text-lg text-sm lg:font-extrabold text-white font-pFont uppercase">Years <br />
                                         Experience</p>
                                 </div>
 

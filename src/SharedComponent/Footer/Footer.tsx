@@ -9,11 +9,11 @@ import ContactForm from "../ContactForm/ContactForm";
 
 const Footer = () => {
 
-    const [modalIsOpen,setIsOpen]=useState(false)
+    const [modalIsOpen, setIsOpen] = useState(false)
 
     return (
         <div className="bg-black">
-            <div className=" max-w p-5 py-16  grid grid-cols-3 items-start">
+            <div className=" max-w p-5 py-16  grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1  gap-4 items-start ">
 
                 <div  >
                     <h1 className=" text-3xl font-bold font-pFont mb-4 ">DO YOU HAVE QUESTIONS?<br />
@@ -49,20 +49,20 @@ const Footer = () => {
                 <div>
                     <h1 className="uppercase text-2xl font-bold font-pFont mb-4">Quick Contact</h1>
                     <p className="mb-3">Have any questions or need assistance? Click the 'Contact Us' button to reach out to us directly. Simply enter your name and email, and we'll get back to you as soon as possible. We're here to help make your bike rental experience smooth and enjoyable!</p>
-                   <button onClick={()=>setIsOpen(true)} className="btn-p  h-10 font-bold "> Send a Message</button>
-                    <ReactModal modalIsOpen={modalIsOpen}  setIsOpen={setIsOpen} label="footer contact modal" >
-                       <div className="bg-color-p  mx-auto">
-                       <ContactForm></ContactForm>
-                       </div>
+                    <button onClick={() => setIsOpen(true)} className="btn-p  h-10 font-bold "> Send a Message</button>
+                    <ReactModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} label="footer contact modal" >
+                        <div className="bg-color-p  mx-auto">
+                            <ContactForm></ContactForm>
+                        </div>
                     </ReactModal>
                 </div>
             </div>
             <div className=" border-t"></div>
-            <footer className="footer  text-neutral-content items-center p-5 max-w ">
+            <footer className="footer  text-neutral-content items-center lg:justify-between md:justify-between justify-center  p-5 max-w ">
                 <aside className="grid-flow-col items-center">
-
                     <p>Copyright © {new Date().getFullYear()}  AutoBike. Design by Shah Alom</p>
                 </aside>
+
                 <Logo></Logo>
                 <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
                     <a>
@@ -99,6 +99,7 @@ const Footer = () => {
                         </svg>
                     </a>
                 </nav>
+
             </footer>
 
 

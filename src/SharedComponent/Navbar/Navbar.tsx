@@ -5,20 +5,23 @@ import Logo from "./Logo";
 import useUser from "../../CustomHocks/useUser";
 import img from '../../assets/png/user-pp.png'
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import useHandelWishList from "../../CustomHocks/useHandelWishList";
 
 interface DrawerProps {
-    drawerContent:string| boolean;
-    setDrawerContent: React.Dispatch<React.SetStateAction<string|boolean>>
+    drawerContent: string | boolean;
+    setDrawerContent: React.Dispatch<React.SetStateAction<string | boolean>>
     setNavbarPosition: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-const Navbar = ({drawerContent,setDrawerContent,setNavbarPosition}:DrawerProps) => {
+const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerProps) => {
     const { user, logOutUser } = useUser();
 
     const [visible, setVisible] = useState(true);
+    const { getBikeWishList, getShopWishList } = useHandelWishList();
+    const totalWishListItem: number = getBikeWishList().length + getShopWishList().length
 
-
+    console.log(getBikeWishList().length, getShopWishList().length)
 
     useEffect(() => {
         let prevSPos = window.pageYOffset;
@@ -38,8 +41,8 @@ const Navbar = ({drawerContent,setDrawerContent,setNavbarPosition}:DrawerProps) 
         };
     }, [visible]);
 
-    const handelDrawer= (value:string) :void=>{
-        if(drawerContent===value){
+    const handelDrawer = (value: string): void => {
+        if (drawerContent === value) {
             setDrawerContent(false);
             return
         }
@@ -50,13 +53,19 @@ const Navbar = ({drawerContent,setDrawerContent,setNavbarPosition}:DrawerProps) 
     const drawerNav: React.ReactNode = (
         <div className=" flex items-center   ">
             <button
-            onClick={()=>handelDrawer('wishList')}
-                className={` hover:text-color-s text-2xl px-3 rounded-sm ${drawerContent==='wishList'?'text-color-s':''} `}
-            >  <FaHeart></FaHeart></button>
-            <button
-             onClick={()=>handelDrawer('cartList')}
-                className={` hover:text-color-s text-2xl px-3 rounded-sm  ${drawerContent==='cartList'?'text-color-s':''}`}
-            >  <FaShoppingCart></FaShoppingCart></button>
+                onClick={() => handelDrawer('wishList')}
+                className={` relative  group hover:text-color-s text-2xl px-3 rounded-sm ${drawerContent === 'wishList' ? 'text-color-s' : ''} `}
+            >  <FaHeart></FaHeart>
+                <p className=" -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
+                    {totalWishListItem > 99 ? '99' : totalWishListItem}
+                    </p>
+            </button>
+            {
+                user ? <button
+                    onClick={() => handelDrawer('cartList')}
+                    className={` hover:text-color-s text-2xl px-3 rounded-sm  ${drawerContent === 'cartList' ? 'text-color-s' : ''}`}
+                >  <FaShoppingCart></FaShoppingCart></button> : ''
+            }
 
         </div>
     )
