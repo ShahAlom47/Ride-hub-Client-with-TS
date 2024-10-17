@@ -7,10 +7,12 @@ import usePageLoading from "../../CustomHocks/usePageLoading";
 import WishList from "../../Pages/DrawerComponent/WishList/WishList";
 import CartList from "../../Pages/DrawerComponent/CartList/CartList"
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import useUser from "../../CustomHocks/useUser";
 
 
 
 const Root = () => {
+  const {user}=useUser()
   const [loading, setLoading] = useState(true);
   const [drawerContent, setDrawerContent] = useState<boolean | string>(false)
   const [drawerLoading, setDrawerLoading] = useState<boolean>(false)
@@ -48,7 +50,7 @@ const Root = () => {
             drawerLoading ? <div className={` ${drawerContent !== false ? '' : 'hidden'}`}><Loading></Loading></div> :
               <div className="w-full px-4 h-[70%]   ">
                 {drawerContent === 'wishList' ? <WishList></WishList> : ''}
-                {drawerContent === 'cartList' ? <CartList></CartList> : ''}
+                {drawerContent === 'cartList' && user ? <CartList></CartList> : ''}
               </div>
           }
         </div>

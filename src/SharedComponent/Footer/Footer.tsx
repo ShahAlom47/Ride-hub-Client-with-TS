@@ -12,7 +12,7 @@ const Footer = () => {
     const [modalIsOpen, setIsOpen] = useState(false)
 
     return (
-        <div className="bg-black">
+        <div className="bg-black text-white">
             <div className=" max-w p-5 py-16  grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1  gap-4 items-start ">
 
                 <div  >

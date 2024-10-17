@@ -2,6 +2,7 @@
 import Swal from "sweetalert2";
 import useAxiosPublic from "./useAxiosPublic";
 import useUser from "./useUser";
+import { useNavigate } from "react-router-dom";
 interface ResType {
     status: boolean;
     message: string;
@@ -9,8 +10,26 @@ interface ResType {
 const useHandelAddToCart = () => {
     const AxiosPublic = useAxiosPublic()
     const { user } = useUser();
+    const navigate = useNavigate()
 
     const addProduct = async (id: string) => {
+        if(!user){
+            Swal.fire({
+                title: 'Login Required',
+                text: 'Please log in to access this Cart.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#4d4a4a",
+                confirmButtonText: "Login"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login')
+                }
+              });
+            return
+
+        }
         const res = await AxiosPublic.post<ResType>(`/users/addToCartProduct/${user?.email}`, { id })
         if (res?.data?.status) {
             Swal.fire({
