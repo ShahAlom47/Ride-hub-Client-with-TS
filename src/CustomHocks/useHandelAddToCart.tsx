@@ -12,8 +12,8 @@ const useHandelAddToCart = () => {
     const { user } = useUser();
     const navigate = useNavigate()
 
-    const addProduct = async (id: string) => {
-        if(!user){
+    const addProduct = async (id: string): Promise<boolean> => {
+        if (!user) {
             Swal.fire({
                 title: 'Login Required',
                 text: 'Please log in to access this Cart.',
@@ -22,37 +22,50 @@ const useHandelAddToCart = () => {
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#4d4a4a",
                 confirmButtonText: "Login"
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
-                    navigate('/login')
+                    navigate('/login');
                 }
-              });
-            return
-
+            });
+            return false;
         }
-        const res = await AxiosPublic.post<ResType>(`/users/addToCartProduct/${user?.email}`, { id })
-        if (res?.data?.status) {
+    
+        try {
+            const res = await AxiosPublic.post<ResType>(`/users/addToCartProduct/${user?.email}`, { id });
+            if (res?.data?.status) {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: res?.data?.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                return true;
+            }
             Swal.fire({
                 toast: true,
                 position: 'top-end',
-                icon: 'success',
+                icon: 'error',
                 title: res?.data?.message,
                 showConfirmButton: false,
                 timer: 2000,
             });
-            return
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (error) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Failed to add product to cart. Please try again.',
+                showConfirmButton: false,
+                timer: 2000,
+            });
         }
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'error',
-            title: res?.data?.message,
-            showConfirmButton: false,
-            timer: 2000,
-        });
-
-
-    }
+    
+        return false;
+    };
+    
 
     const removeProduct = async (id: string) => {
         const res = await AxiosPublic.delete<ResType>(`/users/removeCartProduct?id=${id}&userEmail=${user?.email}`);

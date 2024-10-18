@@ -11,20 +11,27 @@ const ShopList = () => {
     const { getShopWishList } = useHandelWishList()
     const shopProductIds = getShopWishList();
     const { productData } = useWishListFetch('product', shopProductIds)
-    const {addProduct}=useHandelAddToCart()
-    const [reload,setReload]=useState(false)
+    const { addProduct } = useHandelAddToCart()
+    const [reload, setReload] = useState(false)
 
-    
 
-    const handelRemove =( id:string)=>{
+
+    const handelRemove = (id: string) => {
         const currentWishList = getShopWishList();
-        const updatedList= currentWishList.filter((i:string)=> i!= id)
-        console.log(updatedList,currentWishList);
-        localStorage.setItem('shopWishList',JSON.stringify(updatedList))
+        const updatedList = currentWishList.filter((i: string) => i != id)
+        console.log(updatedList, currentWishList);
+        localStorage.setItem('shopWishList', JSON.stringify(updatedList))
         productData.refetch()
         setReload(!reload)
     }
 
+    const handelAddToCart = async(id: string) => {
+        const addRes = await addProduct(id)
+        if(addRes){
+            handelRemove(id)
+        }
+
+    }
 
 
     if (shopProductIds.length === 0) return <DataNotAvailable />
@@ -45,14 +52,14 @@ const ShopList = () => {
                         <h1 className=" text-xl font-semibold text-white">{product?.name} </h1>
 
                         <div className=" flex justify-between pr-2">
-                            <p className={` ${product?.stock>0 ? 'text-green-600':'text-red-600'}  `}>  {product?.stock>0 ? 'Available' : 'Stock Out'}</p>
-                            <p className="text-xl font-bold font-pFont  text-color-s"> $ {product?.price?product?.price:0}</p>
+                            <p className={` ${product?.stock > 0 ? 'text-green-600' : 'text-red-600'}  `}>  {product?.stock > 0 ? 'Available' : 'Stock Out'}</p>
+                            <p className="text-xl font-bold font-pFont  text-color-s"> $ {product?.price ? product?.price : 0}</p>
                         </div>
 
                     </div>
 
                     <div className=" col-span-3 space-y-2 items-end flex flex-col  justify-end">
-                        <button onClick={() => product?._id && addProduct(product._id)}  className=" btn-p p-2 w-full text-xs"> Add to Cart</button>
+                        <button onClick={() => product?._id && handelAddToCart(product._id)} className=" btn-p p-2 w-full text-xs"> Add to Cart</button>
                         <button onClick={() => handelRemove(product?._id)} className=" text-xs btn-s w-full text-black"> Remove</button>
                     </div>
 
