@@ -42,7 +42,7 @@ const Shop = () => {
     const [page, setPage] = useState<number>(1);
     const item: number = 6;
 
-    const { data: products, isLoading, error } = useQuery<ProductResponse, Error>({
+    const { data: products , isLoading, error } = useQuery<ProductResponse, Error>({
         queryKey: ['shopProductData', page],
         queryFn: async (): Promise<ProductResponse> => {
             const res = await AxiosPublic.get(`/shopData/all-products?item=${item}&page=${page}`);

@@ -54,9 +54,23 @@ const useHandelAddToCart = () => {
 
     }
 
+    const removeProduct = async (id: string) => {
+        const res = await AxiosPublic.delete<ResType>(`/users/removeCartProduct?id=${id}&userEmail=${user?.email}`);
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: res?.data?.status?'success':'info',
+            title: res?.data?.message,
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        
+        return res.data;
+    };
 
     return {
-        addProduct
+        addProduct,
+        removeProduct,
     }
 };
 
