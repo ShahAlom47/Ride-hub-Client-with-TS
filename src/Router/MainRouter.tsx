@@ -13,6 +13,7 @@ import Register from "../Pages/Authentication/Register/Register";
 import Login from "../Pages/Authentication/Login/Login";
 import Shop from "../Pages/Shop/Shop";
 import AboutUs from "../Pages/AboutUs/AboutUs";
+import CheckOut from "../Pages/CheckOut/CheckOut";
 
 
 
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
       path: "/register",
       element: <Register></Register>
      },
+
+    //  privet Route
+
+     {
+      path: "/checkout",
+      element: <CheckOut></CheckOut>
+     },
+     
     ]
   },
 ]);

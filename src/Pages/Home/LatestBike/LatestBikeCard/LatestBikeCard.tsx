@@ -29,7 +29,8 @@ const LatestBikeCard = ({ bikeData }: BikeDataTypes) => {
     useEffect(() => {
         const wishList = getBikeWishList();
         setCurrentWishList(wishList);
-    }, [getBikeWishList]); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); 
 
     return (
         <div className=" bg-zinc-900 p-6">

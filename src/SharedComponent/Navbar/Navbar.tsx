@@ -6,6 +6,7 @@ import useUser from "../../CustomHocks/useUser";
 import img from '../../assets/png/user-pp.png'
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import useHandelWishList from "../../CustomHocks/useHandelWishList";
+import useUserData from "../../CustomHocks/useUserData";
 
 interface DrawerProps {
     drawerContent: string | boolean;
@@ -16,9 +17,12 @@ interface DrawerProps {
 
 const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerProps) => {
     const { user, logOutUser } = useUser();
+    const {userData}=useUserData()
     const [visible, setVisible] = useState(true);
     const { getBikeWishList, getShopWishList } = useHandelWishList();
     const totalWishListItem: number = getBikeWishList().length + getShopWishList().length;
+
+  
 
     useEffect(() => {
         let prevSPos = window.pageYOffset;
@@ -60,8 +64,12 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
             {
                 user ? <button
                     onClick={() => handelDrawer('cartList')}
-                    className={` hover:text-color-s text-2xl px-3 rounded-sm  ${drawerContent === 'cartList' ? 'text-color-s' : ''}`}
-                >  <FaShoppingCart></FaShoppingCart></button> : ''
+                    className={`relative hover:text-color-s text-2xl px-3 rounded-sm  ${drawerContent === 'cartList' ? 'text-color-s' : ''}`}
+                >  <FaShoppingCart></FaShoppingCart>
+                <p className="  text-white -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
+                    {userData?.cartProductIds? userData?.cartProductIds?.length > 99 ? '99' : userData?.cartProductIds?.length : 0}
+                    </p>
+                </button> : ''
             }
 
         </div>

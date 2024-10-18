@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Loading from "../../SharedComponent/Loading/Loading";
 import Navbar from "../../SharedComponent/Navbar/Navbar";
 import Footer from "../../SharedComponent/Footer/Footer";
@@ -13,6 +13,7 @@ import useUser from "../../CustomHocks/useUser";
 
 const Root = () => {
   const {user}=useUser()
+  const location=useLocation()
   const [loading, setLoading] = useState(true);
   const [drawerContent, setDrawerContent] = useState<boolean | string>(false)
   const [drawerLoading, setDrawerLoading] = useState<boolean>(false)
@@ -37,6 +38,11 @@ const Root = () => {
     }, 1000);
 
   }, [drawerContent]);
+
+  useEffect(() => {
+    setDrawerContent(false)
+  
+}, [location.pathname]);
 
 
 
