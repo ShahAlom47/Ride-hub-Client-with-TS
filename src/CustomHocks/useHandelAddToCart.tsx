@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "./useAxiosPublic";
 import useUser from "./useUser";
 import { useNavigate } from "react-router-dom";
+import useUserData from "./useUserData";
 interface ResType {
     status: boolean;
     message: string;
@@ -10,6 +11,7 @@ interface ResType {
 const useHandelAddToCart = () => {
     const AxiosPublic = useAxiosPublic()
     const { user } = useUser();
+    const {refetch}=useUserData()
     const navigate = useNavigate()
 
     const addProduct = async (id: string): Promise<boolean> => {
@@ -41,6 +43,7 @@ const useHandelAddToCart = () => {
                     showConfirmButton: false,
                     timer: 2000,
                 });
+                refetch()
                 return true;
             }
             Swal.fire({

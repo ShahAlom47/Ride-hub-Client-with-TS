@@ -9,6 +9,7 @@ export default {
       colors: {
         'color-p': '#100f0f',
         'color-s': '#ff0000',
+        'color-op': '#222222',
       },
       fontFamily: {
         pFont: ['Oswald', 'sans-serif'],
