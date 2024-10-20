@@ -7,6 +7,11 @@ import { ImCheckboxChecked } from "react-icons/im";
 import CheckOutForm, { OrderFormInputs } from "./CheckOutForm/CheckOutForm";
 import useHandelCoupon from "../../CustomHocks/useHandelCoupon";
 
+import mastercardIcon from '../../assets/icons/masterCard.jpg';
+import visaIcon from '../../assets/icons/visaCard.jpg';
+import bkashIcon from '../../assets/icons/bkash.jpg';
+import nagadIcon from '../../assets/icons/nagad.jpg';
+
 interface Product {
     productId: string;
     productName: string;
@@ -23,16 +28,32 @@ interface Order {
     userEmail: string;
 }
 
+type PaymentMethodType = {
+
+    methodName: string;
+    img: string;
+    value: string;
+}
+
+
+const paymentMethodData: PaymentMethodType[] = [
+    { methodName: 'Mastercard', img: mastercardIcon, value: 'mastercard' },
+    { methodName: 'Visa', img: visaIcon, value: 'visa' },
+    { methodName: 'BKash', img: bkashIcon, value: 'bkash' },
+    { methodName: 'Nagad', img: nagadIcon, value: 'nagad' },
+];
 
 const path: string[] = ['/', '/checkout'];
 const pathName: string[] = ['Home', 'CheckOut'];
 
 const CheckOut = () => {
     const location = useLocation();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const [discountAmount, setDiscountAmount] = useState<number>(0)
     const [couponActive, setCouponActive] = useState<boolean>(false)
     const [couponMsg, setCouponMsg] = useState<string>('')
+    const [methodMsg, setMethodMsg] = useState<string| boolean>(false)
+    const [selectedMethod, setMethod] = useState<string | false>(false)
     const checkOutData: Order = location?.state
 
     const { checkCoupon } = useHandelCoupon()
@@ -48,13 +69,11 @@ const CheckOut = () => {
 
     const handleCouponBox = () => {
         setCouponMsg('')
-        const newCouponActiveState = !couponActive; // Determine the new state
-
+        const newCouponActiveState = !couponActive;
         setCouponActive(newCouponActiveState);
 
-        // Check if the new state is false
         if (!newCouponActiveState) {
-            setDiscountAmount(0); // Set discount amount to 0 if couponActive is false
+            setDiscountAmount(0);
         }
     };
 
@@ -76,9 +95,20 @@ const CheckOut = () => {
         setDiscountAmount(0)
     }
 
+    const handelMethod =(method:string)=>{
+        setMethodMsg(false);
+        setMethod(method)
+    }
+
     const handleFormSubmit = (data: OrderFormInputs) => {
+        if (selectedMethod === false) {
+            setMethodMsg('Please select your favorite method.');
+            return
+        }
+        setMethodMsg(false);
         const finalAmount = checkOutData.totalAmount - discountAmount
         console.log("Order Data:", data, finalAmount);
+        alert(' console Log ')
     };
 
 
@@ -139,13 +169,29 @@ const CheckOut = () => {
                                     </div>
                             }
                         </div>
-                        <div className=" flex justify-between items-end py-3 mb-3 text-xl font-bold">
+                        <div className=" flex justify-between items-end py-3 text-xl font-bold">
                             <h1>Total</h1>
                             <p>$ {checkOutData?.totalAmount - discountAmount}</p>
                         </div>
 
-                        <button onClick={() => handleSubmitClick()} className=" btn-p w-full uppercase font-pFont font-semibold">Order</button>
                     </div>
+
+                    <div className=" border border-gray-500 p-4 my-4">
+                        <h1 className="text-white font-semibold "> Accepted Payment Methods :</h1>
+                        <p className=" text-color-s my-2">{methodMsg}</p>
+                        <div className={`  flex gap-2 items-center justify-center py-3 `}>
+                            {
+                                paymentMethodData.map((item) =>
+                                    <button
+                                        onClick={()=>handelMethod(item.value)}
+                                        className={`${selectedMethod===item.value?' border-opacity-100':'border-opacity-0 '} w-20 h-10 my-auto items-center rounded-md group flex justify-center border-4 border-white  hover:border-opacity-100 `}
+                                    > <img className=" rounded-md h-full w-full group-hover:w-[95%] " src={item.img} alt="" />
+                                    </button>)
+                            }
+                        </div>
+
+                    </div>
+                    <button onClick={() => handleSubmitClick()} className=" btn-p w-full uppercase font-pFont font-semibold">Order</button>
 
                 </div>
 
