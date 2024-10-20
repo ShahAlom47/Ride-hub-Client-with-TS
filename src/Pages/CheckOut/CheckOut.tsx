@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { ImCheckboxUnchecked } from "react-icons/im";
 import { ImCheckboxChecked } from "react-icons/im";
 import CheckOutForm, { OrderFormInputs } from "./CheckOutForm/CheckOutForm";
+import useHandelCoupon from "../../CustomHocks/useHandelCoupon";
 
 interface Product {
     productId: string;
@@ -31,7 +32,10 @@ const CheckOut = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [discountAmount, setDiscountAmount] = useState<number>(0)
     const [couponActive, setCouponActive] = useState<boolean>(false)
+    const [couponMsg, setCouponMsg] = useState<string>('')
     const checkOutData: Order = location?.state
+
+    const { checkCoupon } = useHandelCoupon()
 
 
     //  for  checkOut form handling
@@ -42,16 +46,39 @@ const CheckOut = () => {
         }
     };
 
+    const handleCouponBox = () => {
+        setCouponMsg('')
+        const newCouponActiveState = !couponActive; // Determine the new state
+
+        setCouponActive(newCouponActiveState);
+
+        // Check if the new state is false
+        if (!newCouponActiveState) {
+            setDiscountAmount(0); // Set discount amount to 0 if couponActive is false
+        }
+    };
+
     // Coupon  handling
     const handleCoupon = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setCouponMsg('')
         const form = e.target as HTMLFormElement;
         const code = (form.elements.namedItem("code") as HTMLInputElement).value;
-        console.log(code)
+        const finalAmount = checkOutData.totalAmount - discountAmount
+
+        const checkingRes = await checkCoupon(code, 'bikesProduct', finalAmount)
+        if (checkingRes?.success) {
+            setDiscountAmount(checkingRes?.discountAmount)
+            setCouponMsg(checkingRes?.message)
+            return
+        }
+        setCouponMsg(checkingRes?.message)
+        setDiscountAmount(0)
     }
 
     const handleFormSubmit = (data: OrderFormInputs) => {
-        console.log("Order Data:", data);
+        const finalAmount = checkOutData.totalAmount - discountAmount
+        console.log("Order Data:", data, finalAmount);
     };
 
 
@@ -94,14 +121,22 @@ const CheckOut = () => {
                         <div className=" flex gap-4 border-b border-gray-500 mb-3 pb-3  ">
                             <button
                                 className=" text-lg font-bold "
-                                onClick={() => setCouponActive(!couponActive)}>
+                                onClick={handleCouponBox}>
                                 {couponActive ? <ImCheckboxChecked className="text-green-600 text-xl" /> : <ImCheckboxUnchecked />}</button>
                             {
                                 !couponActive ? <p>Have Coupon?</p> :
-                                    <form onSubmit={handleCoupon} className="flex gap-3 flex-wrap ">
-                                        <input className="input input-md input-bordered bg-slate-800 rounded-sm" type="text" name="code" placeholder="Enter your coupon code" />
-                                        <button className="btn-p px-3" type="submit">Apply</button>
-                                    </form>
+                                    <div>{
+                                        couponMsg === 'Coupon Accepted' ? <p className={`${couponMsg === 'Coupon Accepted' ? 'text-green-500' : 'text-red-600'}`}>{couponMsg}</p> :
+
+                                            <div>
+                                                <p className={`${couponMsg === 'Coupon Accepted' ? 'text-green-500' : 'text-red-600'}`}>{couponMsg}</p>
+                                                <form onSubmit={handleCoupon} className="flex gap-3 flex-wrap ">
+                                                    <input className="input input-md input-bordered bg-slate-800 rounded-sm" type="text" name="code" placeholder="Enter your coupon code" />
+                                                    <button className="btn-p px-3" type="submit">Apply</button>
+                                                </form>
+                                            </div>
+                                    }
+                                    </div>
                             }
                         </div>
                         <div className=" flex justify-between items-end py-3 mb-3 text-xl font-bold">
