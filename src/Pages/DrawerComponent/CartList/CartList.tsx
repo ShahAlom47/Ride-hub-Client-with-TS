@@ -86,7 +86,7 @@ const CartList = () => {
         navigate("/checkout", {
             state: orderData
         });
-        console.log(orderData);
+        
     }
 
     return (

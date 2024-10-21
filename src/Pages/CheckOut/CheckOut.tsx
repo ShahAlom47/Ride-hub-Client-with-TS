@@ -11,6 +11,10 @@ import mastercardIcon from '../../assets/icons/masterCard.jpg';
 import visaIcon from '../../assets/icons/visaCard.jpg';
 import bkashIcon from '../../assets/icons/bkash.jpg';
 import nagadIcon from '../../assets/icons/nagad.jpg';
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import StripePayment from "../StripePayment/StripePayment";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 
 interface Product {
     productId: string;
@@ -35,6 +39,14 @@ type PaymentMethodType = {
     value: string;
 }
 
+type FinalDataType = {
+
+    finalAmount: number;
+    name: string;
+    email: string;
+    address: string;
+    state: string;
+}
 
 const paymentMethodData: PaymentMethodType[] = [
     { methodName: 'Mastercard', img: mastercardIcon, value: 'mastercard' },
@@ -46,15 +58,19 @@ const paymentMethodData: PaymentMethodType[] = [
 const path: string[] = ['/', '/checkout'];
 const pathName: string[] = ['Home', 'CheckOut'];
 
+const stripePromise = loadStripe('pk_test_51PqywqCPjNE83joBN90aPgHCdbZLbpDVHhyedpYcvX67d2y6mfg5Fo90i55fC5HRxK7l8Y8y3OycQBPjPRQsY4S000Yy8imCta');
+
 const CheckOut = () => {
     const location = useLocation();
-
+    
     const [discountAmount, setDiscountAmount] = useState<number>(0)
     const [couponActive, setCouponActive] = useState<boolean>(false)
     const [couponMsg, setCouponMsg] = useState<string>('')
-    const [methodMsg, setMethodMsg] = useState<string| boolean>(false)
+    const [methodMsg, setMethodMsg] = useState<string | boolean>(false)
     const [selectedMethod, setMethod] = useState<string | false>(false)
-    const checkOutData: Order = location?.state
+    const [checkOutData, setCheckOutData] = useState<FinalDataType | null>(null)
+
+    const productSummary: Order = location?.state
 
     const { checkCoupon } = useHandelCoupon()
 
@@ -83,7 +99,7 @@ const CheckOut = () => {
         setCouponMsg('')
         const form = e.target as HTMLFormElement;
         const code = (form.elements.namedItem("code") as HTMLInputElement).value;
-        const finalAmount = checkOutData.totalAmount - discountAmount
+        const finalAmount = productSummary.totalAmount - discountAmount
 
         const checkingRes = await checkCoupon(code, 'bikesProduct', finalAmount)
         if (checkingRes?.success) {
@@ -95,7 +111,8 @@ const CheckOut = () => {
         setDiscountAmount(0)
     }
 
-    const handelMethod =(method:string)=>{
+    const handelMethod = (method: string) => {
+
         setMethodMsg(false);
         setMethod(method)
     }
@@ -106,19 +123,40 @@ const CheckOut = () => {
             return
         }
         setMethodMsg(false);
-        const finalAmount = checkOutData.totalAmount - discountAmount
-        console.log("Order Data:", data, finalAmount);
-        alert(' console Log ')
+        const finalAmount = productSummary.totalAmount - discountAmount
+        const finalData = { ...data, finalAmount }
+        setCheckOutData(finalData)
+        console.log("Order Data:", finalData);
     };
 
-
+    
 
     return (
         <div className="bg-color-p">
             <PageHeading img={headingImg} title="CHECK OUT" path={path} pathName={pathName} />
             <div className="grid  gap-4 lg;grid-cols-12 md:grid-cols-12 grid-cols-1 max-w min-h-10 p-6">
-                <div className=" lg:col-span-8 md:col-span-7  ">
-                    <CheckOutForm onSubmit={handleFormSubmit} ref={formRef} />
+                <div className="lg:col-span-8 md:col-span-7 ">
+                    {checkOutData === null ? (
+                        <CheckOutForm onSubmit={handleFormSubmit} ref={formRef} />
+                    ) : (
+                        <div className=" text-white">
+                            <div className=" bg-color-s flex  gap-5 items-center justify-start  py-2">
+                                <button onClick={() => setCheckOutData(null)} className="  p-1 hover:text-black text-xl "><IoArrowBackCircleOutline /></button>
+                                <h1 className=" uppercase font-bold text-xl">{selectedMethod} Payment</h1>
+                            </div>
+                            <div className=" border border-gray-500 py-3 my-4 h-full">
+                                {selectedMethod === 'mastercard' && (
+                                    <Elements stripe={stripePromise}>
+                                         <StripePayment totalFinalAmount={checkOutData !== null ? checkOutData.finalAmount : 0} />
+                                    </Elements>
+                                )}
+                                {selectedMethod === 'visa' && <div>'Visa Payment'</div>}
+                                {selectedMethod === 'nagad' && <div className="text-2xl font-bold text-center h-full m-auto mt-16">'Nagad Payment' <h1 >This feature is currently under development</h1></div>}
+                                {selectedMethod === 'bkash' && <div className="text-2xl font-bold text-center h-full m-auto mt-16">'Bkash Payment' <h1 >This feature is currently under development</h1></div>}
+
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className=" lg:col-span-4 md:col-span-5  p-4 bg-color-op text-white ">
@@ -130,7 +168,7 @@ const CheckOut = () => {
                         </div>
                         <div>
                             {
-                                checkOutData?.products?.map((item) => <div
+                                productSummary?.products?.map((item) => <div
                                     className=" text-gray-300 text-l font-semibold my-3 grid grid-cols-12"
                                     key={item.productId}>
                                     <p className="col-span-8">{item.productName} </p>
@@ -142,7 +180,7 @@ const CheckOut = () => {
 
                         <div className="border-b border-gray-500 flex justify-between items-end py-3 mb-3 text-xl font-semibold">
                             <h1>SubTotal</h1>
-                            <p>$ {checkOutData?.totalAmount ? checkOutData?.totalAmount : 0}</p>
+                            <p>$ {productSummary?.totalAmount ? productSummary?.totalAmount : 0}</p>
                         </div>
                         <div className=" flex justify-between items-end py-3  text-xl font-semibold">
                             <h1>Discount</h1>
@@ -171,7 +209,7 @@ const CheckOut = () => {
                         </div>
                         <div className=" flex justify-between items-end py-3 text-xl font-bold">
                             <h1>Total</h1>
-                            <p>$ {checkOutData?.totalAmount - discountAmount}</p>
+                            <p>$ {productSummary?.totalAmount - discountAmount}</p>
                         </div>
 
                     </div>
@@ -183,16 +221,17 @@ const CheckOut = () => {
                             {
                                 paymentMethodData.map((item) =>
                                     <button
-                                        onClick={()=>handelMethod(item.value)}
-                                        className={`${selectedMethod===item.value?' border-opacity-100':'border-opacity-0 '} w-20 h-10 my-auto items-center rounded-md group flex justify-center border-4 border-white  hover:border-opacity-100 `}
-                                    > <img className=" rounded-md h-full w-full group-hover:w-[95%] " src={item.img} alt="" />
+                                        onClick={() => handelMethod(item.value)}
+                                        className={`${selectedMethod === item.value ? ' border-opacity-100 border-color-s' : 'border-opacity-0 '} p-1 w-20 h-10 my-auto items-center rounded-md group flex justify-center border-4 border-white  hover:border-opacity-100 `}
+                                    > <img className=" rounded-sm h-full w-full group-hover:w-[95%] group-hover:h-[95%] " src={item.img} alt="" />
                                     </button>)
                             }
                         </div>
 
                     </div>
-                    <button onClick={() => handleSubmitClick()} className=" btn-p w-full uppercase font-pFont font-semibold">Order</button>
-
+                    {
+                        checkOutData === null && <button onClick={() => handleSubmitClick()} className=" btn-p w-full uppercase font-pFont font-semibold">Order</button>
+                    }
                 </div>
 
             </div>
