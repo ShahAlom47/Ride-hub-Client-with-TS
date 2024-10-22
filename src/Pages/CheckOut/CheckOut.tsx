@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import PageHeading from "../../SharedComponent/PageHeading/PageHeading";
 import headingImg from '../../assets/Banner-Img/bike-page-banner.jpg';
 import React, { useState } from "react";
@@ -39,13 +39,15 @@ type PaymentMethodType = {
     value: string;
 }
 
-type FinalDataType = {
+export interface FinalDataType extends Order {
 
     finalAmount: number;
     name: string;
     email: string;
     address: string;
     state: string;
+    discountAmount?:number;
+    paymentMethod:string;
 }
 
 const paymentMethodData: PaymentMethodType[] = [
@@ -63,12 +65,14 @@ const stripePromise = loadStripe('pk_test_51PqywqCPjNE83joBN90aPgHCdbZLbpDVHhyed
 const CheckOut = () => {
     const location = useLocation();
     
+
     const [discountAmount, setDiscountAmount] = useState<number>(0)
     const [couponActive, setCouponActive] = useState<boolean>(false)
     const [couponMsg, setCouponMsg] = useState<string>('')
     const [methodMsg, setMethodMsg] = useState<string | boolean>(false)
     const [selectedMethod, setMethod] = useState<string | false>(false)
     const [checkOutData, setCheckOutData] = useState<FinalDataType | null>(null)
+
 
     const productSummary: Order = location?.state
 
@@ -124,12 +128,12 @@ const CheckOut = () => {
         }
         setMethodMsg(false);
         const finalAmount = productSummary.totalAmount - discountAmount
-        const finalData = { ...data, finalAmount }
+        const finalData = { ...data, finalAmount ,...productSummary , discountAmount:discountAmount? discountAmount:0 , paymentMethod:selectedMethod?selectedMethod:'unknown'}
         setCheckOutData(finalData)
-        console.log("Order Data:", finalData);
+      
     };
 
-    
+
 
     return (
         <div className="bg-color-p">
@@ -147,7 +151,7 @@ const CheckOut = () => {
                             <div className=" border border-gray-500 py-3 my-4 h-full">
                                 {selectedMethod === 'mastercard' && (
                                     <Elements stripe={stripePromise}>
-                                         <StripePayment totalFinalAmount={checkOutData !== null ? checkOutData.finalAmount : 0} />
+                                        <StripePayment checkOutData={checkOutData !== null ? checkOutData: null} />
                                     </Elements>
                                 )}
                                 {selectedMethod === 'visa' && <div>'Visa Payment'</div>}
@@ -186,27 +190,29 @@ const CheckOut = () => {
                             <h1>Discount</h1>
                             <p>$ {discountAmount}</p>
                         </div>
-                        <div className=" flex gap-4 border-b border-gray-500 mb-3 pb-3  ">
-                            <button
-                                className=" text-lg font-bold "
-                                onClick={handleCouponBox}>
-                                {couponActive ? <ImCheckboxChecked className="text-green-600 text-xl" /> : <ImCheckboxUnchecked />}</button>
-                            {
-                                !couponActive ? <p>Have Coupon?</p> :
-                                    <div>{
-                                        couponMsg === 'Coupon Accepted' ? <p className={`${couponMsg === 'Coupon Accepted' ? 'text-green-500' : 'text-red-600'}`}>{couponMsg}</p> :
+                        {checkOutData === null &&
+                            <div className=" flex gap-4 border-b border-gray-500 mb-3 pb-3  ">
+                                <button
+                                    className=" text-lg font-bold "
+                                    onClick={handleCouponBox}>
+                                    {couponActive ? <ImCheckboxChecked className="text-green-600 text-xl" /> : <ImCheckboxUnchecked />}</button>
+                                {
+                                    !couponActive ? <p>Have Coupon?</p> :
+                                        <div>{
+                                            couponMsg === 'Coupon Accepted' ? <p className={`${couponMsg === 'Coupon Accepted' ? 'text-green-500' : 'text-red-600'}`}>{couponMsg}</p> :
 
-                                            <div>
-                                                <p className={`${couponMsg === 'Coupon Accepted' ? 'text-green-500' : 'text-red-600'}`}>{couponMsg}</p>
-                                                <form onSubmit={handleCoupon} className="flex gap-3 flex-wrap ">
-                                                    <input className="input input-md input-bordered bg-slate-800 rounded-sm" type="text" name="code" placeholder="Enter your coupon code" />
-                                                    <button className="btn-p px-3" type="submit">Apply</button>
-                                                </form>
-                                            </div>
-                                    }
-                                    </div>
-                            }
-                        </div>
+                                                <div>
+                                                    <p className={`${couponMsg === 'Coupon Accepted' ? 'text-green-500' : 'text-red-600'}`}>{couponMsg}</p>
+                                                    <form onSubmit={handleCoupon} className="flex gap-3 flex-wrap ">
+                                                        <input className="input input-md input-bordered bg-slate-800 rounded-sm" type="text" name="code" placeholder="Enter your coupon code" />
+                                                        <button className="btn-p px-3" type="submit">Apply</button>
+                                                    </form>
+                                                </div>
+                                        }
+                                        </div>
+                                }
+                            </div>
+                        }
                         <div className=" flex justify-between items-end py-3 text-xl font-bold">
                             <h1>Total</h1>
                             <p>$ {productSummary?.totalAmount - discountAmount}</p>
