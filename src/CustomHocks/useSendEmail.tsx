@@ -4,7 +4,7 @@ import useAxiosPublic from './useAxiosPublic';
 
 export interface MailDataType {
   from: string;
-  to: string;
+  to: string | undefined;
   subject: string;
   html?: string;
   text?: string;

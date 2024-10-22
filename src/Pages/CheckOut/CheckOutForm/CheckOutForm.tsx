@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import useUser from '../../../CustomHocks/useUser';
 
 export interface OrderFormInputs {
     name: string;
@@ -13,6 +14,7 @@ interface CheckOutFormProps {
 }
 
 const CheckOutForm = forwardRef<HTMLFormElement, CheckOutFormProps>((props, ref) => {
+    const {user}=useUser()
     const { onSubmit } = props;
     const { register, handleSubmit, formState: { errors } } = useForm<OrderFormInputs>();
 
@@ -45,6 +47,7 @@ const CheckOutForm = forwardRef<HTMLFormElement, CheckOutFormProps>((props, ref)
                         type="email" 
                         className={`input rounded-sm bg-transparent border w-full ${errors.email ? 'border-red-500' : 'border-gray-500'}`} 
                         placeholder="Your Email" 
+                        defaultValue={user?.email||''}
                     />
                     {errors.email && <span className="text-red-500 text-sm">Valid email is required</span>}
                 </div>

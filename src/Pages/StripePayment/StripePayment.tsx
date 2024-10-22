@@ -6,10 +6,11 @@ import useAxiosPublic from '../../CustomHocks/useAxiosPublic';
 import { FinalDataType } from '../CheckOut/CheckOut';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import useSendEmail from '../../CustomHocks/useSendEmail';
 
 
 interface StripePaymentProps {
-    checkOutData: FinalDataType |null
+    checkOutData: FinalDataType | null
 
 }
 
@@ -17,23 +18,31 @@ interface SecretResType {
     clientSecret: string;
 }
 
-type PaymentResType ={
-    status:boolean;
-    message:string;
+type PaymentResType = {
+    status: boolean;
+    message: string;
 }
+interface MailDataType {
+    form: string;
+    to: string;
+    subject: string;
+    message: string;
+  }
+  
 
 const StripePayment = ({ checkOutData }: StripePaymentProps) => {
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
     const AxiosPublic = useAxiosPublic()
+    const { sendEmail } = useSendEmail()
     const [errMsg, setErrMsg] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [transactionId, setTransactionId] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
 
-   
+
 
     const isAxiosError = (error: unknown): error is { response: { data: { error: string } } } => {
         return typeof error === 'object' && error !== null && 'response' in error;
@@ -92,7 +101,7 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                 setErrMsg(error?.message || 'Something is Wrong')
                 setBtnLoading(false)
             } else {
-                
+
                 const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret,
                     {
                         payment_method: {
@@ -100,7 +109,7 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                             billing_details: {
                                 name: checkOutData?.name,
                                 email: checkOutData?.email,
-                                // parent theke full data niye aste hobe 
+
                             }
                         }
                     }
@@ -111,24 +120,47 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                     setBtnLoading(false)
                     return
                 } else {
-                   
+
                     if (paymentIntent.status === 'succeeded') {
 
                         setTransactionId(paymentIntent.id)
                         setBtnLoading(false)
-                        const paymentData={
-                            transactionId:paymentIntent.id,
+                        const paymentData = {
+                            transactionId: paymentIntent.id,
                             type: "product_purchase",
-                            
+
                             ...checkOutData
                         }
 
-                        const paymentRes = await AxiosPublic.post <PaymentResType> ('/payment/addPaymentData',{paymentData})
-                        console.log(paymentRes);
+                        const paymentRes = await AxiosPublic.post<PaymentResType>('/payment/addPaymentData', { paymentData })
+
 
                         if (paymentRes.data?.status) {
-                            const transactionId = paymentIntent.id; // Assuming you receive transaction ID in the response
-                        
+                            const transactionId = paymentIntent.id; 
+
+                            // email data Start
+                            const mailData = {
+                                from: 'ridehub47@gmail.com',
+                                to: checkOutData?.email,
+                                subject: 'Payment Successfully Completed',
+                                html: `
+                                    <div style="font-family: Arial, sans-serif; color: #333;">
+                                        <h2 style="color: #4CAF50;">Payment Confirmation</h2>
+                                        <p>Dear ${checkOutData?.name},</p>
+                                        <p>We are pleased to inform you that your payment has been successfully completed.</p>
+                                        <p><strong>Transaction ID:</strong> ${transactionId}</p>
+                                        <p><strong>Amount Paid:</strong> ${checkOutData?.finalAmount} USD</p>
+                                        <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+                                        <p>Thank you for choosing our service. If you have any questions or need further assistance, please feel free to contact us.</p>
+                                        <p style="margin-top: 20px;">Best regards,<br>RideHub Team</p>
+                                    </div>
+                                `,
+                            };
+                             // email data End
+
+                            //  send payment data to user 
+                            sendEmail(mailData);
+
                             Swal.fire({
                                 title: 'Payment Successful!',
                                 html: `
@@ -155,8 +187,8 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                                 confirmButtonText: 'OK'
                             });
                         }
-                 
-                       
+
+
                     }
                 }
 
@@ -173,7 +205,7 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                     <CardElement options={cardStyle} />
                 </div>
 
-                <button className={`bg-blue-900 rounded-sm p-2 hover:bg-blue-800 w-full ${!stripe || !clientSecret?'cursor-not-allowed':''} `} type="submit" disabled={!stripe || !clientSecret}>
+                <button className={`bg-blue-900 rounded-sm p-2 hover:bg-blue-800 w-full ${!stripe || !clientSecret ? 'cursor-not-allowed' : ''} `} type="submit" disabled={!stripe || !clientSecret}>
                     {btnLoading ? 'Loading...' : 'Pay'}
                 </button>
             </form>
