@@ -113,7 +113,7 @@ const CartList = () => {
                             <div className=" flex justify-between pr-">
                                 <h1 className=" text-xl font-semibold text-white">{product?.name} </h1>
                                 <p className={` ${product?.stock > 0 ? 'text-green-600' : 'text-red-600'}  `}>  {product?.stock > 0 ? 'Available' : 'Stock Out'}</p>
-
+                                <p className=" text-white">{product?.stock }</p>
                             </div>
                             <div className=" flex justify-between items-end">
                                 <div className=" flex border px-2 mt-1  text-lg font-semibold text-white rounded-full">

@@ -7,6 +7,7 @@ import { FinalDataType } from '../CheckOut/CheckOut';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import useSendEmail from '../../CustomHocks/useSendEmail';
+import useProductManage from '../../CustomHocks/useProductManage ';
 
 
 interface StripePaymentProps {
@@ -22,12 +23,6 @@ type PaymentResType = {
     status: boolean;
     message: string;
 }
-interface MailDataType {
-    form: string;
-    to: string;
-    subject: string;
-    message: string;
-  }
   
 
 const StripePayment = ({ checkOutData }: StripePaymentProps) => {
@@ -36,10 +31,11 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
     const elements = useElements();
     const AxiosPublic = useAxiosPublic()
     const { sendEmail } = useSendEmail()
+    const {updateProductStock}= useProductManage()
     const [errMsg, setErrMsg] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [transactionId, setTransactionId] = useState('');
+    // const [transactionId, setTransactionId] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
 
 
@@ -123,7 +119,7 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
 
                     if (paymentIntent.status === 'succeeded') {
 
-                        setTransactionId(paymentIntent.id)
+                        // setTransactionId(paymentIntent.id)
                         setBtnLoading(false)
                         const paymentData = {
                             transactionId: paymentIntent.id,
@@ -160,6 +156,7 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
 
                             //  send payment data to user 
                             sendEmail(mailData);
+                            updateProductStock(checkOutData?.products ||[])
 
                             Swal.fire({
                                 title: 'Payment Successful!',

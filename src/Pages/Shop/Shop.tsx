@@ -50,7 +50,7 @@ const Shop = () => {
         }
     });
 
-    console.log(products);
+  
 
 
     if (isLoading) return <Loading></Loading>;

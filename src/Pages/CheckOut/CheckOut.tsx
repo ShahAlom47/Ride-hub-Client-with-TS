@@ -16,7 +16,7 @@ import StripePayment from "../StripePayment/StripePayment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 
-interface Product {
+export interface Product {
     productId: string;
     productName: string;
     quantity: number;
@@ -48,6 +48,7 @@ export interface FinalDataType extends Order {
     state: string;
     discountAmount?:number;
     paymentMethod:string;
+    couponValue:string|null;
 }
 
 const paymentMethodData: PaymentMethodType[] = [
@@ -69,10 +70,12 @@ const CheckOut = () => {
     const [discountAmount, setDiscountAmount] = useState<number>(0)
     const [couponActive, setCouponActive] = useState<boolean>(false)
     const [couponMsg, setCouponMsg] = useState<string>('')
+    const [couponValue,setCouponValue]=useState<string | null>(null)
     const [methodMsg, setMethodMsg] = useState<string | boolean>(false)
     const [selectedMethod, setMethod] = useState<string | false>(false)
     const [checkOutData, setCheckOutData] = useState<FinalDataType | null>(null)
 
+    // const {updateProductStock}= useProductManage()
 
     const productSummary: Order = location?.state
 
@@ -101,12 +104,14 @@ const CheckOut = () => {
     const handleCoupon = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setCouponMsg('')
+        setCouponValue(null)
         const form = e.target as HTMLFormElement;
         const code = (form.elements.namedItem("code") as HTMLInputElement).value;
         const finalAmount = productSummary.totalAmount - discountAmount
 
         const checkingRes = await checkCoupon(code, 'bikesProduct', finalAmount)
         if (checkingRes?.success) {
+            setCouponValue(code)
             setDiscountAmount(checkingRes?.discountAmount)
             setCouponMsg(checkingRes?.message)
             return
@@ -128,9 +133,9 @@ const CheckOut = () => {
         }
         setMethodMsg(false);
         const finalAmount = productSummary.totalAmount - discountAmount
-        const finalData = { ...data, finalAmount ,...productSummary , discountAmount:discountAmount? discountAmount:0 , paymentMethod:selectedMethod?selectedMethod:'unknown'}
+        const finalData = { ...data, finalAmount ,...productSummary , discountAmount:discountAmount? discountAmount:0 , paymentMethod:selectedMethod?selectedMethod:'unknown' ,couponValue}
         setCheckOutData(finalData)
-      
+        // updateProductStock(productSummary?.products)
     };
 
 
