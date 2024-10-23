@@ -15,6 +15,7 @@ import Shop from "../Pages/Shop/Shop";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import CheckOut from "../Pages/CheckOut/CheckOut";
 import PrivetRoute from "./PrivetRoute";
+import DashBoard from "../LayOut/DashBoard/DashBoard";
 
 
 
@@ -66,6 +67,15 @@ const router = createBrowserRouter([
      
     ]
   },
+{
+  path: "/my-dashBoard",
+  element: <PrivetRoute> <DashBoard></DashBoard> </PrivetRoute>,
+  errorElement: <ErrorPage />,
+  children: [
+    
+  ]
+}
+
 ]);
 
 export default router;
