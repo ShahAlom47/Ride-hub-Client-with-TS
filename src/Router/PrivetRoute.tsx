@@ -21,7 +21,10 @@ const PrivetRoute = ({ children }: PropsType) => {
         return (
             <> {children} </>
         )
+        
     }
+
+   else{
 
     return(
         <>
@@ -29,15 +32,8 @@ const PrivetRoute = ({ children }: PropsType) => {
         </>
     )
 
+   }
 
-
-
-
-    return (
-        <div>
-
-        </div>
-    );
 };
 
 export default PrivetRoute;

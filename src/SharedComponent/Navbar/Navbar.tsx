@@ -107,15 +107,16 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <ul className="menu menu-horizontal px-1 flex flex-col bg-white uppercase">
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-sm z-[1] mt-3 min-w-40 p-2 shadow">
+                        <ul className="menu menu-horizontal px-1 flex flex-col text-white uppercase">
                             {
                                 nav.map((item, idx) => <li key={idx}>{item}</li>)
                             }
                         </ul>
                     </ul>
                 </div>
-                <Logo></Logo>
+                <div className="lg:ml-6"><Logo></Logo></div>
+                
             </div>
 
             <div className="navbar-center hidden lg:flex   ">

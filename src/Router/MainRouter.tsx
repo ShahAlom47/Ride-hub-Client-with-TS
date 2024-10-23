@@ -15,7 +15,9 @@ import Shop from "../Pages/Shop/Shop";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import CheckOut from "../Pages/CheckOut/CheckOut";
 import PrivetRoute from "./PrivetRoute";
-import DashBoard from "../LayOut/DashBoard/DashBoard";
+import DashBoardRoot from "../LayOut/DashBoardRoot/DashBoardRoot";
+import MyOrder from "../Pages/DashBoard/MyOrder/MyOrder";
+import MyBikes from "../Pages/DashBoard/MyBikes/MyBikes";
 
 
 
@@ -64,17 +66,27 @@ const router = createBrowserRouter([
       path: "/checkout",
       element: <PrivetRoute> <CheckOut></CheckOut> </PrivetRoute>
      },
+    
      
     ]
   },
-{
-  path: "/my-dashBoard",
-  element: <PrivetRoute> <DashBoard></DashBoard> </PrivetRoute>,
-  errorElement: <ErrorPage />,
-  children: [
-    
-  ]
-}
+
+  {
+    path: "/my-dashBoard",
+    element: <PrivetRoute> <DashBoardRoot></DashBoardRoot> </PrivetRoute>,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/my-dashBoard",
+        element: <PrivetRoute> <MyOrder></MyOrder> </PrivetRoute>
+       },
+      {
+        path: "/my-dashBoard/my-bikes",
+        element: <PrivetRoute> <MyBikes></MyBikes> </PrivetRoute>
+       },
+    ]
+  }
+
 
 ]);
 
