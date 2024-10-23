@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEyeOff } from "react-icons/fi";
@@ -19,6 +19,8 @@ const Login: React.FC = () => {
     const [showPass, setShowPass] = useState<boolean>();
     const { loginUser } = useUser();
     const navigate = useNavigate();
+    const location=useLocation()
+    console.log(location );
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
@@ -34,7 +36,7 @@ const Login: React.FC = () => {
                     toast: true
                 });
                 reset()
-                navigate('/');
+                navigate(location.state?.from|| location.state || '/', { replace: true });
             } else {
                 Swal.fire({
                     position: "top-end",

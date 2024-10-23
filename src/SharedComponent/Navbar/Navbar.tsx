@@ -7,6 +7,9 @@ import img from '../../assets/png/user-pp.png'
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import useHandelWishList from "../../CustomHocks/useHandelWishList";
 import useUserData from "../../CustomHocks/useUserData";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { IoSettingsSharp } from "react-icons/io5";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 interface DrawerProps {
     drawerContent: string | boolean;
@@ -143,8 +146,10 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                                     </div>
                                 </div>
                                 <ul tabIndex={0} className="-mt-1 z-[1] text-white p-2 shadow menu menu-sm dropdown-content bg-color-p rounded-sm w-32">
-                                    <li className='border-b-2 pl-2  uppercase' >{user?.displayName} </li>
-                                    <li><a onClick={() => logOutUser()}>Logout</a></li>
+                                    <li className='border-b-2 border-color-s pl-2 font-semibold  uppercase' >{user?.displayName} </li>
+                                    <li className="group "><Link to={'/'}> <BsFillCartCheckFill className="group-hover:text-color-s" /> Orders </Link></li>
+                                    <li className="group "><Link to={'/'}> <IoSettingsSharp className="group-hover:text-color-s" /> Setting </Link></li>
+                                    <li className="group "><a onClick={() => logOutUser()}><RiLogoutCircleRLine className="group-hover:text-color-s" /> Logout</a></li>
 
                                 </ul>
                             </div>

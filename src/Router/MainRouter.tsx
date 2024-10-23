@@ -14,6 +14,7 @@ import Login from "../Pages/Authentication/Login/Login";
 import Shop from "../Pages/Shop/Shop";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import CheckOut from "../Pages/CheckOut/CheckOut";
+import PrivetRoute from "./PrivetRoute";
 
 
 
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
 
      {
       path: "/checkout",
-      element: <CheckOut></CheckOut>
+      element: <PrivetRoute> <CheckOut></CheckOut> </PrivetRoute>
      },
      
     ]

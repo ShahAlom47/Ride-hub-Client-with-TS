@@ -61,7 +61,7 @@ const paymentMethodData: PaymentMethodType[] = [
 const path: string[] = ['/', '/checkout'];
 const pathName: string[] = ['Home', 'CheckOut'];
 
-const stripePromise = loadStripe('pk_test_51PqywqCPjNE83joBN90aPgHCdbZLbpDVHhyedpYcvX67d2y6mfg5Fo90i55fC5HRxK7l8Y8y3OycQBPjPRQsY4S000Yy8imCta');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const CheckOut = () => {
     const location = useLocation();
