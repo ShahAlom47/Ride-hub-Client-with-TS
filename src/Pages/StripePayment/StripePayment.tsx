@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import useSendEmail from '../../CustomHocks/useSendEmail';
 import useProductManage from '../../CustomHocks/useProductManage ';
+import useHandelCoupon from '../../CustomHocks/useHandelCoupon';
+import useUser from '../../CustomHocks/useUser';
 
 
 interface StripePaymentProps {
@@ -22,6 +24,7 @@ interface SecretResType {
 type PaymentResType = {
     status: boolean;
     message: string;
+    orderId?:string
 }
   
 
@@ -29,13 +32,13 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
     const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
+    const {user}=useUser()
     const AxiosPublic = useAxiosPublic()
     const { sendEmail } = useSendEmail()
     const {updateProductStock}= useProductManage()
+    const {addCouponUser}=useHandelCoupon()
     const [errMsg, setErrMsg] = useState('');
     const [clientSecret, setClientSecret] = useState('');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // const [transactionId, setTransactionId] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
 
 
@@ -157,6 +160,19 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                             //  send payment data to user 
                             sendEmail(mailData);
                             updateProductStock(checkOutData?.products ||[])
+                            if(checkOutData?.couponValue !=null){
+                                addCouponUser({
+                                    couponValue:checkOutData?.couponValue,
+                                    userEmail:user?.email || '',
+                                    userName:user?.displayName || '',
+                                    orderId:paymentRes.data?.orderId||'',
+                                    discountAmount:checkOutData?.discountAmount||0,
+                                    finalAmount:checkOutData?.finalAmount ||0
+                                })
+                            }
+
+                            const clearCartRes = await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
+                            console.log(clearCartRes)
 
                             Swal.fire({
                                 title: 'Payment Successful!',

@@ -112,7 +112,7 @@ const CheckOut = () => {
         const checkingRes = await checkCoupon(code, 'bikesProduct', finalAmount)
         if (checkingRes?.success) {
             setCouponValue(code)
-            setDiscountAmount(checkingRes?.discountAmount)
+            setDiscountAmount(checkingRes?.discountAmount||0)
             setCouponMsg(checkingRes?.message)
             return
         }
