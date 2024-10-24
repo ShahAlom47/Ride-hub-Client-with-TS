@@ -5,6 +5,7 @@ import useAxiosPublic from "../CustomHocks/useAxiosPublic";
 
 interface AuthContextType {
   user: FirebaseUser | null;
+  loading:boolean;
   registerUser: (data: registerDataType) => Promise<UserCredential>;
   loginUser: (data: registerDataType) => Promise<UserCredential>;
   logOutUser: () => Promise<void>;
@@ -28,7 +29,8 @@ interface registerDataType {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   
   const [user, setUser] = useState<FirebaseUser | null>(null); 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const axiosPublic= useAxiosPublic();
 
   const registerUser = async ({ email, password }: registerDataType): Promise<UserCredential> => {
@@ -73,6 +75,7 @@ const logOutUser = async () => {
 
       const createToken = async (userInfo: string) => {
         try {
+          setLoading(true)
           const tokenRes = await axiosPublic.post <{token:string}>('/users/jwt', { userInfo });
      
           const token=tokenRes.data?.token
@@ -88,6 +91,7 @@ const logOutUser = async () => {
       if(user && user.email){
         createToken(user.email)
         setUser(user)
+        setLoading(false)
      }
 
      else{

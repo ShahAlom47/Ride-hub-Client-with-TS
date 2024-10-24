@@ -13,7 +13,7 @@ const useAxiosPublic = () => {
   return AxiosPublic;
 };
 
-// Default export ব্যবহার করা হচ্ছে
+
 export default useAxiosPublic;
 
 

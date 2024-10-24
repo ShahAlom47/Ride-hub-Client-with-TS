@@ -1,8 +1,9 @@
 import React from "react";
-import useUserData from "../CustomHocks/useUserData";
 import Loading from "../SharedComponent/Loading/Loading";
-import ErrorPage from "../SharedComponent/ErrorPage/ErrorPage";
 import { Navigate, useLocation } from "react-router-dom";
+import useUser from "../CustomHocks/useUser";
+import Swal from "sweetalert2";
+
 
 
 type PropsType = {
@@ -10,29 +11,38 @@ type PropsType = {
 }
 
 const PrivetRoute = ({ children }: PropsType) => {
-    const { userData, isLoading, error } = useUserData()
+    const { user, loading } = useUser()
     const location = useLocation()
 
+   
+    if (loading) {
+        return <Loading></Loading>
+    }
 
-    if (isLoading) return <Loading></Loading>
-    if (error) return <ErrorPage />
+    if (user) {
+        
 
-    if (userData ) {
         return (
             <> {children} </>
         )
-        
     }
 
-   else{
+    if (!user) {
+        Swal.fire({
+            title: 'Please Login First ',
+            position: "top-end",
+            icon: "info",
+            showConfirmButton: false,
+            timer: 1000,
+            toast: true
+        })
+        return (
+            <>
+                <Navigate state={location.pathname} to={'/login'}></Navigate>
+            </>
+        )
 
-    return(
-        <>
-        <Navigate state={location.pathname} to={'/login'}></Navigate>
-        </>
-    )
-
-   }
+    }
 
 };
 
