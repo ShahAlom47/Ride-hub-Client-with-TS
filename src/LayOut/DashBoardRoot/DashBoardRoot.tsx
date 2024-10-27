@@ -34,7 +34,7 @@ const DashBoardRoot = () => {
 
         <div className=" relative grid  lg:grid-cols-12  md:grid-cols-12  grid-cols-1 w-full  bg-color-p ">
             {/* for big screen */}
-            <div className={`  bg-color-op h-screen lg:col-span-3 md:col-span-3  flex-col  lg:flex md:flex hidden    transition-all ease-in-out duration-500 overflow-hidden `}>
+            <div className={`  bg-color-op min-h-screen lg:col-span-3 md:col-span-3  flex-col  lg:flex md:flex hidden    transition-all ease-in-out duration-500 overflow-hidden `}>
                 <div className="p-2 flex gap-2 items-end  ">
                     <button onClick={() => setOpen(!isOpen)} className="mb-1 lg:hidden md:hidden flex"> <GiHamburgerMenu /> </button>
                     <Logo></Logo>
