@@ -1,39 +1,53 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import useUser from "./useUser";
 
 
 const axiosSecure = axios.create({
-    baseURL: import.meta.env.BASE_URL
+    baseURL: import.meta.env.VITE_BASE_URL
 });
 
 const useAxiosSecure = () => {
+    const {logOutUser}=useUser()
+      const navigate = useNavigate()
 
 
+  
     useEffect(() => {
 
-        axios.interceptors.request.use(function (config) {
-            const token= localStorage.getItem('token')
-
-            console.log(token,config);
-
-            return config;
+        axiosSecure.interceptors.request.use(function (config) {
+          const token= localStorage.getItem('token')
+          if (config.headers) { // Check if headers exist
+            config.headers.authorization = `bearer ${token}`;
+        } else {
+            config.headers = { authorization: `bearer ${token}` }; // Create headers if not exist
+        }
+          return config;
         }, function (error) {
-            // Do something with request error
-            return Promise.reject(error);
+          
+          return Promise.reject(error);
         });
-
-        // Add a response interceptor
-        axios.interceptors.response.use(function (response) {
-            // Any status code that lie within the range of 2xx cause this function to trigger
-            // Do something with response data
-            return response;
+    
+        axiosSecure.interceptors.response.use(function (response) {
+          return response;
         }, function (error) {
-            // Any status codes that falls outside the range of 2xx cause this function to trigger
-            // Do something with response error
-            return Promise.reject(error);
+          const status= error.response?.status
+          if(status===401|| status===403){
+            
+            Swal.fire(error.response.data.message)
+            logOutUser()
+            .then(()=>{
+             
+              navigate('/login')
+            })
+            
+          }
+          return Promise.reject(error);
         });
-
-    }, [])
+      
+      }, [navigate,logOutUser])
 
 
 

@@ -20,8 +20,6 @@ const PrivetRoute = ({ children }: PropsType) => {
     }
 
     if (user) {
-        
-
         return (
             <> {children} </>
         )
