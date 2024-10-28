@@ -13,7 +13,7 @@ interface PropsType {
 const DashPageHeading = ({ img , subTitle, title, titleColor,path,pathName }:PropsType) => {
     return (
         <div>
-            <div className="relative lg:min-h-[200px] md:min-h-[120px] min-h-80 bg-cover bg-center flex flex-col justify-center items-start" style={{ backgroundImage: `url(${img ||banner})` }}>
+            <div className="relative lg:min-h-[210px] md:min-h-[80px] min-h-50 bg-cover bg-center flex flex-col justify-center items-start" style={{ backgroundImage: `url(${img ||banner})` }}>
                 <div className="absolute inset-0 bg-black opacity-60"></div>
                 <div className=' relative z-0  mt-16 space-y-6 pb-5  h-full ml-[10%]  text-white'>
                 <div>

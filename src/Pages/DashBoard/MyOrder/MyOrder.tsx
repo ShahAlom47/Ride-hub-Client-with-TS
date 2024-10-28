@@ -38,11 +38,15 @@ interface ResponseType {
     message:'string'
 }
 
+const path: string[] = ['/my-dashBoard', '/my-dashBoard'];
+const pathName: string[] = ['DashBoard', 'My Order'];
+
 const MyOrder = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useUser();
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState <boolean> (false);
     const [productIndex, setIndex] = useState<number>(0)
+
     const { data, isLoading, error , refetch} = useQuery({
         queryKey: ['userOrderData', user?.email],
         queryFn: async () => {
@@ -50,10 +54,6 @@ const MyOrder = () => {
             return res.data;
         }
     });
-
-    console.log(data);
-
-
 
     const toggleDropdown = (index: number) => {
         setIndex(index)
@@ -121,29 +121,29 @@ const MyOrder = () => {
 
     return (
         <div>
-            <DashPageHeading title="My Order"></DashPageHeading>
+            <DashPageHeading title="My Order" path={path} pathName={pathName} ></DashPageHeading>
 
-            <Table className=" my-5 ">
-                <Thead className=" my-6">
-                    <Tr className=" text-xl bg-color-op  py-3" >
+            <Table className=" my-5  resTable">
+                <Thead className=" my-6 py-2 bg-color-op ">
+                    <Tr className=" text-xl " >
 
-                        <Th className="text-start pl-2">Date</Th>
-                        <Th className=" a text-start">Status</Th>
-                        <Th className=" a text-start">Total Amount</Th>
-                        <Th className=" a text-start">Payment Method</Th>
-                        <Th className=" a text-start">Products</Th>
-                        <Th className=" a text-start">Action</Th>
+                        <Th className="text-start p-3 ">Date</Th>
+                        <Th className="text-start p-3">Status</Th>
+                        <Th className="text-start p-3">Total Amount</Th>
+                        <Th className="text-start p-3">Payment Method</Th>
+                        <Th className="text-start p-3">Products</Th>
+                        <Th className="text-start p-3">Action</Th>
                     </Tr>
                 </Thead>
                 <Tbody className=" py-2  my-6 text-xl ">
                     {data?.map((order, i) => (
                         <Tr key={order._id} className="my-2 pb-2" >
-                            <Td className=" pl-3 py-1">{new Date(order.orderDate).toLocaleDateString()}</Td>
-                            <Td className=" pl-3">{order.status}</Td>
-                            <Td className=" pl-3">${order.totalAmount.toFixed(2)}</Td>
-                            <Td className=" pl-3">{order.paymentMethod}</Td>
+                            <Td className=" p-3 py-1">{new Date(order.orderDate).toLocaleDateString()}</Td>
+                            <Td className=" p-3">{order.status}</Td>
+                            <Td className=" p-3">${order.totalAmount.toFixed(2)}</Td>
+                            <Td className=" p-3">{order.paymentMethod}</Td>
 
-                            <Td className="pl-3 relative">
+                            <Td className="p-3 relative">
                                 <button
                                     className="btn-s"
                                     onClick={() => toggleDropdown(i)}>
@@ -168,7 +168,7 @@ const MyOrder = () => {
                                 )}
                             </Td>
 
-                            <Tr>  <button onClick={() => handleCancelOrder(order._id, order.status)} className="btn-p">  Cancel</button>  </Tr>
+                            <Td className="p-3 ">  <button  onClick={() => handleCancelOrder(order._id, order.status)} className="btn-p ">  Cancel</button>  </Td>
                         </Tr>
                     ))}
                 </Tbody>
