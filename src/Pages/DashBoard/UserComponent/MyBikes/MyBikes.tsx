@@ -1,4 +1,4 @@
-import DashPageHeading from "../../../SharedComponent/DashPageHeading/DashPageHeading";
+import DashPageHeading from "../../../../SharedComponent/DashPageHeading/DashPageHeading";
 
 const path: string[] = ['/my-dashBoard', '/my- bikes'];
 const pathName: string[] = ['DashBoard', 'My Bikes'];

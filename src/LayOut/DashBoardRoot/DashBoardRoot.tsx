@@ -1,46 +1,34 @@
-import { RiLogoutCircleRLine, RiMotorbikeFill } from "react-icons/ri";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 import Logo from "../../SharedComponent/Navbar/Logo";
 import useUser from "../../CustomHocks/useUser";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { BsCartCheckFill } from "react-icons/bs";
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import NavItems from "./NavItem/NavItem";
+import { Outlet } from "react-router-dom";
 
 
 const DashBoardRoot = () => {
+
     const { logOutUser } = useUser();
     const [isOpen, setOpen] = useState<boolean>(false)
-    const location = useLocation()
+   
 
-    const nav: React.ReactNode[] = [
-        <NavLink
-            key="order" to="/my-dashBoard"
-            className={() => ` hover:text-color-s  rounded-sm flex items-center gap-2 ${location?.pathname==='/my-dashBoard' ? 'text-color-s font-bold ' : 'text-white'}`}
-        > <BsCartCheckFill /> My Order </NavLink>,
-        <NavLink key="bikes" to="/my-dashBoard/my-bikes"
-            className={({ isActive }) => `   hover:text-color-s  rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : ''}`}
-        ><RiMotorbikeFill /> Our Bikes</NavLink>,
-
-        <div className="border-b-4 border-color-op my-5"></div>,
-        <NavLink
-            key="home" to="/"
-            className={({ isActive }) => ` hover:text-color-s  rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold ' : ''}`}
-        > <BsCartCheckFill />Home </NavLink>,
-
-    ]
-
+    
 
     return (
 
         <div className=" relative grid  lg:grid-cols-12  md:grid-cols-12  grid-cols-1 w-full  bg-color-p ">
+
             {/* for big screen */}
+
+            
             <div className={`  bg-color-op min-h-screen lg:col-span-3 md:col-span-2  flex-col  lg:flex md:flex hidden    transition-all ease-in-out duration-500 overflow-hidden `}>
                 <div className="p-2 flex gap-2 items-end  ">
                     <button onClick={() => setOpen(!isOpen)} className="mb-1 lg:hidden md:hidden flex"> <GiHamburgerMenu /> </button>
                     <Logo></Logo>
                 </div>
                 <div className="flex-grow lg:p-4 md:p-2 p-2 bg-color-p m-1 flex flex-col text-white list-none">
-                    {nav.map((item, idx) => <li key={idx}>{item}</li>)}
+                    <NavItems></NavItems>
 
                 </div>
 
@@ -51,14 +39,16 @@ const DashBoardRoot = () => {
 
 
             {/* for mobile Screen  */}
-            <div className={`  absolute ${isOpen ? 'w-6/12 left-0' : 'w-0  -left-52'} bg-color-op h-screen lg:col-span-3 md:col-span-3  flex-col  lg:hidden md:hidden flex   transition-all ease-in-out duration-500 overflow-hidden `}>
+
+
+            <div className={`  absolute ${isOpen ? 'w-6/12 left-0' : 'w-0  -left-52'} bg-color-op h-screen lg:col-span-3 md:col-span-3  flex-col  lg:hidden md:hidden flex   transition-all ease-in-out duration-500 overflow-hidden z-50 `}>
                 <div className="p-2 flex gap-2 items-end  ">
                     <button onClick={() => setOpen(!isOpen)} className="mb-1"> <GiHamburgerMenu /> </button>
                     <Logo></Logo>
                 </div>
 
                 <div className="flex-grow p-4 bg-color-p m-1 flex flex-col text-white list-none">
-                    {nav.map((item, idx) => <li key={idx}>{item}</li>)}
+                <NavItems></NavItems>
                 </div>
 
                 <div className="p-4 ">

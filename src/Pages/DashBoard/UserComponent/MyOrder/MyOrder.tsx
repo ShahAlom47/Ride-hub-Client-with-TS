@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../CustomHocks/useAxiosSecure";
-import useUser from "../../../CustomHocks/useUser";
+import useAxiosSecure from "../../../../CustomHocks/useAxiosSecure";
+import useUser from "../../../../CustomHocks/useUser";
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { Product } from "../../CheckOut/CheckOut";
-import DashPageHeading from "../../../SharedComponent/DashPageHeading/DashPageHeading";
+import { Product } from "../../../CheckOut/CheckOut";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import DashPageHeading from "../../../../SharedComponent/DashPageHeading/DashPageHeading";
 
 interface Order {
     orderDate: string;

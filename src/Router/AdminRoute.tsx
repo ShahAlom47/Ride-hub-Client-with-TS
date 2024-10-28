@@ -3,6 +3,7 @@ import Loading from "../SharedComponent/Loading/Loading";
 import { Navigate, useLocation } from "react-router-dom";
 import useUser from "../CustomHocks/useUser";
 import Swal from "sweetalert2";
+import useUserData from "../CustomHocks/useUserData";
 
 
 
@@ -10,16 +11,18 @@ type PropsType = {
     children: React.ReactNode
 }
 
-const PrivetRoute = ({ children }: PropsType) => {
-    const { user, loading } = useUser() ;
-    const location = useLocation()
+const AdminRoute = ({ children }: PropsType) => {
+    const { user, loading } = useUser()
+    const {userData}=useUserData();
+    const location = useLocation();
 
    
     if (loading) {
         return <Loading></Loading>
     }
 
-    if (user   ) {
+    if (user&& userData?.userRole === 'admin')
+         {
         return (
             <> {children} </>
         )
@@ -44,4 +47,4 @@ const PrivetRoute = ({ children }: PropsType) => {
 
 };
 
-export default PrivetRoute;
+export default AdminRoute;

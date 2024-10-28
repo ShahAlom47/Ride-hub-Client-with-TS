@@ -26,7 +26,6 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
     const totalWishListItem: number = getBikeWishList().length + getShopWishList().length;
 
   
-
     useEffect(() => {
         let prevSPos = window.pageYOffset;
 
@@ -54,6 +53,20 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
         setDrawerContent(value);
     }
 
+    const getDashboardLink = () => {
+        switch (userData?.userRole) {
+            case 'admin':
+                return '/my-dashBoard/orders'; 
+            case 'moderator':
+                return '/moderator-dashboard'; 
+            case 'user':
+                return '/my-dashBoard/my-order'; 
+            default:
+                return '/'; 
+        }
+    };
+
+
 
     const drawerNav: React.ReactNode = (
         <div className=" flex items-center   ">
@@ -65,6 +78,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                     {totalWishListItem > 99 ? '99' : totalWishListItem}
                     </p>
             </button>
+
             {
                 user ? <button
                     onClick={() => handelDrawer('cartList')}
@@ -146,9 +160,12 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                                         <img alt="profile phot" src={user.photoURL ? user.photoURL : img} />
                                     </div>
                                 </div>
+
                                 <ul tabIndex={0} className="-mt-1 z-[1] text-white p-2 shadow menu menu-lg dropdown-content bg-color-p rounded-sm min-w-52">
                                     <li className='border-b-2 border-color-s pl-2 font-semibold  uppercase' >{user?.displayName} </li>
-                                    <li className="group "><Link to={'/my-dashBoard'}> <MdDashboard className="group-hover:text-color-s" /> My Dashboard </Link></li>
+                                    <li className="group "><Link
+                                      to={getDashboardLink()}>
+                                     <MdDashboard className="group-hover:text-color-s" /> My Dashboard </Link></li>
                                     <li className="group "><Link to={'/'}> <IoSettingsSharp className="group-hover:text-color-s" /> Setting </Link></li>
                                     <li className="group "><a onClick={() => logOutUser()}><RiLogoutCircleRLine className="group-hover:text-color-s" /> Logout</a></li>
 
