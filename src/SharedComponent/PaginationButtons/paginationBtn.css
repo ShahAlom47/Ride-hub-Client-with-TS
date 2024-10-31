@@ -1,0 +1,31 @@
+/* paginationBtn.css
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination-container .page-item {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination-container .page-item.active {
+    background-color: #e5212a; 
+    color: #fff; /* Custom active text color 
+}
+*/
+
+
+/*
+.pagination-container .page-item:hover {
+    background-color: #f1f1f1; 
+    color: #333;
+}
+
+.pagination-container .page-item.disabled {
+    color: #ddd;
+    cursor: not-allowed;
+} */
