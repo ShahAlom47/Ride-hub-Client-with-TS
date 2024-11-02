@@ -6,12 +6,7 @@ import ActionBar from "./ActionBar/ActionBar";
 import OrderSummary from "./OrderSummary/OrderSummary";
 import { useState } from "react";
 
-
-
-
 interface Product {
-    // Define the properties for each product in the products array if known
-    // Example:
     productId: string;
     productName: string;
     quantity: number;
@@ -26,23 +21,22 @@ interface Order {
     email: string;
     finalAmount: number;
     name: string;
-    orderDate: string; // ISO date string, consider using Date if you parse it
+    orderDate: string;
     paymentMethod: string;
     products: Product[];
-    state: string; // Can be further defined as an enum if there are specific states
-    status: string; // Can also be defined as an enum if needed
+    state: string;
+    status: string;
     totalAmount: number;
     totalProduct: number;
     transactionId: string;
-    type: string; // Consider using a union type if you have a limited set of types
+    type: string;
     userEmail: string;
 }
 
 interface ResDataType {
     totalPages: number;
     currentPage: number;
-    orders:Order
-
+    orders: Order[];
 }
 
 const Orders = () => {
@@ -59,7 +53,8 @@ const Orders = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ['admin order', itemPerPage, searchValue, filterDate, currentPage],
         queryFn: async () => {
-            const dataRes = await axiosSecure.get(`/payment/orders?item=${itemPerPage}&search=${searchValue}&filterDate=${filterDate}&currentPage=${currentPage}`);
+            const dateParam = filterDate ? filterDate.toISOString() : '';
+            const dataRes = await axiosSecure.get(`/payment/orders?item=${itemPerPage}&search=${searchValue}&filterDate=${dateParam}&currentPage=${currentPage}`);
             return dataRes.data as ResDataType;
         }
     });
@@ -73,16 +68,28 @@ const Orders = () => {
     }
 
     const totalPages = data?.totalPages || 1;
-    console.log(data ,filterDate);
+    
+    console.log(searchValue);
 
     return (
         <div>
             <DashPageHeading title="Orders" path={path} pathName={pathName}></DashPageHeading>
             <div className="p-3">
-                <ActionBar setSearchValue={setSearchValue} setFilterDate={setFilterDate} filterDate={filterDate}></ActionBar>
-                <OrderSummary ></OrderSummary>
-                <PaginationButtons currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}></PaginationButtons>
+                <ActionBar setSearchValue={setSearchValue} searchValue={searchValue} setFilterDate={setFilterDate} filterDate={filterDate}></ActionBar>
+                <OrderSummary></OrderSummary>
             </div>
+            <div className="py-3">
+                {data?.orders?.map(order => (
+                    <div key={order._id} className="flex gap-4">
+                        <p>{order.name}</p>
+                        <p>{order.email}</p>
+                        <p>{order.orderDate}</p>
+                        <p>{new Date(order.orderDate).toLocaleDateString()}</p>
+                        <p>{order.totalAmount}</p>
+                    </div>
+                ))}
+            </div>
+            <PaginationButtons currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}></PaginationButtons>
         </div>
     );
 };

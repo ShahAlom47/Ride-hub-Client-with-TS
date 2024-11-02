@@ -6,20 +6,23 @@ import { RxCross1 } from "react-icons/rx";
 
 interface PropsType {
     setSearchValue: (value: string) => void;
-    setFilterDate: (date: Date | null) => void; 
-    filterDate: Date | null; 
+    setFilterDate: (date: Date | null) => void;
+    filterDate: Date | null;
+    searchValue: string;
 }
 
-const ActionBar = ({ setSearchValue, setFilterDate, filterDate }: PropsType) => {
+const ActionBar = ({ setSearchValue, setFilterDate, filterDate, searchValue }: PropsType) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         const formData = new FormData(e.currentTarget);
         const value = formData.get("value") as string;
         const trimValue = value.trim();
         setSearchValue(trimValue);
+        // console.log(trimValue);
     };
+
+    
 
     return (
         <div className="flex justify-between items-center">
@@ -33,18 +36,18 @@ const ActionBar = ({ setSearchValue, setFilterDate, filterDate }: PropsType) => 
                         className="bg-slate-100 rounded-l-md outline-none px-3 text-black"
                         type="text"
                         name="value"
+                        defaultValue={searchValue}
+                       
                     />
-                    <button className="p-2 border-l bg-slate-300 text-black rounded-r-md hover:bg-slate-400">
+                    <button type="submit" className="p-2 border-l bg-slate-300 text-black rounded-r-md hover:bg-slate-400">
                         <CiSearch />
                     </button>
                 </form>
 
                 <div className="w- bg-slate-300 items-center flex px-1 rounded-md  text-black">
-                  
-                     <DatePicker
+                    <DatePicker
                         selected={filterDate}
                         onChange={(date: Date | null) => {
-                            // Here date is of type Date or null, no conversion needed
                             setFilterDate(date);
                         }}
                         dateFormat="MM/yyyy"
@@ -52,7 +55,9 @@ const ActionBar = ({ setSearchValue, setFilterDate, filterDate }: PropsType) => 
                         placeholderText="Date"
                         className="w-26 bg-slate-300 text-black"
                     />
-                    <RxCross1 className=" hover:text-color-s"  />
+                    <button onClick={() => setFilterDate(null)}>
+                        <RxCross1 className="hover:text-color-s" />
+                    </button>
                 </div>
             </div>
         </div>

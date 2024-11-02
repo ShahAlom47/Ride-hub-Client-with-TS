@@ -102,6 +102,7 @@ const Login: React.FC = () => {
                             <input
                                 type={showPass ? 'text' : "password"}
                                 id="password"
+                                defaultValue={123456}
                                 {...register("password", {
                                     required: "Password is required",
                                     minLength: {
