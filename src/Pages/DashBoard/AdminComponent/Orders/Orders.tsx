@@ -5,6 +5,7 @@ import PaginationButtons from "../../../../SharedComponent/PaginationButtons/Pag
 import ActionBar from "./ActionBar/ActionBar";
 import OrderSummary from "./OrderSummary/OrderSummary";
 import { useState } from "react";
+import OrdersTable from "./OrdersTable/OrdersTable";
 
 interface Product {
     productId: string;
@@ -13,7 +14,7 @@ interface Product {
     price: number;
 }
 
-interface Order {
+ export interface Orders {
     _id: string;
     address: string;
     couponValue: string;
@@ -40,11 +41,17 @@ export interface SummaryType {
 
 
 }
+const defaultSummary: SummaryType = {
+    totalRevenue: 0,
+    totalTransactions: 0,
+    totalCustomers: 0,
+    totalProductsSold: 0,
+};
 
 interface ResDataType {
     totalPages: number;
     currentPage: number;
-    orders: Order[];
+    orders: Orders[];
     orderSummary:SummaryType ;
 }
 
@@ -68,9 +75,7 @@ const Orders = () => {
         }
     });
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -81,23 +86,16 @@ const Orders = () => {
     console.log(data);
 
     return (
-        <div>
+        <div className=" flex flex-col gap-3">
             <DashPageHeading title="Orders" path={path} pathName={pathName}></DashPageHeading>
             <div className="p-3">
                 <ActionBar setSearchValue={setSearchValue} searchValue={searchValue} setFilterDate={setFilterDate} filterDate={filterDate}></ActionBar>
-                <OrderSummary summary={data?.orderSummary} ></OrderSummary>
+                <OrderSummary summary={data?.orderSummary || defaultSummary} />
             </div>
             <div className="py-3">
-                {data?.orders?.map(order => (
-                    <div key={order._id} className="flex gap-4">
-                        <p>{order.name}</p>
-                        <p>{order.email}</p>
-                        <p>{order.orderDate}</p>
-                        <p>{new Date(order.orderDate).toLocaleDateString()}</p>
-                        <p>{order.totalAmount}</p>
-                    </div>
-                ))}
+            <OrdersTable isLoading={isLoading} tableData={data?.orders}></OrdersTable>
             </div>
+          
             <PaginationButtons currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}></PaginationButtons>
         </div>
     );

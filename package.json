@@ -38,6 +38,7 @@
     "react-spinners": "^0.14.1",
     "react-super-responsive-table": "^6.0.0",
     "react-tooltip": "^5.28.0",
+    "responsive-table-react": "^1.2.3",
     "sort-by": "^1.2.0",
     "sweetalert2": "^11.14.1",
     "swiper": "^11.1.14"
