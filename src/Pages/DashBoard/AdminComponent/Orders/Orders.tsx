@@ -32,11 +32,20 @@ interface Order {
     type: string;
     userEmail: string;
 }
+export interface SummaryType {
+    totalCustomers:number;
+    totalProductsSold:number;
+    totalRevenue:number;
+    totalTransactions:number;
+
+
+}
 
 interface ResDataType {
     totalPages: number;
     currentPage: number;
     orders: Order[];
+    orderSummary:SummaryType ;
 }
 
 const Orders = () => {
@@ -69,14 +78,14 @@ const Orders = () => {
 
     const totalPages = data?.totalPages || 1;
     
-    console.log(searchValue);
+    console.log(data);
 
     return (
         <div>
             <DashPageHeading title="Orders" path={path} pathName={pathName}></DashPageHeading>
             <div className="p-3">
                 <ActionBar setSearchValue={setSearchValue} searchValue={searchValue} setFilterDate={setFilterDate} filterDate={filterDate}></ActionBar>
-                <OrderSummary></OrderSummary>
+                <OrderSummary summary={data?.orderSummary} ></OrderSummary>
             </div>
             <div className="py-3">
                 {data?.orders?.map(order => (
