@@ -9,7 +9,7 @@ table.rtr-table {
 
 table.rtr-table tbody td {
     border-top: solid 0px #fff;
-    border-bottom: solid 0px #fff;
+    border-bottom: solid 1px #fff;
     border-radius: 0.1rem;
     padding: 1rem;
     text-align: left;

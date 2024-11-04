@@ -66,7 +66,7 @@ const Orders = () => {
 
     const axiosSecure = useAxiosSecure();
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error,refetch } = useQuery({
         queryKey: ['admin order', itemPerPage, searchValue, filterDate, currentPage],
         queryFn: async () => {
             const dateParam = filterDate ? filterDate.toISOString() : '';
@@ -93,7 +93,7 @@ const Orders = () => {
                 <OrderSummary summary={data?.orderSummary || defaultSummary} />
             </div>
             <div className="py-3">
-            <OrdersTable isLoading={isLoading} tableData={data?.orders}></OrdersTable>
+            <OrdersTable isLoading={isLoading} tableData={data?.orders} refetch={refetch}></OrdersTable>
             </div>
           
             <PaginationButtons currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}></PaginationButtons>
