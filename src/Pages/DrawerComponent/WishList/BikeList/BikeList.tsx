@@ -6,6 +6,7 @@ import ErrorPage from "../../../../SharedComponent/ErrorPage/ErrorPage";
 import Loading from "../../../../SharedComponent/Loading/Loading";
 import img from '../../../../assets/image/bikeCard.jpg'
 import DataNotAvailable from "../../../../SharedComponent/DataNotAvailable/DataNotAvailable";
+import useRentNowBtn from "../../../../CustomHocks/useRentNowBtn";
 
 
 
@@ -16,6 +17,7 @@ const BikeList = () => {
     const bikeIds = getBikeWishList();
     const { bikeData } = useWishListFetch('bike', bikeIds);
     const [reload,setReload]=useState(false)
+    const {handelRentButton}=useRentNowBtn();
 
    
 
@@ -53,7 +55,7 @@ const BikeList = () => {
                     </div>
                   
                     <div className=" col-span-3 space-y-2 items-end flex flex-col  justify-end">
-                        <button className=" text-xs btn-p p-2 w-full"> Rent Now</button>
+                        <button  onClick={()=>bike?._id && handelRentButton(bike._id)}   className=" text-xs btn-p p-2 w-full"> Rent Now</button>
                         <button  onClick={()=>handelRemove(bike?._id)} className=" text-xs btn-s w-full text-black"> Remove</button>
                     </div>
 

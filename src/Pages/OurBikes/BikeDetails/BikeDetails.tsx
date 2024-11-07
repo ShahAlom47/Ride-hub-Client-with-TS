@@ -10,15 +10,17 @@ import Loading from "../../../SharedComponent/Loading/Loading";
 import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
 import { useEffect, useState } from "react";
 import useHandelWishList from "../../../CustomHocks/useHandelWishList";
+import useRentNowBtn from "../../../CustomHocks/useRentNowBtn";
 
 const BikeDetails = () => {
 
-
+   
     const { id } = useParams<{ id: string }>();
     const { data, isLoading, error, } = useBikeDetailsData(id);
     const bikeData = data as BikeData | undefined;
     const { getBikeWishList, addBikeWishList } = useHandelWishList();
     const [currentWishList, setCurrentWishList] = useState<string[]>([]);
+    const {handelRentButton}=useRentNowBtn();
 
     const path: string[] = ['/', `/our-bikes`, `/our-bikes/bike-details/${id}`];
     const pathName: string[] = ['Home', 'Our Bike', 'Bike Details'];
@@ -27,7 +29,8 @@ const BikeDetails = () => {
     useEffect(() => {
         const wishList = getBikeWishList();
         setCurrentWishList(wishList);
-    }, [getBikeWishList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (isLoading) return <Loading></Loading>
     if (error) return <ErrorPage></ErrorPage>
@@ -74,7 +77,7 @@ const BikeDetails = () => {
                                 >
                                 
                                 Add To List</button>
-                            <button className=" btn-p w-full'">Rent Now</button>
+                            <button onClick={()=>bikeData?._id && handelRentButton(bikeData._id)}  className=" btn-p w-full'">Rent Now</button>
                         </div>
                     </div>
 
