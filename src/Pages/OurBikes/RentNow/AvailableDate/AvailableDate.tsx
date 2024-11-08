@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -11,13 +10,14 @@ interface RentalsType {
 
 interface PropsType {
     rentals: RentalsType[];
+    setDate: (date: Date | null) => void;
+    date: Date | null;
+    isEnd?:boolean;
 }
 
-const AvailableDate = ({ rentals }: PropsType) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    console.log(selectedDate);
+const AvailableDate: React.FC<PropsType> = ({ rentals, setDate, date ,isEnd}) => {
 
-    const getBookedDates = () => {
+    const getBookedDates = (): Date[] => {
         const bookedDates: Date[] = [];
         rentals.forEach(rental => {
             const currentDate = new Date(rental.rent_start_date);
@@ -33,21 +33,21 @@ const AvailableDate = ({ rentals }: PropsType) => {
 
     const bookedDates = getBookedDates();
 
-    const isBookedDate = (date: Date): string => {
+    // Helper to check if a date is booked
+    const isBookedDate = (date: Date): boolean => {
         return bookedDates.some(
             bookedDate => bookedDate.toDateString() === date.toDateString()
-        ) ? 'booked-date' : '';  
+        );
     };
 
     return (
         <div>
-          
             <DatePicker
-                selected={selectedDate}
-                onChange={(date: Date | null) => setSelectedDate(date)} 
+                selected={date}
+                onChange={(date: Date | null) => setDate(date)} // Set the date on change
                 inline
-                dayClassName={date => isBookedDate(date)} 
-                filterDate={date => !isBookedDate(date)}
+                dayClassName={date => (isBookedDate(date) && !isEnd? 'booked-date' : '')} // Apply CSS class to booked dates
+                filterDate={date => isEnd || !isBookedDate(date)}
             />
             <style>
                 {`
@@ -60,6 +60,5 @@ const AvailableDate = ({ rentals }: PropsType) => {
         </div>
     );
 };
-
 
 export default AvailableDate;
