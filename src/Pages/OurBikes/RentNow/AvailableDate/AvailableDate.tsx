@@ -15,6 +15,7 @@ interface PropsType {
 
 const AvailableDate = ({ rentals }: PropsType) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    console.log(selectedDate);
 
     const getBookedDates = () => {
         const bookedDates: Date[] = [];
@@ -40,7 +41,7 @@ const AvailableDate = ({ rentals }: PropsType) => {
 
     return (
         <div>
-            <h2>Rent Your Bike</h2>
+          
             <DatePicker
                 selected={selectedDate}
                 onChange={(date: Date | null) => setSelectedDate(date)} 
