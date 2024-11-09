@@ -7,14 +7,12 @@ import { ImCheckboxChecked } from "react-icons/im";
 import CheckOutForm, { OrderFormInputs } from "./CheckOutForm/CheckOutForm";
 import useHandelCoupon from "../../CustomHocks/useHandelCoupon";
 
-import mastercardIcon from '../../assets/icons/masterCard.jpg';
-import visaIcon from '../../assets/icons/visaCard.jpg';
-import bkashIcon from '../../assets/icons/bkash.jpg';
-import nagadIcon from '../../assets/icons/nagad.jpg';
+
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import StripePayment from "../StripePayment/StripePayment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
+import PaymentMethodBtn from "./PaymentMethodBtn/PaymentMethodBtn";
 
 export interface Product {
     productId: string;
@@ -32,12 +30,7 @@ interface Order {
     userEmail: string;
 }
 
-type PaymentMethodType = {
 
-    methodName: string;
-    img: string;
-    value: string;
-}
 
 export interface FinalDataType extends Order {
 
@@ -51,12 +44,6 @@ export interface FinalDataType extends Order {
     couponValue:string|null;
 }
 
-const paymentMethodData: PaymentMethodType[] = [
-    { methodName: 'Mastercard', img: mastercardIcon, value: 'mastercard' },
-    { methodName: 'Visa', img: visaIcon, value: 'visa' },
-    { methodName: 'BKash', img: bkashIcon, value: 'bkash' },
-    { methodName: 'Nagad', img: nagadIcon, value: 'nagad' },
-];
 
 const path: string[] = ['/', '/checkout'];
 const pathName: string[] = ['Home', 'CheckOut'];
@@ -90,6 +77,11 @@ const CheckOut = () => {
         }
     };
 
+    const handelMethod = (method: string) => {
+
+        setMethodMsg(false);
+        setMethod(method)
+    }
     const handleCouponBox = () => {
         setCouponMsg('')
         const newCouponActiveState = !couponActive;
@@ -120,12 +112,7 @@ const CheckOut = () => {
         setDiscountAmount(0)
     }
 
-    const handelMethod = (method: string) => {
-
-        setMethodMsg(false);
-        setMethod(method)
-    }
-
+  
     const handleFormSubmit = (data: OrderFormInputs) => {
         if (selectedMethod === false) {
             setMethodMsg('Please select your favorite method.');
@@ -225,21 +212,9 @@ const CheckOut = () => {
 
                     </div>
 
-                    <div className=" border border-gray-500 p-4 my-4">
-                        <h1 className="text-white font-semibold "> Accepted Payment Methods :</h1>
-                        <p className=" text-color-s my-2">{methodMsg}</p>
-                        <div className={`  flex gap-2 items-center justify-center py-3 `}>
-                            {
-                                paymentMethodData.map((item) =>
-                                    <button
-                                        onClick={() => handelMethod(item.value)}
-                                        className={`${selectedMethod === item.value ? ' border-opacity-100 border-color-s' : 'border-opacity-0 '} p-1 w-20 h-10 my-auto items-center rounded-md group flex justify-center border-4 border-white  hover:border-opacity-100 `}
-                                    > <img className=" rounded-sm h-full w-full group-hover:w-[95%] group-hover:h-[95%] " src={item.img} alt="" />
-                                    </button>)
-                            }
-                        </div>
+                   <PaymentMethodBtn handelMethod={handelMethod} methodMsg={methodMsg} selectedMethod={selectedMethod} ></PaymentMethodBtn>
 
-                    </div>
+
                     {
                         checkOutData === null && <button onClick={() => handleSubmitClick()} className=" btn-p w-full uppercase font-pFont font-semibold">Order</button>
                     }

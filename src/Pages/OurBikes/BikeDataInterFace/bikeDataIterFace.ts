@@ -21,9 +21,17 @@ export interface BikeData {
     front_brake_type: string;
     front_brake_diameter_in_mm: string;
     rear_brake_type: string;
-    review: Review[]; // Assuming 'review' is an array of review objects
+    review: Review[]; 
+    rentals?: RentalsType[];
   }
   
+
+  interface RentalsType {
+    user_email: string;
+    rent_start_date: string;
+    rent_end_date: string;
+    status: string;
+}
    export interface Review {
     name: string; 
     email: string; 

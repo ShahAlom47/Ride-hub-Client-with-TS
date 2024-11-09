@@ -9,7 +9,7 @@ interface RentalsType {
 }
 
 interface PropsType {
-    rentals: RentalsType[];
+    rentals?: RentalsType[];
     setDate: (date: Date | null) => void;
     date: Date | null;
     isEnd?:boolean;
@@ -19,7 +19,7 @@ const AvailableDate: React.FC<PropsType> = ({ rentals, setDate, date ,isEnd}) =>
 
     const getBookedDates = (): Date[] => {
         const bookedDates: Date[] = [];
-        rentals.forEach(rental => {
+        rentals?.forEach(rental => {
             const currentDate = new Date(rental.rent_start_date);
             const endDate = new Date(rental.rent_end_date);
 
