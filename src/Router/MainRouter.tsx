@@ -21,6 +21,7 @@ import AdminRoute from "./AdminRoute";
 import MyBikes from "../Pages/DashBoard/UserComponent/MyBikes/MyBikes";
 import Orders from "../Pages/DashBoard/AdminComponent/Orders/Orders";
 import RentNow from "../Pages/OurBikes/RentNow/RentNow";
+import RentPayment from "../Pages/OurBikes/RentNow/RentPayment/RentPayment";
 
 
 
@@ -72,6 +73,11 @@ const router = createBrowserRouter([
      {
       path: "/rentNow/:id",
       element: <PrivetRoute> <RentNow></RentNow> </PrivetRoute>
+     },
+    
+     {
+      path: "/rent-payment",
+      element: <PrivetRoute> <RentPayment></RentPayment> </PrivetRoute>
      },
     
      

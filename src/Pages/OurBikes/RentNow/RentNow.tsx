@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AvailableDate from "./AvailableDate/AvailableDate";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FaLongArrowAltRight, FaLongArrowAltDown } from "react-icons/fa";
@@ -19,7 +19,8 @@ interface FormData {
 
 const RentNow: React.FC = () => {
     const { id } = useParams();
-    const { user } = useUser()
+    const { user } = useUser();
+    const navigate = useNavigate();
     const { register, handleSubmit } = useForm<FormData>();
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(startDate);
@@ -31,6 +32,7 @@ const RentNow: React.FC = () => {
     const rentals = bikeData?.rentals ?? []
 
     const handelMethod = (method: string) => {
+
         if(method==='bkash'|| method === 'nagad'){
             Swal.fire({
                 title:'This Feature  Under Development',
@@ -55,6 +57,10 @@ const RentNow: React.FC = () => {
             setDateError('*Please Select Date')
             return
         }
+        if(selectedMethod===false){
+            setMethodMsg('Please Select Your favorite Payment Method')
+            return
+        }
 
         const isoStartDate = startDate.toISOString();
         const isoEndDate = endDate.toISOString();
@@ -63,13 +69,14 @@ const RentNow: React.FC = () => {
             userEmail: user?.email,
             startDate: isoStartDate,
             endDate: isoEndDate,
+            paymentMethod:selectedMethod,
             bikeId: bikeData?._id
         }
 
-        console.log("Form Data:", renterData);
+        navigate('/rent-payment' , { state: renterData })
 
     };
-    console.log(bikeData);
+    
 
     return (
         <div className="max-w my-5">
