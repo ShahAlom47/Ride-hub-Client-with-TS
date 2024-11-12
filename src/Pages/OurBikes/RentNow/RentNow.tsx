@@ -30,7 +30,7 @@ const RentNow: React.FC = () => {
 
     const { data: bikeData } = useBikeDetailsData(id);
     const rentals = bikeData?.rentals ?? []
-
+console.log(rentals);
     const handelMethod = (method: string) => {
 
         if(method==='bkash'|| method === 'nagad'){
@@ -62,6 +62,8 @@ const RentNow: React.FC = () => {
             return
         }
 
+        console.log(startDate,endDate);
+
         const isoStartDate = startDate.toISOString();
         const isoEndDate = endDate.toISOString();
         const renterData = {
@@ -73,7 +75,7 @@ const RentNow: React.FC = () => {
             bikeId: bikeData?._id
         }
 
-        navigate('/rent-payment' , { state: renterData })
+        // navigate('/rent-payment' , { state: renterData })
 
     };
     
@@ -98,7 +100,7 @@ const RentNow: React.FC = () => {
                         </div>
                         <div>
                             <h2 className="font-semibold my-1">Rent End Date: {endDate ? endDate.toLocaleDateString() : <p className="text-color-s">{dateError}</p>}</h2>
-                            <AvailableDate rentals={rentals} setDate={setEndDate} date={endDate} isEnd={true} />
+                            <AvailableDate rentals={rentals} setDate={setEndDate} date={endDate} isEnd={true} firstDate={startDate} />
                         </div>
                     </div>
                     <div className="  flex flex-col items-start border border-gray-700 p-2 w-full ">

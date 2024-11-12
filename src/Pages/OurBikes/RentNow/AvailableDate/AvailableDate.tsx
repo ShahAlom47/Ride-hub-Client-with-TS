@@ -12,10 +12,12 @@ interface PropsType {
     rentals?: RentalsType[];
     setDate: (date: Date | null) => void;
     date: Date | null;
-    isEnd?:boolean;
+    isEnd?: boolean;
+    firstDate?: Date | null;
 }
 
-const AvailableDate: React.FC<PropsType> = ({ rentals, setDate, date ,isEnd}) => {
+const AvailableDate: React.FC<PropsType> = ({ rentals, setDate, date, isEnd, firstDate }) => {
+    console.log('Selected Start Date (firstDate):', firstDate);
 
     const getBookedDates = (): Date[] => {
         const bookedDates: Date[] = [];
@@ -33,21 +35,37 @@ const AvailableDate: React.FC<PropsType> = ({ rentals, setDate, date ,isEnd}) =>
 
     const bookedDates = getBookedDates();
 
-    // Helper to check if a date is booked
     const isBookedDate = (date: Date): boolean => {
         return bookedDates.some(
             bookedDate => bookedDate.toDateString() === date.toDateString()
         );
     };
 
+    const isTodayOrAfter = (date: Date): boolean => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return date >= today;
+    };
+
+    const isOnOrAfterFirstDate = (date: Date): boolean => {
+        if (firstDate) {
+            return date >= firstDate;
+        }
+        return true;
+    };
+
     return (
         <div>
             <DatePicker
                 selected={date}
-                onChange={(date: Date | null) => setDate(date)} // Set the date on change
+                onChange={(date: Date | null) => setDate(date)}
                 inline
-                dayClassName={date => (isBookedDate(date) && !isEnd? 'booked-date' : '')} // Apply CSS class to booked dates
-                filterDate={date => isEnd || !isBookedDate(date)}
+                dayClassName={date => (isBookedDate(date) && !isEnd ? 'booked-date' : '')}
+                filterDate={date => (
+                    (isEnd 
+                        ? (!isBookedDate(date) && isTodayOrAfter(date) && isOnOrAfterFirstDate(date)) // End date should be on or after today and firstDate
+                        : (!isBookedDate(date) && isTodayOrAfter(date)))                             // Start date should be today or after
+                )}
             />
             <style>
                 {`
