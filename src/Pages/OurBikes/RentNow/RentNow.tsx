@@ -30,16 +30,50 @@ const RentNow: React.FC = () => {
 
     const { data: bikeData } = useBikeDetailsData(id);
     const rentals = bikeData?.rentals ?? []
-console.log(rentals);
+
+
+
+    const calculateTotalDays = (): number => {
+        if (!startDate || !endDate) {
+            // If either date is null, return an error message
+            return 0;
+        }
+
+        // Convert dates to valid Date objects
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            return 0;
+        }
+
+
+        const diffInMilliseconds = end.getTime() - start.getTime();
+
+        if (diffInMilliseconds < 0) {
+            // If end date is before start date
+            return 0;
+        }
+
+        // Convert milliseconds to days
+        const totalDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+
+        return totalDays + 1;
+    };
+
+
+
+
+
     const handelMethod = (method: string) => {
 
-        if(method==='bkash'|| method === 'nagad'){
+        if (method === 'bkash' || method === 'nagad') {
             Swal.fire({
-                title:'This Feature  Under Development',
-                position:'top-right',
-                toast:true,
-                showLoaderOnConfirm:false,
-                icon:'info'
+                title: 'This Feature  Under Development',
+                position: 'top-right',
+                toast: true,
+                showLoaderOnConfirm: false,
+                icon: 'info'
 
             })
             return
@@ -50,6 +84,8 @@ console.log(rentals);
     }
 
 
+
+
     const onSubmit: SubmitHandler<FormData> = (data) => {
         setDateError('')
 
@@ -57,12 +93,12 @@ console.log(rentals);
             setDateError('*Please Select Date')
             return
         }
-        if(selectedMethod===false){
+        if (selectedMethod === false) {
             setMethodMsg('Please Select Your favorite Payment Method')
             return
         }
 
-        console.log(startDate,endDate);
+
 
         const isoStartDate = startDate.toISOString();
         const isoEndDate = endDate.toISOString();
@@ -71,14 +107,20 @@ console.log(rentals);
             userEmail: user?.email,
             startDate: isoStartDate,
             endDate: isoEndDate,
-            paymentMethod:selectedMethod,
-            bikeId: bikeData?._id
+            paymentMethod: selectedMethod,
+            bikeId: bikeData?._id,
+            totalRentalDays : calculateTotalDays(),
+            
+
+
         }
 
-        // navigate('/rent-payment' , { state: renterData })
+        navigate('/rent-payment', { state: renterData })
 
     };
-    
+
+
+
 
     return (
         <div className="max-w my-5">
@@ -103,10 +145,40 @@ console.log(rentals);
                             <AvailableDate rentals={rentals} setDate={setEndDate} date={endDate} isEnd={true} firstDate={startDate} />
                         </div>
                     </div>
-                    <div className="  flex flex-col items-start border border-gray-700 p-2 w-full ">
-                        <p className=" font-bold text-lg text-white">Rental Price: $ <span className=" text-2xl text-color-s">{bikeData?.rental_price_per_day}</span> <span className=" font-normal text-lg">(Per Day)</span></p>
-                        <div className=" w-full">
-                            <PaymentMethodBtn selectedMethod={selectedMethod} methodMsg={methodMsg}  handelMethod={handelMethod} > </PaymentMethodBtn>
+                    <div className="flex flex-col items-start border border-gray-700 p-2 w-full">
+                        {/* Rental Price */}
+                        <p className="text-lg text-white ">
+                            Rental Price: $ <span className="text-2xl text-color-s font-bold px-2 ">{bikeData?.rental_price_per_day}</span>
+                            <span className="font-normal text-lg">(Per Day)</span>
+                        </p>
+
+                        {/* Rental Days */}
+                        <p className=" text-lg text-white">
+                            Rental Days: 
+                            <span className="text-2xl font-bold px-2 ">
+                                {startDate && endDate ? calculateTotalDays() : 0}
+                             </span>  
+                            Days
+                           
+                        </p>
+
+                        {/* Total Price */}
+                        <p className="text-lg text-white">
+                            Total Price: $
+                            <span className="text-2xl  font-bold px-2 ">
+                                {bikeData?.rental_price_per_day && startDate && endDate
+                                    ? bikeData.rental_price_per_day * calculateTotalDays()
+                                    : 0}
+                            </span>
+                        </p>
+
+                        {/* Payment Button */}
+                        <div className="w-full">
+                            <PaymentMethodBtn
+                                selectedMethod={selectedMethod}
+                                methodMsg={methodMsg}
+                                handelMethod={handelMethod}
+                            />
                         </div>
                     </div>
 

@@ -17,7 +17,7 @@ interface PropsType {
 }
 
 const AvailableDate: React.FC<PropsType> = ({ rentals, setDate, date, isEnd, firstDate }) => {
-    console.log('Selected Start Date (firstDate):', firstDate);
+
 
     const getBookedDates = (): Date[] => {
         const bookedDates: Date[] = [];

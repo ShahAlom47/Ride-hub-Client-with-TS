@@ -37,6 +37,7 @@ const PaymentMethodBtn = ({selectedMethod,methodMsg,handelMethod}:PropsType) => 
                 {
                     paymentMethodData.map((item) =>
                         <button
+                        type='button'
                             onClick={() => handelMethod(item.value)}
                             className={`${selectedMethod === item.value ? ' border-opacity-100 border-color-s' : 'border-opacity-0 '} p-1 w-20 h-10 my-auto items-center rounded-md group flex justify-center border-4 border-white  hover:border-opacity-100 `}
                         > <img className=" rounded-sm h-full w-full group-hover:w-[95%] group-hover:h-[95%] " src={item.img} alt="" />
