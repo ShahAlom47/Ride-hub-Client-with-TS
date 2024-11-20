@@ -120,7 +120,7 @@ const CheckOut = () => {
         }
         setMethodMsg(false);
         const finalAmount = productSummary.totalAmount - discountAmount
-        const finalData = { ...data, finalAmount ,...productSummary , discountAmount:discountAmount? discountAmount:0 , paymentMethod:selectedMethod?selectedMethod:'unknown' ,couponValue}
+        const finalData = { ...data, finalAmount ,...productSummary , discountAmount:discountAmount? discountAmount:0 , paymentMethod:selectedMethod?selectedMethod:'unknown' ,couponValue, category:'shopProduct'}
         setCheckOutData(finalData)
         // updateProductStock(productSummary?.products)
     };
@@ -143,7 +143,7 @@ const CheckOut = () => {
                             <div className=" border border-gray-500 py-3 my-4 h-full">
                                 {selectedMethod === 'mastercard' && (
                                     <Elements stripe={stripePromise}>
-                                        <StripePayment checkOutData={checkOutData !== null ? checkOutData: null} />
+                                        <StripePayment category={'shopProduct'} checkOutData={checkOutData !== null ? checkOutData: null} />
                                     </Elements>
                                 )}
                                 {selectedMethod === 'visa' && <div>'Visa Payment'</div>}

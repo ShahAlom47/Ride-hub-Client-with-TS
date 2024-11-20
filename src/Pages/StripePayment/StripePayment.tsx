@@ -3,7 +3,7 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
 import useAxiosPublic from '../../CustomHocks/useAxiosPublic';
-import { FinalDataType } from '../CheckOut/CheckOut';
+import { FinalDataType, Product } from '../CheckOut/CheckOut';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import useSendEmail from '../../CustomHocks/useSendEmail';
@@ -12,8 +12,29 @@ import useHandelCoupon from '../../CustomHocks/useHandelCoupon';
 import useUser from '../../CustomHocks/useUser';
 
 
+interface RenterData {
+    email: string | undefined;
+    name: string | undefined;
+    startDate: string;
+    endDate: string;
+    paymentMethod: string;
+    bikeId: string | undefined;
+    totalRentalDays: number;
+    finalAmount: number;
+    products?: Product[]; // বা products এর সঠিক টাইপ দিন
+    couponValue?: number; // যদি এটি ব্যবহৃত হয়
+    discountAmount?: number; // যদি এটি ব্যবহৃত হয়
+}
+
+type StripeDataType = FinalDataType | RenterData & {
+    products?: Product[]; // products এর সঠিক টাইপ নির্ধারণ করুন
+    couponValue?: number; // যদি ব্যবহৃত হয়
+    discountAmount?: number; // যদি ব্যবহৃত হয়
+};
+
 interface StripePaymentProps {
-    checkOutData: FinalDataType | null
+    checkOutData: StripeDataType | null;
+    category: string
 
 }
 
@@ -24,19 +45,19 @@ interface SecretResType {
 type PaymentResType = {
     status: boolean;
     message: string;
-    orderId?:string
+    orderId?: string
 }
-  
 
-const StripePayment = ({ checkOutData }: StripePaymentProps) => {
+
+const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
     const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
-    const {user}=useUser()
+    const { user } = useUser()
     const AxiosPublic = useAxiosPublic()
     const { sendEmail } = useSendEmail()
-    const {updateProductStock}= useProductManage()
-    const {addCouponUser}=useHandelCoupon()
+    const { updateProductStock } = useProductManage()
+    const { addCouponUser } = useHandelCoupon()
     const [errMsg, setErrMsg] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
@@ -75,6 +96,8 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
 
             createPaymentIntent();
         }
+
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checkOutData?.finalAmount]);
 
@@ -135,7 +158,7 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
 
 
                         if (paymentRes.data?.status) {
-                            const transactionId = paymentIntent.id; 
+                            const transactionId = paymentIntent.id;
 
                             // email data Start
                             const mailData = {
@@ -155,24 +178,36 @@ const StripePayment = ({ checkOutData }: StripePaymentProps) => {
                                     </div>
                                 `,
                             };
-                             // email data End
+                            // email data End
 
                             //  send payment data to user 
                             sendEmail(mailData);
-                            updateProductStock(checkOutData?.products ||[])
-                            if(checkOutData?.couponValue !=null){
-                                addCouponUser({
-                                    couponValue:checkOutData?.couponValue,
-                                    userEmail:user?.email || '',
-                                    userName:user?.displayName || '',
-                                    orderId:paymentRes.data?.orderId||'',
-                                    discountAmount:checkOutData?.discountAmount||0,
-                                    finalAmount:checkOutData?.finalAmount ||0
-                                })
+
+                            if (category === 'shopProduct' && checkOutData?.products) {
+                                updateProductStock(checkOutData?.products || []);
+                                if (checkOutData?.couponValue != null) {
+                                    addCouponUser({
+                                        couponValue: checkOutData?.couponValue ?? null, // Use null if undefined
+                                        userEmail: user?.email || '',
+                                        userName: user?.displayName || '',
+                                        orderId: paymentRes.data?.orderId || '',
+                                        discountAmount: checkOutData?.discountAmount || 0,
+                                        finalAmount: checkOutData?.finalAmount || 0
+                                    });
+                                }
+                                const clearCartRes = await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
+                                console.log(clearCartRes)
                             }
 
-                            const clearCartRes = await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
-                            console.log(clearCartRes)
+                            if (category === 'rentBike') {
+                                console.log(checkOutData);
+
+                                Swal.fire({
+                                    title: 'Payment Successful!',
+                                })
+
+                            }
+
 
                             Swal.fire({
                                 title: 'Payment Successful!',

@@ -104,12 +104,15 @@ const RentNow: React.FC = () => {
         const isoEndDate = endDate.toISOString();
         const renterData = {
             ...data,
-            userEmail: user?.email,
+            email: user?.email,
+            name:user?.displayName,
             startDate: isoStartDate,
             endDate: isoEndDate,
             paymentMethod: selectedMethod,
             bikeId: bikeData?._id,
             totalRentalDays : calculateTotalDays(),
+            finalAmount: calculateTotalDays() * (bikeData?.rental_price_per_day || 0),
+            category:'rentBike'
             
 
 

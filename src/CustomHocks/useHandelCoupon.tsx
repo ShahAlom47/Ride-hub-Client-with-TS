@@ -4,17 +4,18 @@
 import useAxiosPublic from "./useAxiosPublic";
 
 interface ResponseDataType {
-    success:boolean;
-    message:string;
-    discountAmount?:number;
+    success: boolean;
+    message: string;
+    discountAmount?: number;
 }
 interface AddCouponUserDataType {
-    couponValue:string|null;
-    userEmail:string;
-    userName:string;
-    orderId:string;
+    couponValue: string | number | null;
+
+    userEmail: string;
+    userName: string;
+    orderId: string;
     finalAmount: number;
-    discountAmount:number;
+    discountAmount: number;
 
 }
 
@@ -28,28 +29,28 @@ const useHandelCoupon = () => {
         return res.data as ResponseDataType
     }
 
-    const addCouponUser = async ( data:AddCouponUserDataType ): Promise <ResponseDataType> =>{
-        const {couponValue,userEmail,discountAmount,finalAmount,userName,orderId}=data;
-        const couponCategory ='bikesProduct'
+    const addCouponUser = async (data: AddCouponUserDataType): Promise<ResponseDataType> => {
+        const { couponValue, userEmail, discountAmount, finalAmount, userName, orderId } = data;
+        const couponCategory = 'bikesProduct'
         const finalData = {
             orderId,
             userName,
             userEmail,
             finalAmount,
             discountAmount,
-            usedAt:new Date().toISOString(),
+            usedAt: new Date().toISOString(),
             couponValue,
 
         }
 
-        const addingRes= await AxiosPublic.patch <ResponseDataType> (`/coupon/addCouponUser/${couponCategory}`,finalData)
-        console.log(addingRes);
+        const addingRes = await AxiosPublic.patch<ResponseDataType>(`/coupon/addCouponUser/${couponCategory}`, finalData)
+
         return addingRes?.data as ResponseDataType
 
 
     }
 
-    return { checkCoupon,addCouponUser }
+    return { checkCoupon, addCouponUser }
 };
 
 export default useHandelCoupon;
