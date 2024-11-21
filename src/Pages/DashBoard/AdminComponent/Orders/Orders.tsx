@@ -83,7 +83,7 @@ const Orders = () => {
 
     const totalPages = data?.totalPages || 1;
     
-    console.log(data);
+
 
     return (
         <div className=" flex flex-col gap-3">

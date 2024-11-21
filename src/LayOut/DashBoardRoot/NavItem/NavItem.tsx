@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { BsCartCheckFill } from 'react-icons/bs';
 import { RiMotorbikeFill } from 'react-icons/ri';
 import useUserData from '../../../CustomHocks/useUserData';
+import { MdOutlineDirectionsBike } from 'react-icons/md';
 
 
 
@@ -49,13 +50,23 @@ const NavItems: React.FC = () => {
                         <>
                             <NavLink
                                 key="admin-panel"
-                                to="/my-dashBoard"
+                                to="/my-dashBoard/orders"
                                 className={({ isActive }) =>
                                     `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
                                     }`
                                 }
                             >
-                                <BsCartCheckFill /> Admin Panel
+                                <BsCartCheckFill /> Manage Order
+                            </NavLink>
+                            <NavLink
+                                key="admin-panel"
+                                to="/my-dashBoard/manageBike"
+                                className={({ isActive }) =>
+                                    `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
+                                    }`
+                                }
+                            >
+                                <MdOutlineDirectionsBike  /> Manage Bike
                             </NavLink>
                         </>
 

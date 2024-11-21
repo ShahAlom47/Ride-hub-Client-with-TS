@@ -22,6 +22,7 @@ import MyBikes from "../Pages/DashBoard/UserComponent/MyBikes/MyBikes";
 import Orders from "../Pages/DashBoard/AdminComponent/Orders/Orders";
 import RentNow from "../Pages/OurBikes/RentNow/RentNow";
 import RentPayment from "../Pages/OurBikes/RentNow/RentPayment/RentPayment";
+import ManageBike from "../Pages/DashBoard/AdminComponent/ManageBike/ManageBike";
 
 
 
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: "/my-dashBoard/orders",
         element:<AdminRoute> <Orders></Orders> </AdminRoute>
+       },
+      {
+        path: "/my-dashBoard/manageBike",
+        element:<AdminRoute> <ManageBike></ManageBike> </AdminRoute>
        },
 
 
