@@ -195,18 +195,18 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                                         finalAmount: checkOutData?.finalAmount || 0
                                     });
                                 }
-                                const clearCartRes = await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
-                                console.log(clearCartRes)
+                                 await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
+                               
                             }
 
-                            if (category === 'rentBike') {
-                                console.log(checkOutData);
+                            // if (category === 'rentBike') {
+                            //     console.log(checkOutData);
 
-                                Swal.fire({
-                                    title: 'Payment Successful!',
-                                })
+                            //     Swal.fire({
+                            //         title: 'Payment Successful!',
+                            //     })
 
-                            }
+                            // }
 
 
                             Swal.fire({
