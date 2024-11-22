@@ -10,6 +10,7 @@ import useSendEmail from '../../CustomHocks/useSendEmail';
 import useProductManage from '../../CustomHocks/useProductManage ';
 import useHandelCoupon from '../../CustomHocks/useHandelCoupon';
 import useUser from '../../CustomHocks/useUser';
+import useAxiosSecure from '../../CustomHocks/useAxiosSecure';
 
 
 interface RenterData {
@@ -21,15 +22,15 @@ interface RenterData {
     bikeId: string | undefined;
     totalRentalDays: number;
     finalAmount: number;
-    products?: Product[]; // বা products এর সঠিক টাইপ দিন
-    couponValue?: number; // যদি এটি ব্যবহৃত হয়
-    discountAmount?: number; // যদি এটি ব্যবহৃত হয়
+    products?: Product[]; 
+    couponValue?: number; 
+    discountAmount?: number; 
 }
 
 type StripeDataType = FinalDataType | RenterData & {
-    products?: Product[]; // products এর সঠিক টাইপ নির্ধারণ করুন
-    couponValue?: number; // যদি ব্যবহৃত হয়
-    discountAmount?: number; // যদি ব্যবহৃত হয়
+    products?: Product[]; 
+    couponValue?: number; 
+    discountAmount?: number; 
 };
 
 interface StripePaymentProps {
@@ -50,14 +51,15 @@ type PaymentResType = {
 
 
 const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const stripe = useStripe();
     const elements = useElements();
-    const { user } = useUser()
-    const AxiosPublic = useAxiosPublic()
-    const { sendEmail } = useSendEmail()
-    const { updateProductStock } = useProductManage()
-    const { addCouponUser } = useHandelCoupon()
+    const { user } = useUser();
+    const AxiosPublic = useAxiosPublic();
+    const axiosSecure= useAxiosSecure();
+    const { sendEmail } = useSendEmail();
+    const { updateProductStock } = useProductManage();
+    const { addCouponUser } = useHandelCoupon();
     const [errMsg, setErrMsg] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [btnLoading, setBtnLoading] = useState(false);
@@ -66,6 +68,10 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
 
     const isAxiosError = (error: unknown): error is { response: { data: { error: string } } } => {
         return typeof error === 'object' && error !== null && 'response' in error;
+    };
+    
+    const isRenterData = (data: StripeDataType): data is RenterData => {
+        return (data as RenterData).startDate !== undefined && (data as RenterData).endDate !== undefined;
     };
 
     useEffect(() => {
@@ -181,7 +187,7 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                             // email data End
 
                             //  send payment data to user 
-                            sendEmail(mailData);
+                            // sendEmail(mailData);
 
                             if (category === 'shopProduct' && checkOutData?.products) {
                                 updateProductStock(checkOutData?.products || []);
@@ -199,14 +205,20 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                                
                             }
 
-                            // if (category === 'rentBike') {
-                            //     console.log(checkOutData);
+                            if (checkOutData && isRenterData(checkOutData) && category === 'rentBike') {
+                            
 
-                            //     Swal.fire({
-                            //         title: 'Payment Successful!',
-                            //     })
+                                const rentDate={
+                                    rent_start_date:checkOutData?.startDate,
+                                    rent_end_date:checkOutData?.endDate,
+                                    renterUser:checkOutData?.email,
+                                }
+                                console.log(rentDate);
+                                const res = await axiosSecure.patch(`/bikeData/updateRentStatus/${checkOutData?.bikeId}`,rentDate)
 
-                            // }
+                                 console.log(res.data);
+
+                            }
 
 
                             Swal.fire({
@@ -225,7 +237,9 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                                 allowOutsideClick: false,
                                 allowEscapeKey: false
                             }).then(() => {
-                                navigate('/shop')
+                               
+                               
+                                navigate(category != 'shopProduct'? '/our-bikes':'/shop')
                             });
                         } else {
                             Swal.fire({

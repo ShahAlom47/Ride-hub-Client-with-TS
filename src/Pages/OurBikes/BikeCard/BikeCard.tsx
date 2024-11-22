@@ -44,9 +44,9 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
 
                 <img className=" h-full object-cover transition-transform duration-300 group-hover:scale-105 "
                     src={bikeImg} alt={`${bikeData?.brand} ${bikeData?.model}`} />
-                <p className={` absolute top-6 -right-[40%]  w-full text-white font-semibold inline' inline-block p-2 text-center  rotate-45 ${bikeData?.availability ? 'bg-green-500 text-black' : 'bg-red-500'}`}>
+                {/* <p className={` absolute top-6 -right-[40%]  w-full text-white font-semibold inline' inline-block p-2 text-center  rotate-45 ${bikeData?.availability ? 'bg-green-500 text-black' : 'bg-red-500'}`}>
                     {bikeData?.availability ? 'Available' : 'Not Available'}
-                </p>
+                </p> */}
             </div>
             <div className=' text-white p-4 h-full'>
                 <h2 className='font-bold uppercase font-pFont text-3xl text-center border-b  p-4  group-hover:text-color-s group-hover:bg-color-p'>{bikeData?.brand} {bikeData?.model}</h2>

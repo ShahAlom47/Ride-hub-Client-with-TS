@@ -1,4 +1,5 @@
 
+import { FaTruckMoving } from "react-icons/fa";
 import { bikeDataType } from "../../../../OurBikes/BikeCard/BikeCard";
 
 import { ResponsiveTable } from "responsive-table-react";
@@ -54,11 +55,19 @@ const BikeTable = ({ tableData, refetch }: PropsType) => {
 
     return (
         <div className=" mb-5">
-            <ResponsiveTable
+            {/* <ResponsiveTable
                 columns={columns}
                 data={data}
-               />
-
+            /> */}
+            <div>
+            <div className="flex items-center justify-center">
+                    <div className="rounded-full border-2 border-orange-400 w-[100px] h-[100px] flex items-center justify-center">
+                        <div className="w-[80px] h-[80px] rounded-full bg-orange-400 flex items-center justify-center transition hover:rounded-tr-[120%] hover:rounded-bl-[120%]  hover:rounded-tl-[100%] hover:rounded-br-[100%]  ">
+                            <FaTruckMoving className="text-white text-4xl" />
+                        </div>
+                    </div>
+                    </div>
+            </div>
         </div>
     );
 };
