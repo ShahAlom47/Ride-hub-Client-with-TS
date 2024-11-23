@@ -1,5 +1,6 @@
 
 
+import { Link } from "react-router-dom";
 import { bikeDataType } from "../../../../OurBikes/BikeCard/BikeCard";
 
 import { ResponsiveTable } from "responsive-table-react";
@@ -42,7 +43,7 @@ const BikeTable = ({ tableData, refetch }: PropsType) => {
         brand: bike.brand,
         model: bike?.model,
         rentPrice: (<p>$ {bike.rental_price_per_day}</p>),
-        action: (<button className=" btn-s">View $ Edit</button>)
+        action: (<Link to={`/my-dashBoard/editBike/${bike?._id}`}><button className=" btn-s">View $ Edit</button></Link>)
     }))
 
 
