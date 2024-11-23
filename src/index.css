@@ -47,3 +47,38 @@
     padding: 2px;
 }
 
+
+
+/* REACT ResponsiveTable  Style Start */
+
+table.rtr-table tbody tr:hover td  {
+   
+    box-shadow: none !important; /* Box-shadow সরানো */
+    /* color: #000000 !important; */
+    font-weight: 500;
+   
+}
+table.rtr-table tbody {
+    text-align: center !important;
+    background-color: black !important;
+}
+@media screen and (max-width: 600px) {
+    table.rtr-table tbody td {
+     
+        /* background: #b5b4b4 !important; */
+
+        color: black !important; 
+         text-align: start !important;
+       
+    }
+    table.rtr-table tbody td:before {
+        margin: auto !important;
+        padding: 10px !important;  
+       
+    }
+    table.rtr-table tbody td:not(:first-child):before {
+        
+        left: 0%  !important;
+    }
+}
+/* REACT ResponsiveTable  Style End */

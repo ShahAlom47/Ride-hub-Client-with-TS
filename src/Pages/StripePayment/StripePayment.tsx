@@ -187,7 +187,7 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                             // email data End
 
                             //  send payment data to user 
-                            // sendEmail(mailData);
+                            sendEmail(mailData);
 
                             if (category === 'shopProduct' && checkOutData?.products) {
                                 updateProductStock(checkOutData?.products || []);
