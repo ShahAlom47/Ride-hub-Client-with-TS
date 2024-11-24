@@ -7,6 +7,7 @@ import PaginationButtons from "../../../../SharedComponent/PaginationButtons/Pag
 import SearchBar from "./SearchBar/SearchBar";
 import BikeTable from "./BikeTable/BikeTable";
 import Loading from "../../../../SharedComponent/Loading/Loading";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 interface ResDataType {
     totalPage: number;
@@ -52,9 +53,12 @@ const ManageBike = () => {
             <DashPageHeading title="Manage Bike" path={path} pathName={pathName}></DashPageHeading>
             {
                 isLoading ? <Loading /> :
-                    <div className=" flex flex-col justify-between">
-                        <div className="pb-4">
-                            <SearchBar setSearchValue={setSearchValue} searchValue={searchValue}></SearchBar>
+                    <div className=" flex  flex-col justify-between">
+                        <div className="pb-4 ">
+                            <div className=" flex gap-3 justify-between flex-wrap p-1 mb-3">
+                                <button className=" flex items-center gap-1 btn btn-sm group "><IoIosAddCircleOutline className=" group-hover:text-color-s" /> Add New Bike</button>
+                                <SearchBar setSearchValue={setSearchValue} searchValue={searchValue}></SearchBar>
+                            </div>
                             <BikeTable tableData={tableData} refetch={refetch}></BikeTable>
                         </div>
                         <PaginationButtons currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} ></PaginationButtons>

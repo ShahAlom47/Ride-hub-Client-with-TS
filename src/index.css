@@ -65,7 +65,7 @@ table.rtr-table tbody {
 @media screen and (max-width: 600px) {
     table.rtr-table tbody td {
      
-        /* background: #b5b4b4 !important; */
+        /* background: #000000 !important; */
 
         color: black !important; 
          text-align: start !important;

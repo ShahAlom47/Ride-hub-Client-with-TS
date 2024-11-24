@@ -21,7 +21,7 @@ const SearchBar = ({ setSearchValue, searchValue }: PropsType) => {
     };
 
     return (
-        <div className="flex my-4 justify-end gap-3">
+        <div className="flex  justify-end gap-3">
                 <form onSubmit={handleSubmit} className="flex border border-gray-800 rounded-md bg-slate-100">
                     <input
                         className="bg-slate-100 rounded-l-md outline-none px-3 text-black"
