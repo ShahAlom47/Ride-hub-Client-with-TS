@@ -39,4 +39,6 @@ export interface BikeData {
     rating: number;
     comment: string;
   }
+
+ 
   

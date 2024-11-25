@@ -50,14 +50,22 @@ import { useState } from "react";
 import { BikeData } from "../../../../../OurBikes/BikeDataInterFace/bikeDataIterFace";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
+import useAxiosSecure from "../../../../../../CustomHocks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 interface PropsType {
     bikeData: BikeData;
+}
+interface ResType {
+    success: boolean;
+    message: string;
+    
 }
 
 const EditForm = ({ bikeData }: PropsType) => {
     const [features, setFeatures] = useState<string[]>(bikeData.additional_features || []);
     const [newFeature, setNewFeature] = useState<string>("");
+    const axiosSecure= useAxiosSecure()
 
     const {
         register,
@@ -78,10 +86,22 @@ const EditForm = ({ bikeData }: PropsType) => {
         setFeatures(features.filter((f) => f !== feature));
     };
 
-    const onSubmit: SubmitHandler<BikeData> = (data) => {
+    const onSubmit: SubmitHandler<BikeData> = async(data) => {
         data.additional_features = features;
         console.log("Updated Bike Data:", data);
-        // Add your API call or update logic here
+       const  updateRes = await axiosSecure.patch <ResType>(`/bikeData/editBikeData/${bikeData?._id}`,data)
+      
+       Swal.fire({
+        title: updateRes?.data?.message,
+        toast: true,
+        position: 'top-right',
+        timer: 2000,  
+        icon: updateRes?.data?.success ? 'success' : 'error',
+        showConfirmButton:false
+    });
+
+
+      
     };
 
     return (
