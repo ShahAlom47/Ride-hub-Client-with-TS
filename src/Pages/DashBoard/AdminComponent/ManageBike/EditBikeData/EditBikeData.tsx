@@ -6,6 +6,9 @@ import bikeImage from '../../../../../assets/image/bikeCard.jpg'
 import { MdOutlineFileUpload } from "react-icons/md";
 import EditForm from "./EditForm/EditForm";
 import Loading from "../../../../../SharedComponent/Loading/Loading";
+import ReactModal from "../../../../../SharedComponent/ReactModal/ReactModal";
+import { useState } from "react";
+import useGetUploadedImageUrl from "../../../../../CustomHocks/useGetUploadedImageUrl";
 
 const path: string[] = ['/my-dashBoard', '/my-dashBoard/manageBike', '/my-dashBoard/manageBike'];
 const pathName: string[] = ['DashBoard', 'Manage Bike', "Edit"];
@@ -14,7 +17,28 @@ const pathName: string[] = ['DashBoard', 'Manage Bike', "Edit"];
 const EditBikeData = () => {
     const { id } = useParams()
     const { data, isLoading } = useBikeDetailsData(id)
-    console.log(id, data);
+    const [modalIsOpen, setIsOpen] = useState(false)
+    const { uploadImage, imageUrl, loading, error } = useGetUploadedImageUrl()
+
+    const handleBikePhoto = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // File input value
+        const file = (e.target as HTMLFormElement).photo.files?.[0];
+
+        if (file) {
+            await uploadImage(file, 'Bike Photos')
+
+
+            if (!loading) {
+                console.log(imageUrl);
+            }
+
+        } else {
+            console.error("No file selected");
+        }
+    };
+
     if (isLoading) {
         return <Loading></Loading>
     }
@@ -30,7 +54,7 @@ const EditBikeData = () => {
                             <img className=" rounded-md" src={bikeImage} alt=" bike photo" />
                         </div>
                         <div className=" flex justify-between gap-2 py-4 border-b">
-                            <button className="flex items-center btn btn-ghost btn-sm"> <MdOutlineFileUpload /> Add Image</button>
+                            <button onClick={() => setIsOpen(true)} className="flex items-center btn btn-ghost btn-sm"> <MdOutlineFileUpload /> Add Image</button>
                             <button className="btn btn-ghost btn-sm btn-p">Remove</button>
                         </div>
 
@@ -45,6 +69,15 @@ const EditBikeData = () => {
 
                     </div>
                 </div>
+
+                <ReactModal setIsOpen={setIsOpen} modalIsOpen={modalIsOpen} label="bikePhotoChange" >
+                    <div className="bg-color-op  p-5 pt-12">
+                        <form onSubmit={handleBikePhoto} className=" flex items-center m-3 p-0 bg-black  ">
+                            <input type="file" name="photo" id="" />
+                            <button className=" btn-p">Upload</button>
+                        </form>
+                    </div>
+                </ReactModal>
             </div>
         </div>
     );
