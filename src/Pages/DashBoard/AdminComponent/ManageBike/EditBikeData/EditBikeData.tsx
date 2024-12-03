@@ -10,6 +10,14 @@ import Loading from "../../../../../SharedComponent/Loading/Loading";
 import ReactModal from "../../../../../SharedComponent/ReactModal/ReactModal";
 import { useState } from "react";
 import useGetUploadedImageUrl from "../../../../../CustomHocks/useGetUploadedImageUrl";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../../CustomHocks/useAxiosSecure";
+
+interface  PropsType {
+
+    success:boolean;
+    message:string
+}
 
 const path: string[] = ['/my-dashBoard', '/my-dashBoard/manageBike', '/my-dashBoard/manageBike'];
 const pathName: string[] = ['DashBoard', 'Manage Bike', "Edit"];
@@ -17,7 +25,8 @@ const pathName: string[] = ['DashBoard', 'Manage Bike', "Edit"];
 
 const EditBikeData = () => {
     const { id } = useParams()
-    const { data, isLoading } = useBikeDetailsData(id)
+    const AxiosSecure= useAxiosSecure()
+    const { data, isLoading,refetch } = useBikeDetailsData(id)
     const [modalIsOpen, setIsOpen] = useState(false)
     const { uploadImage, loading, error } = useGetUploadedImageUrl()
 
@@ -28,11 +37,36 @@ const EditBikeData = () => {
         const file = (e.target as HTMLFormElement).photo.files?.[0];
 
         if (file) {
-          const imageUrl=   await uploadImage(file, 'Bike Photos')
+            const imageUrl = await uploadImage(file, 'Bike Photos')
 
+            if (error) {
+                Swal.fire({
+                    toast: true,
+                    icon: 'error', 
+                    title: "Try Again",
+                    text: error, 
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000 
+                });
+            }
 
-            if (!loading) {
-                console.log(imageUrl);
+            if (!loading && error === null) {
+                const imgSetRes = await AxiosSecure.patch <PropsType>(`/bikeData/changeBikePhoto/${id}`,{imageUrl:imageUrl})
+             
+                Swal.fire({
+                    toast: true,
+                    icon:imgSetRes?.data.success?'success':'error', 
+                    title: imgSetRes?.data.message,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000 
+                });
+
+                if(imgSetRes?.data.success){
+                    setIsOpen(false)
+                    refetch()
+                }
             }
 
         } else {
@@ -52,7 +86,7 @@ const EditBikeData = () => {
                     <div className=" my-2 p-3">
                         <h1 className=" mb-3">Image</h1>
                         <div className="  overflow-hidden rounded-md">
-                            <img className=" rounded-md" src={bikeImage} alt=" bike photo" />
+                            <img className=" rounded-md" src={data?.bike_image ||bikeImage} alt=" bike photo" />
                         </div>
                         <div className=" flex justify-between gap-2 py-4 border-b">
                             <button onClick={() => setIsOpen(true)} className="flex items-center btn btn-ghost btn-sm"> <MdOutlineFileUpload /> Add Image</button>
