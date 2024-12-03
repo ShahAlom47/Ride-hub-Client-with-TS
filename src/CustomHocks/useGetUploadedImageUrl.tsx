@@ -1,24 +1,18 @@
 import { useState } from 'react';
 import useAxiosPublic from './useAxiosPublic';
 
-interface UploadedImageResponse {
-    url: string;
-}
-
 const useGetUploadedImageUrl = () => {
     const BACKEND_UPLOAD_URL = `/upload`; // Replace with your backend upload endpoint if not `/upload`
 
-    const [imageUrl, setImageUrl] = useState<string | null>(null); // Uploaded image URL
     const [loading, setLoading] = useState<boolean>(false); // Loading state
     const [error, setError] = useState<string | null>(null); // Error state
 
     const AxiosPublic = useAxiosPublic();
 
     // File upload function
-    const uploadImage = async (file: File, folderName: string) => {
+    const uploadImage = async (file: File, folderName: string): Promise<string | null> => {
         if (!file) {
-            setError('No file selected');
-            return;
+            throw new Error('No file selected');
         }
 
         setLoading(true);
@@ -30,24 +24,23 @@ const useGetUploadedImageUrl = () => {
 
         try {
             // Make a POST request to your backend
-            const res = await AxiosPublic.post<UploadedImageResponse>(BACKEND_UPLOAD_URL, formData, {
+            const res = await AxiosPublic.post<{ url: string }>(BACKEND_UPLOAD_URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            setImageUrl(res.data.url);
-          
-
+            return res.data.url; // Return the uploaded image URL
         } catch (err) {
             console.error('Image upload error:', err);
             setError('Failed to upload image');
+            throw new Error('Failed to upload image'); // Rethrow the error for the caller
         } finally {
             setLoading(false);
         }
     };
 
-    return { uploadImage, imageUrl, loading, error };
+    return { uploadImage, loading, error };
 };
 
 export default useGetUploadedImageUrl;

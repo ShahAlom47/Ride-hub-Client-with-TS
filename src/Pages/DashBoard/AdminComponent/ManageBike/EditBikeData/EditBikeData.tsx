@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { TailSpin } from 'react-loader-spinner'
 import DashPageHeading from "../../../../../SharedComponent/DashPageHeading/DashPageHeading";
 import useBikeDetailsData from "../../../../../CustomHocks/useBikeDetailsData";
 
@@ -18,7 +19,7 @@ const EditBikeData = () => {
     const { id } = useParams()
     const { data, isLoading } = useBikeDetailsData(id)
     const [modalIsOpen, setIsOpen] = useState(false)
-    const { uploadImage, imageUrl, loading, error } = useGetUploadedImageUrl()
+    const { uploadImage, loading, error } = useGetUploadedImageUrl()
 
     const handleBikePhoto = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -27,7 +28,7 @@ const EditBikeData = () => {
         const file = (e.target as HTMLFormElement).photo.files?.[0];
 
         if (file) {
-            await uploadImage(file, 'Bike Photos')
+          const imageUrl=   await uploadImage(file, 'Bike Photos')
 
 
             if (!loading) {
@@ -74,7 +75,22 @@ const EditBikeData = () => {
                     <div className="bg-color-op  p-5 pt-12">
                         <form onSubmit={handleBikePhoto} className=" flex items-center m-3 p-0 bg-black  ">
                             <input type="file" name="photo" id="" />
-                            <button className=" btn-p">Upload</button>
+                            {
+                                loading ?
+                                    <button type="button" style={{ padding: '6px' }} className=" btn-p w-20  flex justify-center">
+                                        <TailSpin
+                                            visible={true}
+                                            height="20"
+                                            width="20"
+                                            color="#fff"
+                                            ariaLabel="tail-spin-loading"
+                                            radius="3"
+                                            wrapperStyle={{}}
+                                            wrapperClass=""
+                                        />
+                                    </button> :
+                                    <button type="submit" className=" btn-p w-20">Upload</button>
+                            }
                         </form>
                     </div>
                 </ReactModal>
