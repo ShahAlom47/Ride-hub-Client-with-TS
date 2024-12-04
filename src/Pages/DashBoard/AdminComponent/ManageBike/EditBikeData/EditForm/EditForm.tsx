@@ -1,46 +1,4 @@
 
-// import { useForm, SubmitHandler } from "react-hook-form";
-// import { BikeData } from "../../../../../OurBikes/BikeDataInterFace/bikeDataIterFace";
-
-
-// interface PropsType {
-//   bikeData: BikeData ;
-// }
-
-// const EditForm = ({ bikeData }: PropsType) => {
-
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<BikeData>({
-//     defaultValues: bikeData,
-//   });
-
-//   const onSubmit: SubmitHandler<BikeData> = (data) => {
-//     console.log("Updated Bike Data:", data);
-//     // Add your API call or update logic here
-//   };
-
-//   return (
-//     <div className="p-6 rounded-md mx-auto">
-//       <h2 className="text-xl font-bold mb-4">Edit Bike Information</h2>
-//       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-
-//      
-//         <button
-//           type="submit"
-//           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-//         >
-//           Save Changes
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default EditForm;
 
 
 
@@ -54,7 +12,7 @@ import useAxiosSecure from "../../../../../../CustomHocks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 interface PropsType {
-    bikeData: BikeData;
+    bikeData: BikeData | null;
 }
 interface ResType {
     success: boolean;
@@ -63,7 +21,7 @@ interface ResType {
 }
 
 const EditForm = ({ bikeData }: PropsType) => {
-    const [features, setFeatures] = useState<string[]>(bikeData.additional_features || []);
+    const [features, setFeatures] = useState<string[]>(bikeData?.additional_features || []);
     const [newFeature, setNewFeature] = useState<string>("");
     const axiosSecure= useAxiosSecure()
 
