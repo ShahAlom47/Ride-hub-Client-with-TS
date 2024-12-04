@@ -13,10 +13,10 @@ import useGetUploadedImageUrl from "../../../../../CustomHocks/useGetUploadedIma
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../../CustomHocks/useAxiosSecure";
 
-interface  PropsType {
+interface PropsType {
 
-    success:boolean;
-    message:string
+    success: boolean;
+    message: string
 }
 
 const path: string[] = ['/my-dashBoard', '/my-dashBoard/manageBike', '/my-dashBoard/manageBike'];
@@ -25,10 +25,15 @@ const pathName: string[] = ['DashBoard', 'Manage Bike', "Edit"];
 
 const EditBikeData = () => {
     const { id } = useParams()
-    const AxiosSecure= useAxiosSecure()
-    const { data, isLoading,refetch } = useBikeDetailsData(id)
+    const AxiosSecure = useAxiosSecure()
+    const { data, isLoading, refetch } = useBikeDetailsData(id)
     const [modalIsOpen, setIsOpen] = useState(false)
     const { uploadImage, loading, error } = useGetUploadedImageUrl()
+
+    const changeImage = async (url: string | null) => {
+        const res = await AxiosSecure.patch<PropsType>(`/bikeData/changeBikePhoto/${id}`, { imageUrl: url })
+        return res
+    }
 
     const handleBikePhoto = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -42,28 +47,29 @@ const EditBikeData = () => {
             if (error) {
                 Swal.fire({
                     toast: true,
-                    icon: 'error', 
+                    icon: 'error',
                     title: "Try Again",
-                    text: error, 
+                    text: error,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 3000 
+                    timer: 3000
                 });
             }
 
             if (!loading && error === null) {
-                const imgSetRes = await AxiosSecure.patch <PropsType>(`/bikeData/changeBikePhoto/${id}`,{imageUrl:imageUrl})
-             
+
+                const imgSetRes = await changeImage(imageUrl)
+
                 Swal.fire({
                     toast: true,
-                    icon:imgSetRes?.data.success?'success':'error', 
+                    icon: imgSetRes?.data.success ? 'success' : 'error',
                     title: imgSetRes?.data.message,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 3000 
+                    timer: 3000
                 });
 
-                if(imgSetRes?.data.success){
+                if (imgSetRes?.data.success) {
                     setIsOpen(false)
                     refetch()
                 }
@@ -73,6 +79,35 @@ const EditBikeData = () => {
             console.error("No file selected");
         }
     };
+
+
+    const handleRemovePhoto = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+           
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+
+                const imgRemoveRes = await changeImage(' ')
+
+                if(imgRemoveRes?.data.success){
+                    refetch()
+                    Swal.fire({
+                        title: "Removed"
+                    });
+                }
+
+
+            }
+        });
+
+
+    }
 
     if (isLoading) {
         return <Loading></Loading>
@@ -86,11 +121,11 @@ const EditBikeData = () => {
                     <div className=" my-2 p-3">
                         <h1 className=" mb-3">Image</h1>
                         <div className="  overflow-hidden rounded-md">
-                            <img className=" rounded-md" src={data?.bike_image ||bikeImage} alt=" bike photo" />
+                            <img className=" rounded-md" src={data?.bike_image || bikeImage} alt=" bike photo" />
                         </div>
                         <div className=" flex justify-between gap-2 py-4 border-b">
                             <button onClick={() => setIsOpen(true)} className="flex items-center btn btn-ghost btn-sm"> <MdOutlineFileUpload /> Add Image</button>
-                            <button className="btn btn-ghost btn-sm btn-p">Remove</button>
+                            <button onClick={handleRemovePhoto} className="btn btn-ghost btn-sm btn-p">Remove</button>
                         </div>
 
                     </div>
