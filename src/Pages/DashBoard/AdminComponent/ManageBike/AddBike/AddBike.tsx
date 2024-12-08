@@ -1,5 +1,6 @@
 import DashPageHeading from "../../../../../SharedComponent/DashPageHeading/DashPageHeading";
-import EditForm from "../EditBikeData/EditForm/EditForm";
+import AddBikeForm from "./AddBikeForm/AddBikeForm";
+
 
 
 const AddBike = () => {
@@ -9,7 +10,7 @@ const AddBike = () => {
         <div>
                 <DashPageHeading title="Add Bike" path={path} pathName={pathName}></DashPageHeading>
             
-            <EditForm bikeData={null}></EditForm>
+      <AddBikeForm></AddBikeForm>
         </div>
     );
 };
