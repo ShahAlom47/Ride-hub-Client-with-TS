@@ -88,33 +88,53 @@ table.rtr-table tbody {
 
 
 
-/* rrr button  */
-.changing-border-button {
+/* 
+.rotating-border-button {
     position: relative;
-    padding: 1px 1px;
-    color: white;
-    /* background-color: #2d3748; */
-    border: 4px solid transparent; /* Make border transparent */
-    border-radius: 6px;
+    display: inline-block;
+    padding:  10px 3px 8px 2px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    background-color: #000000; 
+    border:0px solid black;
+    border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
-    animation: borderAnimation 5s linear infinite; /* Continuous color change */
-    border: 2px solid transparent;
-    background: linear-gradient(45deg, white, black, white);
-    background-size: 200% 200%;
-  
   }
 
- 
-  /* Keyframes for continuous color change effect */
-  @keyframes borderAnimation {
+  .rotating-border-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background: conic-gradient(
+      from 0deg,
+      rgba(97, 91, 91, 0.329) 10deg 0deg,
+      rgb(141, 139, 139) 80deg 65deg,
+      rgba(0, 0, 0, 0.857) 20deg 0deg
+    );
+    mask-image: inset(0);
+    -webkit-mask-image: inset(0);
+    animation: rotateWhiteDot 3s linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes rotateWhiteDot {
     0% {
-      background-position: 200% 200%; /* Start with one color at the border */
-    }
-    50% {
-      background-position: -200% -200%; /* Change color to the other */
+      transform: rotate(0deg);
     }
     100% {
-      background-position: 200% 200%; /* Go back to the original color */
+      transform: rotate(360deg);
     }
   }
+
+  .rotating-border-button span {
+    position: relative;
+    z-index: 2;
+  } */
+

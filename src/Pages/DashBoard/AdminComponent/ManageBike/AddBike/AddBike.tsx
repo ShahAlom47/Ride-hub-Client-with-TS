@@ -7,10 +7,11 @@ const AddBike = () => {
     const path: string[] = ['/my-dashBoard', '/my-dashBoard/addBike'];
     const pathName: string[] = ['DashBoard', 'Add Bike'];
     return (
-        <div>
-                <DashPageHeading title="Add Bike" path={path} pathName={pathName}></DashPageHeading>
-            
-      <AddBikeForm></AddBikeForm>
+        <div className="pb-10">
+            <DashPageHeading title="Add Bike" path={path} pathName={pathName}></DashPageHeading>
+
+            <AddBikeForm></AddBikeForm>
+
         </div>
     );
 };

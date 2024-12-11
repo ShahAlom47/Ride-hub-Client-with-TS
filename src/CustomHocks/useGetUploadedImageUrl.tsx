@@ -10,8 +10,11 @@ const useGetUploadedImageUrl = () => {
     const AxiosPublic = useAxiosPublic();
 
     // File upload function
-    const uploadImage = async (file: File, folderName: string): Promise<string | null> => {
-        if (!file) {
+    const uploadImage = async (file: File | null, folderName: string): Promise<string | null> => {
+
+        // folderName= ''Bike Photos''
+
+        if (!file || null) {
             throw new Error('No file selected');
         }
 

@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useForm, SubmitHandler, } from "react-hook-form";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
+import { useDropzone, Accept } from 'react-dropzone';
+import useGetUploadedImageUrl from "../../../../../../CustomHocks/useGetUploadedImageUrl";
+import useAxiosSecure from "../../../../../../CustomHocks/useAxiosSecure";
+
+
+
 
 interface FormData {
     brand: string;
@@ -28,6 +34,11 @@ const AddBikeForm = () => {
 
     const [features, setFeatures] = useState<string[]>([]);
     const [newFeature, setNewFeature] = useState<string>("");
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imgFile, setImgFile] = useState<File | null>(null);
+    const axiosSecure= useAxiosSecure();
+
+    const { uploadImage, loading, error }= useGetUploadedImageUrl();
 
     const addFeature = () => {
         if (newFeature.trim() && !features.includes(newFeature)) {
@@ -35,19 +46,79 @@ const AddBikeForm = () => {
             setNewFeature("");
         }
     };
+
     const removeFeature = (feature: string) => {
         setFeatures(features.filter((f) => f !== feature));
     };
 
 
 
-    const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-        console.log(data);  // ফর্ম ডেটা প্রসেস করবেন
+    const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+        console.log(data);  
+        const imageUpRes= await uploadImage(imgFile , 'Bike Photos' )
+
+        if(imageUpRes){
+            
+            const bikeData = {...data, bike_image:imageUpRes }
+            const  addRes = await axiosSecure.post('/bikeData/addBike',bikeData)
+
+            console.log(addRes.data);
+
+
+        }
+
+
     };
 
+
+   
+  
+    // TypeScript types for useDropzone
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: 'image/*' as unknown as Accept,  // Type casting to Accept type
+        onDrop: (acceptedFiles: File[]) => {
+
+            // Convert the selected file to a URL for preview
+
+            console.log(acceptedFiles);
+            const file = acceptedFiles[0];
+            setImgFile(file)
+            const previewUrl = URL.createObjectURL(file);
+            setImagePreview(previewUrl);
+        },
+    });
+
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="p-4  text-white  rounded-md">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-4   text-white  rounded-md">
             <h2 className="text-xl font-bold mb-4">Add Bike Form</h2>
+
+            <div className="image-upload-container  grid grid-cols-2  items-center  gap-0  p-3 pl-0" style={{ textAlign: 'center' }}>
+
+                <div className=" relative bb rounded-md p-3">
+                    {imagePreview ?
+                        <div className="   w-full h-60 overflow-hidden" style={{ marginTop: '20px' }}>
+                            <h3 className=" mb-2">Image Preview:</h3>
+                            <img src={imagePreview} alt="Preview" />
+                        </div> :
+                        <div className="  w-full h-60 overflow-hidden" style={{ marginTop: '20px' }}>
+                            <h3 className=" text-xl"> Select Photo</h3>
+                        </div>
+
+                    }
+
+                    <div className=" cursor-pointer  bb absolute top-1/2 left-[20%] bg-gray-500 bg-opacity-50  rounded-full p-2 text-black " {...getRootProps()} >
+                        <input {...getInputProps()} />
+                        <p>Drag & Drop an image here, or click to select a file</p>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
 
             <div className=" flex gap-3 ">
                 <div className="mb-4 w-full">
