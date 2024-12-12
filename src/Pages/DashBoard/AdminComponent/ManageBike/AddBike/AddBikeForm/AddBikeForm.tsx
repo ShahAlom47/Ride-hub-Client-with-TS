@@ -5,7 +5,8 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useDropzone, Accept } from 'react-dropzone';
 import useGetUploadedImageUrl from "../../../../../../CustomHocks/useGetUploadedImageUrl";
 import useAxiosSecure from "../../../../../../CustomHocks/useAxiosSecure";
-
+import { TailSpin } from 'react-loader-spinner'
+import Swal from "sweetalert2";
 
 
 
@@ -29,16 +30,22 @@ interface FormData {
     rear_brake_diameter: number;
 }
 
+interface PropsType {
+
+    success: boolean;
+    message: string
+}
+
 const AddBikeForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit,reset, formState: { errors } } = useForm<FormData>();
 
     const [features, setFeatures] = useState<string[]>([]);
     const [newFeature, setNewFeature] = useState<string>("");
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [imgFile, setImgFile] = useState<File | null>(null);
-    const axiosSecure= useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
 
-    const { uploadImage, loading, error }= useGetUploadedImageUrl();
+    const { uploadImage, loading } = useGetUploadedImageUrl();
 
     const addFeature = () => {
         if (newFeature.trim() && !features.includes(newFeature)) {
@@ -54,15 +61,27 @@ const AddBikeForm = () => {
 
 
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-        console.log(data);  
-        const imageUpRes= await uploadImage(imgFile , 'Bike Photos' )
+        console.log(data);
+        const imageUpRes = await uploadImage(imgFile, 'Bike Photos')
 
-        if(imageUpRes){
-            
-            const bikeData = {...data, bike_image:imageUpRes }
-            const  addRes = await axiosSecure.post('/bikeData/addBike',bikeData)
+        if (imageUpRes) {
 
-            console.log(addRes.data);
+            const bikeData = { ...data, bike_image: imageUpRes }
+            const addRes = await axiosSecure.post<PropsType>('/bikeData/addBike', bikeData)
+            Swal.fire({
+                toast: true,
+                icon: addRes?.data.success ? 'success' : 'error',
+                title: addRes?.data.message,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            if(addRes?.data.success){
+                reset()
+                setImagePreview(null)
+                setFeatures([])
+
+            }
 
 
         }
@@ -71,8 +90,8 @@ const AddBikeForm = () => {
     };
 
 
-   
-  
+
+
     // TypeScript types for useDropzone
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*' as unknown as Accept,  // Type casting to Accept type
@@ -347,9 +366,22 @@ const AddBikeForm = () => {
                 </div>
             </div>
 
-            <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Add Bike
-            </button>
+            {
+                loading ?
+                    <button type="button"  className="  btn-sm bg-color-s w-full flex justify-center">
+                        <TailSpin
+                            visible={true}
+                            height="20"
+                            width="20"
+                            color="#fff"
+                            ariaLabel="tail-spin-loading"
+                            radius="3"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                    </button> :
+                    <button type="submit" className="  btn-sm bg-color-s w-full hover:bg-red-800">Add Bike</button>
+            }
         </form>
     );
 };
