@@ -47,8 +47,8 @@ const LatestBikeCard = ({ bikeData }: BikeDataTypes) => {
             </div>
 
 
-            <div className="relative max-h-64 overflow-y-hidden my-5">
-                <img className=" w-full" src={img} alt="" />
+            <div className="relative h-64 overflow-y-hidden my-5">
+                <img className=" w-full" src={bikeData.bike_image|| img} alt="bike photo " />
 
             </div>
 

@@ -62,7 +62,7 @@ const Orders = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchValue, setSearchValue] = useState<string>('');
     const [filterDate, setFilterDate] = useState<Date | null>(null);
-    const itemPerPage: number = 3; 
+    const itemPerPage: number = 10; 
 
     const axiosSecure = useAxiosSecure();
 
