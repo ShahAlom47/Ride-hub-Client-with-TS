@@ -33,7 +33,7 @@ const ManageProduct = () => {
         queryFn: async () => {
 
             // const dataRes = await axiosSecure.get(`/payment/bikes?item=${itemPerPage}&search=${searchValue}&currentPage=${currentPage}`);
-            const dataRes = await axiosSecure.get(`/shopData//all-products?item=${item}&page=${currentPage}&searchValue=${searchValue}`);
+            const dataRes = await axiosSecure.get(`/shopData/all-products?item=${item}&page=${currentPage}&searchValue=${searchValue}`);
             return dataRes.data as ResDataType;
         }
     });

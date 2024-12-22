@@ -50,7 +50,7 @@ const ProductTable =({ tableData, refetch }: PropsType) => {
         name: product?.name,
         price: (<p>$ {product.price}</p>),
         stock: (<p> {product.stock}</p>),
-        action: (<Link to={`/my-dashBoard/editBike/${product?._id}`}><button className=" btn-s">View $ Edit</button></Link>),
+        action: (<Link to={`/my-dashBoard/editProduct/${product?._id}`}><button className=" btn-s">View $ Edit</button></Link>),
         delete: (<button type="button" onClick={() => handleDeleteProduct(product?._id)} className=" text-3xl  text-color-s hover:text-4xl transition-all duration-300"><MdDeleteSweep /></button>)
     }))
 
