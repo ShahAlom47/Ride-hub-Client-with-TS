@@ -4,6 +4,7 @@ import { BsCartCheckFill } from 'react-icons/bs';
 import { RiMenuAddFill, RiMotorbikeFill } from 'react-icons/ri';
 import useUserData from '../../../CustomHocks/useUserData';
 import { MdOutlineDirectionsBike } from 'react-icons/md';
+import { AiFillProduct } from 'react-icons/ai';
 
 
 
@@ -66,7 +67,7 @@ const NavItems: React.FC = () => {
                                     }`
                                 }
                             >
-                                <MdOutlineDirectionsBike  /> Manage Bike
+                                <MdOutlineDirectionsBike /> Manage Bike
                             </NavLink>
                             <NavLink
                                 key="admin-panel"
@@ -76,13 +77,23 @@ const NavItems: React.FC = () => {
                                     }`
                                 }
                             >
-                               <RiMenuAddFill />Add Bike
+                                <RiMenuAddFill />Add Bike
+                            </NavLink>
+                            <NavLink
+                                key="admin-panel"
+                                to="/my-dashBoard/manageProduct"
+                                className={({ isActive }) =>
+                                    `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
+                                    }`
+                                }
+                            >
+                                <AiFillProduct /> Manage Product
                             </NavLink>
                         </>
 
                     )}
 
-                    {/* Moderator-রোল ভিত্তিক লিংক */}
+
                     {userData?.userRole === 'moderator' && (
                         <>
                             <NavLink

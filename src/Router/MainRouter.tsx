@@ -25,6 +25,7 @@ import RentPayment from "../Pages/OurBikes/RentNow/RentPayment/RentPayment";
 import ManageBike from "../Pages/DashBoard/AdminComponent/ManageBike/ManageBike";
 import EditBikeData from "../Pages/DashBoard/AdminComponent/ManageBike/EditBikeData/EditBikeData";
 import AddBike from "../Pages/DashBoard/AdminComponent/ManageBike/AddBike/AddBike";
+import ManageProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/ManageProduct";
 
 
 
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
       {
         path: `/my-dashBoard/editBike/:id`,
         element:<AdminRoute> <EditBikeData></EditBikeData> </AdminRoute>
+       },
+      {
+        path: `/my-dashBoard/manageProduct`,
+        element:<AdminRoute> <ManageProduct></ManageProduct> </AdminRoute>
        },
 
 
