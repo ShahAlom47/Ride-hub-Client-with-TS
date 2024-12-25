@@ -10,7 +10,7 @@ interface PropsType {
 }
 
 const ProductTable =({ tableData, refetch }: PropsType) => {
-    const axiosSecure = useAxiosSecure();
+    // const axiosSecure = useAxiosSecure();
 
     const columns = [
         {
