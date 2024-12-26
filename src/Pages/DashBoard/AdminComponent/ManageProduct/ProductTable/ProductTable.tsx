@@ -3,14 +3,19 @@ import useAxiosSecure from "../../../../../CustomHocks/useAxiosSecure";
 import { Products } from "../../../../Shop/Shop";
 import { ResponsiveTable } from "responsive-table-react";
 import { MdDeleteSweep } from "react-icons/md";
+import Swal from "sweetalert2";
 
 interface PropsType {
     tableData: Products[];
     refetch: () => void;
 }
+interface ResType {
+   message: string;
+   success:boolean;
+}
 
 const ProductTable =({ tableData, refetch }: PropsType) => {
-    // const axiosSecure = useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
 
     const columns = [
         {
@@ -55,10 +60,72 @@ const ProductTable =({ tableData, refetch }: PropsType) => {
     }))
 
 
-const handleDeleteProduct = async(id:string)=>{
-
-console.log(id);
-}
+    const handleDeleteProduct = async (id: string) => {
+        try {
+            // Show confirmation dialog
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you really want to delete this product? This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+            });
+    
+            if (result.isConfirmed) {
+                // If the user confirms, proceed with the deletion
+                const deleteRes = await axiosSecure.delete<ResType>(`/shopData/deleteProduct/${id}`);
+    
+                if (deleteRes.data.success) {
+                    refetch()
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Product deleted successfully!',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                } else {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'warning',
+                        title: 'Failed to delete the product!',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                }
+            } else {
+                // If the user cancels, show a cancellation message (optional)
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Deletion canceled!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+            }
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Something went wrong!',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        }
+    };
+    
 
     return (
         <div className=" mb-5">
