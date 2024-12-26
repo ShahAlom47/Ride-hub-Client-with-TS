@@ -25,7 +25,7 @@ interface PropsType {
 
 const ProductForm = ({ formHandel, productData }: PropsType) => {
     const [size, setSize] = useState<string[]>([]);
-
+console.log(productData);
     const {
         register,
         handleSubmit,
@@ -72,7 +72,7 @@ const ProductForm = ({ formHandel, productData }: PropsType) => {
     const onSubmit: SubmitHandler<ProductFormValues> = (data) => {
         formHandel({ ...data, size });
         reset(); // Clear the form after submission
-        setSize([]);
+       
     };
     return (
         <div className="p-3">
