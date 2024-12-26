@@ -25,13 +25,14 @@ interface PropsType {
 
 const ProductForm = ({ formHandel, productData }: PropsType) => {
     const [size, setSize] = useState<string[]>([]);
-console.log(productData);
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm<ProductFormValues>();
+
+console.log(productData);
 
     // Set initial form values based on `productData`
     useEffect(() => {
@@ -51,10 +52,12 @@ console.log(productData);
                 stock: productData.stock || 0,
             });
             setSize([ ...productData.size]);
-        } else {
+        } 
+        else{
             reset(); // Reset the form for adding a new product
             setSize([]);
         }
+       
     }, [productData, reset]);
 
     // Add size to the list
@@ -71,7 +74,7 @@ console.log(productData);
     // Submit the form data
     const onSubmit: SubmitHandler<ProductFormValues> = (data) => {
         formHandel({ ...data, size });
-        reset(); // Clear the form after submission
+      
        
     };
     return (

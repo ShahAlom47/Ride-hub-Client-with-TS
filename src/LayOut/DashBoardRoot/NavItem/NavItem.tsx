@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { BsCartCheckFill } from 'react-icons/bs';
-import { RiMenuAddFill, RiMotorbikeFill } from 'react-icons/ri';
+import { RiFunctionAddFill, RiMenuAddFill, RiMotorbikeFill } from 'react-icons/ri';
 import useUserData from '../../../CustomHocks/useUserData';
 import { MdOutlineDirectionsBike } from 'react-icons/md';
 import { AiFillProduct } from 'react-icons/ai';
@@ -88,6 +88,16 @@ const NavItems: React.FC = () => {
                                 }
                             >
                                 <AiFillProduct /> Manage Product
+                            </NavLink>
+                            <NavLink
+                                key="admin-panel"
+                                to="/my-dashBoard/addProduct"
+                                className={({ isActive }) =>
+                                    `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
+                                    }`
+                                }
+                            >
+                               <RiFunctionAddFill />  Add Product
                             </NavLink>
                         </>
 

@@ -22,7 +22,7 @@ const EditProduct = () => {
     const navigate = useNavigate()
     const [imgUrl, setImgUrl] = useState<string>('')
  
-console.log(imgUrl);
+
     const { data } = useQuery({
         queryKey: ['bike edit data', id],
         queryFn: async () => {
@@ -84,7 +84,7 @@ console.log(imgUrl);
                 <div className=" lg:col-span-4 md:col-span-4 col-span-12  border rounded-md bg-color-op ">
                     <h1 className="  font-medium pb-4 border-b  p-2 bg-color-op text-lg "> Product Image </h1>
                     <div className=" my-2 p-3">
-                        <UploadPhoto setImgUrl={setImgUrl} ></UploadPhoto>
+                        <UploadPhoto setImgUrl={setImgUrl} previousImg={data?.img} ></UploadPhoto>
 
                     </div>
 
@@ -93,7 +93,7 @@ console.log(imgUrl);
                 <div className="lg:col-span-8 md:col-span-8 col-span-12 border rounded-md bg-color-op ">
                     <h1 className="  font-medium   border-b pb-4  p-2 text-lg"> General Information  </h1>
                     <div className=" my-2">
-                        <ProductForm formHandel={formHandel} productData={data || null}></ProductForm>
+                        <ProductForm formHandel={formHandel}  productData={data || null}></ProductForm>
 
                     </div>
                 </div>

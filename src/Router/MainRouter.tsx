@@ -27,6 +27,7 @@ import EditBikeData from "../Pages/DashBoard/AdminComponent/ManageBike/EditBikeD
 import AddBike from "../Pages/DashBoard/AdminComponent/ManageBike/AddBike/AddBike";
 import ManageProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/ManageProduct";
 import EditProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/EditProduct/EditProduct";
+import AddProduct from "../Pages/DashBoard/AdminComponent/AddProduct/AddProduct";
 
 
 
@@ -36,56 +37,56 @@ const router = createBrowserRouter([
     element: <Root></Root>,
     errorElement: <ErrorPage />,
     children: [
-     {
-      path: "/",
-      element: <Home></Home>
-     },
-     {
-      path: "/our-bikes",
-      element: <OurBikes></OurBikes>
-     },
-     {
-      path: "/bike-details/:id",
-      element: <BikeDetails></BikeDetails>
-     },
-     {
-      path: "/shop",
-      element: <Shop></Shop>
-     },
-     {
-      path: "/our-service",
-      element: <OurService></OurService>
-     },
-     {
-      path: "/about-us",
-      element: <AboutUs></AboutUs>
-     },
-     {
-      path: "/login",
-      element: <Login></Login>
-     },
-     {
-      path: "/register",
-      element: <Register></Register>
-     },
+      {
+        path: "/",
+        element: <Home></Home>
+      },
+      {
+        path: "/our-bikes",
+        element: <OurBikes></OurBikes>
+      },
+      {
+        path: "/bike-details/:id",
+        element: <BikeDetails></BikeDetails>
+      },
+      {
+        path: "/shop",
+        element: <Shop></Shop>
+      },
+      {
+        path: "/our-service",
+        element: <OurService></OurService>
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs></AboutUs>
+      },
+      {
+        path: "/login",
+        element: <Login></Login>
+      },
+      {
+        path: "/register",
+        element: <Register></Register>
+      },
 
-    //  privet Route
+      //  privet Route
 
-     {
-      path: "/checkout",
-      element: <PrivetRoute> <CheckOut></CheckOut> </PrivetRoute>
-     },
-     {
-      path: "/rentNow/:id",
-      element: <PrivetRoute> <RentNow></RentNow> </PrivetRoute>
-     },
-    
-     {
-      path: "/rent-payment",
-      element: <PrivetRoute> <RentPayment></RentPayment> </PrivetRoute>
-     },
-    
-     
+      {
+        path: "/checkout",
+        element: <PrivetRoute> <CheckOut></CheckOut> </PrivetRoute>
+      },
+      {
+        path: "/rentNow/:id",
+        element: <PrivetRoute> <RentNow></RentNow> </PrivetRoute>
+      },
+
+      {
+        path: "/rent-payment",
+        element: <PrivetRoute> <RentPayment></RentPayment> </PrivetRoute>
+      },
+
+
     ]
   },
 
@@ -99,36 +100,40 @@ const router = createBrowserRouter([
       {
         path: "/my-dashBoard/my-order",
         element: <PrivetRoute> <MyOrder></MyOrder> </PrivetRoute>
-       },
+      },
       {
         path: "/my-dashBoard/my-bikes",
         element: <PrivetRoute> <MyBikes></MyBikes> </PrivetRoute>
-       },
+      },
 
       {
         path: "/my-dashBoard/orders",
-        element:<AdminRoute> <Orders></Orders> </AdminRoute>
-       },
+        element: <AdminRoute> <Orders></Orders> </AdminRoute>
+      },
       {
         path: "/my-dashBoard/manageBike",
-        element:<AdminRoute> <ManageBike></ManageBike> </AdminRoute>
-       },
+        element: <AdminRoute> <ManageBike></ManageBike> </AdminRoute>
+      },
       {
         path: "/my-dashBoard/addBike",
-        element:<AdminRoute><AddBike></AddBike> </AdminRoute>
-       },
+        element: <AdminRoute><AddBike></AddBike> </AdminRoute>
+      },
       {
         path: `/my-dashBoard/editBike/:id`,
-        element:<AdminRoute> <EditBikeData></EditBikeData> </AdminRoute>
-       },
+        element: <AdminRoute> <EditBikeData></EditBikeData> </AdminRoute>
+      },
       {
         path: `/my-dashBoard/manageProduct`,
-        element:<AdminRoute> <ManageProduct></ManageProduct> </AdminRoute>
-       },
+        element: <AdminRoute> <ManageProduct></ManageProduct> </AdminRoute>
+      },
       {
-        path: `/my-dashBoard/editProduct/:id`,
-        element:<AdminRoute> <EditProduct></EditProduct> </AdminRoute>
-       },
+        path: `/my-dashBoard/manageProduct/editProduct/:id`,
+        element: <AdminRoute> <EditProduct></EditProduct> </AdminRoute>
+      },
+      {
+        path: `/my-dashBoard/addProduct`,
+        element: <AdminRoute> <AddProduct></AddProduct> </AdminRoute>
+      },
 
 
     ]
