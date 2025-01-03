@@ -39,17 +39,16 @@ const BikeCard = ({ bikeData, cardView }: BikeCardProps) => {
    
 
     return (
-        <div className={` grid   bg-gray-950 rounded-ss-sm ${cardView === 'grid' ? ' gird-col-1' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'} overflow-hidden group`}>
-            <div className="   relative  overflow-hidden">
+        <div className={`  p-1 grid gap-2 grid-rows-2  h-full   bg-gray-950 rounded-sm ${cardView === 'grid' ? ' gird-col-1 w-full' : ' lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-center w-full'}  group`}>
+            <div className="    w-full h-full items-center justify-center  relative  overflow-hidden ">
 
-                <img className=" h-full object-cover transition-transform duration-300 group-hover:scale-105 "
-                    src={bikeImg} alt={`${bikeData?.brand} ${bikeData?.model}`} />
-                {/* <p className={` absolute top-6 -right-[40%]  w-full text-white font-semibold inline' inline-block p-2 text-center  rotate-45 ${bikeData?.availability ? 'bg-green-500 text-black' : 'bg-red-500'}`}>
-                    {bikeData?.availability ? 'Available' : 'Not Available'}
-                </p> */}
+                <img className="   h-full   transition-transform duration-300 group-hover:scale-105 "
+                    src={bikeData?.bike_image || bikeImg} alt={`${bikeData?.brand} ${bikeData?.model}`} />
+             
             </div>
-            <div className=' text-white p-4 h-full'>
-                <h2 className='font-bold uppercase font-pFont text-3xl text-center border-b  p-4  group-hover:text-color-s group-hover:bg-color-p'>{bikeData?.brand} {bikeData?.model}</h2>
+
+            <div className='  w-full  text-white p-4 '>
+                <h2 className='font-bold  uppercase font-pFont text-3xl text-center border-b  p-4  group-hover:text-color-s group-hover:bg-color-p'>{bikeData?.brand} {bikeData?.model}</h2>
                 <div className={` flex p-4    bg-gray-950 rounded-ss-sm ${cardView === 'grid' ? ' flex-col' : ' flex-row justify-between '}`}>
                     <div className=" space-y-2 text-gray-300">
                         <p className='flex items-center gap-2'> <span className='text-color-s'>•</span>  Engine Capacity: <span className='text-color-s'><FaMotorcycle /> </span > <span className='font-bold text-white'> {bikeData?.engine_capacity}</span></p>
