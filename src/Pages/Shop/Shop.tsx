@@ -67,9 +67,8 @@ const totalPages = products?.totalPage || 1
                             <div className={`w-11/12 mb-9 mx-auto grid gap-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1' : 'grid-cols-1`}>
                                 {
                                     products?.data.map((item, index) => (
-                                        <div className='mx-auto mt-5' key={index}>
-                                            <ProductCard data={item}></ProductCard>
-                                        </div>
+                                            <ProductCard key={index} data={item}></ProductCard>
+                                        
                                     ))
                                 }
                             </div>
