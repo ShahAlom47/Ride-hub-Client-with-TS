@@ -4,12 +4,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "./Logo";
 import useUser from "../../CustomHocks/useUser";
 import img from '../../assets/png/user-pp.png'
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaFacebook, FaHeart, FaShoppingCart, FaTwitterSquare } from "react-icons/fa";
 import useHandelWishList from "../../CustomHocks/useHandelWishList";
 import useUserData from "../../CustomHocks/useUserData";
 import { IoSettingsSharp } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { MdDashboard } from "react-icons/md";
+import useScreenWidth from "../../CustomHocks/useScreenWidth";
+import { ImLinkedin } from "react-icons/im";
 
 interface DrawerProps {
     drawerContent: string | boolean;
@@ -20,21 +22,37 @@ interface DrawerProps {
 
 const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerProps) => {
     const { user, logOutUser } = useUser();
-    const {userData}=useUserData()
+    const { userData } = useUserData()
+    const screenWidth = useScreenWidth()
     const [visible, setVisible] = useState(true);
+    const [headVisible, setHeadVisible] = useState(false);
+
     const { getBikeWishList, getShopWishList } = useHandelWishList();
     const totalWishListItem: number = getBikeWishList().length + getShopWishList().length;
 
-  
+
     useEffect(() => {
-        let prevSPos = window.pageYOffset;
+        let prevScrollPos = window.pageYOffset;
 
         const handleScroll = () => {
-            const currentSPos = window.pageYOffset;
-            const isVisible = prevSPos > currentSPos;
-            setVisible(isVisible);
-            setNavbarPosition(isVisible);
-            prevSPos = currentSPos;
+            const currentScrollPos = window.pageYOffset;
+            const isHeadVisible = currentScrollPos >= 150;
+
+            const isVisibleD = currentScrollPos > 400;
+
+            const isScrollingUp = prevScrollPos > currentScrollPos;
+
+            if (isVisibleD) {
+                setVisible(false);
+                setNavbarPosition(false);
+            } else if (isScrollingUp) {
+                setVisible(true);
+                setNavbarPosition(true);
+            }
+
+            setHeadVisible(isHeadVisible);
+
+            prevScrollPos = currentScrollPos;
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -42,8 +60,8 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [visible]);
+    }, []);
+
 
     const handelDrawer = (value: string): void => {
         if (drawerContent === value) {
@@ -56,13 +74,13 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
     const getDashboardLink = () => {
         switch (userData?.userRole) {
             case 'admin':
-                return '/my-dashBoard/orders'; 
+                return '/my-dashBoard/orders';
             case 'moderator':
-                return '/moderator-dashboard'; 
+                return '/moderator-dashboard';
             case 'user':
-                return '/my-dashBoard/my-order'; 
+                return '/my-dashBoard/my-order';
             default:
-                return '/'; 
+                return '/';
         }
     };
 
@@ -76,7 +94,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
             >  <FaHeart></FaHeart>
                 <p className="  text-white -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
                     {totalWishListItem > 99 ? '99' : totalWishListItem}
-                    </p>
+                </p>
             </button>
 
             {
@@ -84,8 +102,8 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                     onClick={() => handelDrawer('cartList')}
                     className={`relative hover:text-color-s text-2xl px-3 rounded-sm  ${drawerContent === 'cartList' ? 'text-color-s' : ''}`}
                 >  <FaShoppingCart></FaShoppingCart>
-                <p className="  text-white -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
-                    {userData?.cartProductIds? userData?.cartProductIds?.length > 99 ? '99' : userData?.cartProductIds?.length : 0}
+                    <p className="  text-white -top-2 - right-1 p-1  text-[8px] group-hover:bg-white group-hover:text-black bg-color-s bg-opacity-75 rounded-full absolute h-4 w-4 flex items-center justify-center transition-all ease-in-out duration-300">
+                        {userData?.cartProductIds ? userData?.cartProductIds?.length > 99 ? '99' : userData?.cartProductIds?.length : 0}
                     </p>
                 </button> : ''
             }
@@ -113,8 +131,9 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
     ];
 
     return (
-        <div className={` ${visible ? 'top-0' : '-top-16'} transition-all duration-500 ease-in-out   navbar bg-black  sticky z-50 text-gray-300 `}>
-            <div className="navbar-start">
+        <div className={` ${visible ? 'top-0' : '-top-16'}  ${headVisible ? '' : (screenWidth > 1025 ? 'grid grid-cols-12 grid-rows-2 ' : '')} transition-all duration-500 ease-in-out   navbar bg-black  sticky z-50 text-gray-300 `}>
+            <div className={`navbar-start    ${headVisible ? '' : (screenWidth > 1025 ? 'col-span-2 row-span-2 row-start-1 border-r border-gray-600  h-full w-full ' : '')}  `}>
+
                 <div className="dropdown flex justify-between">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                         <GiHamburgerMenu />
@@ -130,10 +149,23 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                     </ul>
                 </div>
                 <div className="lg:ml-6"><Logo></Logo></div>
-                
+
             </div>
 
-            <div className="navbar-center hidden lg:flex   ">
+            <div className={` h-10 w-full  col-span-10 row-span-1 row-start-1 lg:border-b md:border-b  border-gray-600 justify-between  ${headVisible ? 'hidden' : (screenWidth > 1025 ? 'lg:flex hidden  ' : 'lg:flex hidden')}`}>
+                <div className=" flex items-center px-3">
+                    <p className="text-gray-500 mr-4 ">5617 Glassford Street New York, NY 10000, USA </p>
+                    |
+                    <p className="text-white mx-5">info@autobike.com</p>
+                </div>
+                <div className=" flex items-center gap-5 text-white pr-4">
+                   <a href=""><FaFacebook /></a>
+                   <a href=""><ImLinkedin /></a>
+                   <a href=""><FaTwitterSquare /></a>
+                </div>
+            </div>
+
+            <div className={`navbar-center hidden lg:flex  ${headVisible ? '' : (screenWidth > 1025 ? ' col-span-7 row-span-1 row-start-2' : '')} pt-2 `}>
                 <ul className="menu menu-horizontal px-1  uppercase  ">
                     {
                         nav.map((item, idx) => <li key={idx}>{item}</li>)
@@ -142,7 +174,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
 
             </div>
 
-            <div className="navbar-end pr-5" >
+            <div className={`navbar-end pr-5 col-span-3 row-span-1 row-start-2 justify-end   ${headVisible ? '' : (screenWidth > 1025 ? 'w-full' : '')}`} >
 
                 {
                     drawerNav
@@ -164,8 +196,8 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                                 <ul tabIndex={0} className="-mt-1 z-[1] text-white p-2 shadow menu menu-lg dropdown-content bg-color-p rounded-sm min-w-52">
                                     <li className='border-b-2 border-color-s pl-2 font-semibold  uppercase' >{user?.displayName} </li>
                                     <li className="group "><Link
-                                      to={getDashboardLink()}>
-                                     <MdDashboard className="group-hover:text-color-s" /> My Dashboard </Link></li>
+                                        to={getDashboardLink()}>
+                                        <MdDashboard className="group-hover:text-color-s" /> My Dashboard </Link></li>
                                     <li className="group "><Link to={'/'}> <IoSettingsSharp className="group-hover:text-color-s" /> Setting </Link></li>
                                     <li className="group "><a onClick={() => logOutUser()}><RiLogoutCircleRLine className="group-hover:text-color-s" /> Logout</a></li>
 
