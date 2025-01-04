@@ -5,7 +5,7 @@ import { Ri24HoursFill } from 'react-icons/ri';
 const ServiceWelcomeSec = () => {
     return (
         <div className="bg-color-p py-10">
-            <div className="max-w  p-6">
+            <div className="max-w  p-6 ">
                 <div className="grid gap-6 lg:grid-cols-2 md:grid-cols-2 grid-cols-1">
                     {/* Content Section */}
                     <div className=" h-full">
