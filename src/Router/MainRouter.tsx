@@ -28,6 +28,7 @@ import AddBike from "../Pages/DashBoard/AdminComponent/ManageBike/AddBike/AddBik
 import ManageProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/ManageProduct";
 import EditProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/EditProduct/EditProduct";
 import AddProduct from "../Pages/DashBoard/AdminComponent/AddProduct/AddProduct";
+import Settings from "../Pages/Settings/Settings";
 
 
 
@@ -84,6 +85,11 @@ const router = createBrowserRouter([
       {
         path: "/rent-payment",
         element: <PrivetRoute> <RentPayment></RentPayment> </PrivetRoute>
+      },
+
+      {
+        path: "/settings",
+        element: <PrivetRoute> <Settings></Settings> </PrivetRoute>
       },
 
 

@@ -133,7 +133,7 @@ const EditBikeData = () => {
                 </div>
 
                 <div className="lg:col-span-8 md:col-span-8 col-span-12 border rounded-md bg-color-op ">
-                    <h1 className="  font-medium   border-b pb-4  p-2 text-lg"> General Information  </h1>
+                    <h1 className="  font-medium   border-b pb-4  p-2 text-lg "> General Information  </h1>
                     <div className=" my-2">
                         <EditForm bikeData={data!}></EditForm>
 

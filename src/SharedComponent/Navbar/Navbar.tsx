@@ -198,7 +198,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                                     <li className="group "><Link
                                         to={getDashboardLink()}>
                                         <MdDashboard className="group-hover:text-color-s" /> My Dashboard </Link></li>
-                                    <li className="group "><Link to={'/'}> <IoSettingsSharp className="group-hover:text-color-s" /> Setting </Link></li>
+                                    <li className="group "><Link to={'/settings'}> <IoSettingsSharp className="group-hover:text-color-s" /> Setting </Link></li>
                                     <li className="group "><a onClick={() => logOutUser()}><RiLogoutCircleRLine className="group-hover:text-color-s" /> Logout</a></li>
 
                                 </ul>

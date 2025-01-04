@@ -7,9 +7,10 @@ import { CiCircleCheck } from "react-icons/ci";
 interface PropsType {
     setImgUrl: (url: string) => void
     previousImg?:string;
+    photoFolder?: string;
 }
 
-const UploadPhoto = ({ setImgUrl, previousImg }: PropsType) => {
+const UploadPhoto = ({ setImgUrl, previousImg , photoFolder }: PropsType) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const { uploadImage, loading } = useGetUploadedImageUrl()
 
@@ -33,7 +34,7 @@ const UploadPhoto = ({ setImgUrl, previousImg }: PropsType) => {
             const previewUrl = URL.createObjectURL(file);
             setImagePreview(previewUrl);
 
-            const url = await uploadImage(file, 'Product Photos');
+            const url = await uploadImage(file, photoFolder ||'Product Photos');
             console.log(url);
             if (url && loading === false) {
                 setImgUrl(url)
@@ -45,7 +46,7 @@ const UploadPhoto = ({ setImgUrl, previousImg }: PropsType) => {
 
 
     return (
-        <div className=" relative border border-white  rounded-md p-3 flex justify-center items-center ">
+        <div className=" relative border border-white  rounded-md p-3 flex justify-center items-center  ">
             {imagePreview ?
                 <div className="   w-full h-60 overflow-hidden" style={{ marginTop: '10px' }}>
                     <h3 className=" mb-2 flex justify-between border-b-2 pb-2">Image Preview:
