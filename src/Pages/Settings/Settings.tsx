@@ -2,6 +2,7 @@ import { CiSettings } from "react-icons/ci";
 import useUser from "../../CustomHocks/useUser";
 import UploadPhoto from "../../SharedComponent/UploadPhoto/UploadPhoto";
 import { useState, FormEvent } from "react";
+import Swal from "sweetalert2";
 
 
 
@@ -13,25 +14,106 @@ import { useState, FormEvent } from "react";
 // }
 
 const Settings: React.FC = () => {
-    const { user } = useUser();
+    const { user, updatePhoto } = useUser();
+
+    console.log(user);
 
     const [imgUrl, setImgUrl] = useState<string>('');
     const [loadingPhoto, setLoadingPhoto] = useState<boolean>(false);
     const [loadingName, setLoadingName] = useState<boolean>(false);
     const [loadingPassword, setLoadingPassword] = useState<boolean>(false);
 
-    // Handle photo upload
+
+
+
     const handelPhoto = async (): Promise<void> => {
         setLoadingPhoto(true);
         try {
-            console.log("Saving photo...", imgUrl);
-            // Add logic to save photo
+            const updateRes = await updatePhoto(imgUrl);
+
+            if (updateRes) {
+                setImgUrl('')
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Your photo has been updated.',
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to update photo.',
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            }
         } catch (error) {
             console.error("Error saving photo:", error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an issue updating your photo.',
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+            });
         } finally {
             setLoadingPhoto(false);
         }
     };
+
+    const removePhoto = async () => {
+        setLoadingPhoto(true);
+        console.log(234567890);
+        try {
+            const updateRes = await updatePhoto('');
+            setImgUrl('')
+
+            if (updateRes) {
+                setImgUrl('')
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Your photo has been updated.',
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to update photo.',
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
+            }
+        } catch (error) {
+            console.error("Error saving photo:", error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an issue updating your photo.',
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+            });
+        } finally {
+            setLoadingPhoto(false);
+        }
+    }
+
 
     // Handle name change
     const handleName = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -72,6 +154,7 @@ const Settings: React.FC = () => {
         onClick?: () => void;
         children: React.ReactNode;
         className?: string;
+        isdisabled?: boolean
     }
 
     const LoadingButton: React.FC<LoadingButtonProps> = ({
@@ -79,11 +162,12 @@ const Settings: React.FC = () => {
         onClick,
         children,
         className,
+        isdisabled,
     }) => (
         <button
             onClick={onClick}
             className={`${className} px-4 py-2 rounded-sm font-semibold flex items-center justify-center gap-2`}
-            disabled={isLoading}
+            disabled={isLoading || isdisabled}
         >
             {isLoading ? (
                 <span className="loader w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></span>
@@ -111,15 +195,16 @@ const Settings: React.FC = () => {
                             <div className="flex items-center justify-between p-3">
                                 <LoadingButton
                                     isLoading={loadingPhoto}
-                                    onClick={() => setImgUrl('')}
+                                    onClick={() => removePhoto()}
                                     className="bg-red-600 hover:bg-red-700 text-white"
                                 >
                                     Remove
                                 </LoadingButton>
                                 <LoadingButton
                                     isLoading={loadingPhoto}
+                                    isdisabled={imgUrl === ''}
                                     onClick={handelPhoto}
-                                    className="bg-green-600 hover:bg-green-700 text-white"
+                                    className={`bg-green-600 hover:bg-green-700 text-white ${imgUrl === '' ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     Save
                                 </LoadingButton>

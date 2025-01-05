@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged,signOut, User as FirebaseUser, UserCredential, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged,signOut, User as FirebaseUser, UserCredential, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import auth from '../../firebase.config'; // Ensure the path is correct
 import useAxiosPublic from "../CustomHocks/useAxiosPublic";
 
@@ -8,7 +8,10 @@ interface AuthContextType {
   loading:boolean;
   registerUser: (data: registerDataType) => Promise<UserCredential>;
   loginUser: (data: registerDataType) => Promise<UserCredential>;
+  updatePhoto: (data: string) => Promise<boolean>;
+  updateName: (data: string) => Promise<boolean>;
   logOutUser: () => Promise<void>;
+
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -54,10 +57,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return userCredential;
   }
 
-
-  
-
-
 const logOutUser = async () => {
   try {
     await signOut(auth);
@@ -67,6 +66,43 @@ const logOutUser = async () => {
     console.error("Error signing out:", error);
   }
 };
+
+const updatePhoto = async (photoUrl: string) => {
+  if (!auth.currentUser) {
+      console.error("User is not authenticated.");
+      return false; 
+  }
+  try {
+      const updateRes = await updateProfile(auth.currentUser, {
+          photoURL: photoUrl
+      });
+
+      console.log("Photo updated successfully:", updateRes);
+      return true; 
+  } catch (error) {
+      console.error("Error updating profile photo:", error);
+      throw error; 
+  }
+};
+const updateName = async (name: string) => {
+  if (!auth.currentUser) {
+      console.error("User is not authenticated.");
+      return false; 
+  }
+  try {
+      const updateRes = await updateProfile(auth.currentUser, {
+          displayName: name
+      });
+
+      console.log("Name updated successfully:", updateRes);
+      return true; 
+  } catch (error) {
+      console.error("Error updating user name:", error);
+      throw error; 
+  }
+};
+
+
 
 
 
@@ -111,6 +147,8 @@ const logOutUser = async () => {
     registerUser,
     logOutUser,
     loginUser,
+    updatePhoto,
+    updateName,
   };
 
   return (
