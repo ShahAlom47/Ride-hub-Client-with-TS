@@ -73,6 +73,7 @@ const updatePhoto = async (photoUrl: string) => {
       return false; 
   }
   try {
+
       const updateRes = await updateProfile(auth.currentUser, {
           photoURL: photoUrl
       });
@@ -90,6 +91,7 @@ const updateName = async (name: string) => {
       return false; 
   }
   try {
+    console.log(name);
       const updateRes = await updateProfile(auth.currentUser, {
           displayName: name
       });
