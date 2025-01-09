@@ -5,6 +5,7 @@ import ReactStars from "react-rating-stars-component";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import useHandelAddToCart from "../../../CustomHocks/useHandelAddToCart";
+import { Helmet } from "react-helmet-async";
 
 
 type DetailsProps = {
@@ -49,6 +50,9 @@ const ProductDetails = ({ id }: DetailsProps) => {
     console.log(data);
     return (
         <div className="max-w">
+            <Helmet>
+                <title>Product Details|| Shop || Ride Hub</title>
+            </Helmet>
             <div className=" grid lg:grid-cols-12 md:grid-cols-12 grid-cols-1  max-h-screen bg-color-p overflow-y-auto">
                 <div className=" col-span-5 p-5">
                     <img src="https://m.media-amazon.com/images/I/61xv8k5p1gL._AC_SL1500_.jpg" alt={` ${data?.name || 'Product Photo'} Photo`} />

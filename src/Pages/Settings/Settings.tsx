@@ -5,6 +5,7 @@ import { useState, FormEvent } from "react";
 import Swal from "sweetalert2";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 import auth from "../../../firebase.config";
+import { Helmet } from "react-helmet-async";
 
 const Settings: React.FC = () => {
     const { user, updatePhoto, updateName } = useUser();
@@ -230,14 +231,17 @@ const Settings: React.FC = () => {
     );
 
     return (
-        <div className="bg-color-p p-5">
-            <div className="max-w p-6">
+        <div className="bg-color-p p-5 ">
+            <Helmet>
+                <title>Setting || Ride Hub</title>
+            </Helmet>
+            <div className="max-w p-6 ">
                 <h1 className="text-2xl px-3 font-semibold text-white flex items-center gap-4">
                     Setting <CiSettings />
                 </h1>
-                <div className="my-8 w-full h-auto grid gap-3 lg:grid-cols-3 md:grid-cols-3 grid-cols-1 p-3">
+                <div className="my-8  w-full h-auto grid gap-3 lg:grid-cols-3 md:grid-cols-3 grid-cols-1 p-3">
                     <div className="col-span-1 ">
-                        <div className="p-3 rounded-md border">
+                        <div className=" rounded-md ">
                             <UploadPhoto
                                 setImgUrl={setImgUrl}
                                 previousImg={user?.photoURL || ''}

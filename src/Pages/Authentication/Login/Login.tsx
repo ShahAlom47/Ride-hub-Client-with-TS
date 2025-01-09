@@ -6,6 +6,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEyeOff } from "react-icons/fi";
 import useUser from "../../../CustomHocks/useUser";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 // Define the form field types
 interface IFormInput {
@@ -19,8 +20,8 @@ const Login: React.FC = () => {
     const [showPass, setShowPass] = useState<boolean>();
     const { loginUser } = useUser();
     const navigate = useNavigate();
-    const location=useLocation()
-    console.log(location );
+    const location = useLocation()
+    console.log(location);
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
@@ -36,7 +37,7 @@ const Login: React.FC = () => {
                     toast: true
                 });
                 reset()
-                navigate(location.state?.from|| location.state || '/', { replace: true });
+                navigate(location.state?.from || location.state || '/', { replace: true });
             } else {
                 Swal.fire({
                     position: "top-end",
@@ -75,6 +76,9 @@ const Login: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-bl from-black via-slate-900 to-black flex items-center justify-center mt-5 py-16 ">
+            <Helmet>
+                <title>Login || Ride Hub</title>
+            </Helmet>
             <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md ">
                 <h2 className="text-center text-white text-3xl mb-6 font-bold">User Login</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>

@@ -11,6 +11,7 @@ import ErrorPage from "../../../SharedComponent/ErrorPage/ErrorPage";
 import { useEffect, useState } from "react";
 import useHandelWishList from "../../../CustomHocks/useHandelWishList";
 import useRentNowBtn from "../../../CustomHocks/useRentNowBtn";
+import { Helmet } from "react-helmet-async";
 
 const BikeDetails = () => {
 
@@ -36,6 +37,10 @@ const BikeDetails = () => {
     if (error) return <ErrorPage></ErrorPage>
     return (
         <div>
+            <Helmet>
+                <title>Bike Details || Our Bike || Ride Hub</title>
+            </Helmet>
+
             <PageHeading title={`${bikeData?.brand}  ${bikeData?.model}`} path={path} pathName={pathName} />
             <div className=" grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-4 my-5 max-w ">
                 <div className="lg:col-span-8 md:col-span-8 p-3 ">

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import NavItems from "./NavItem/NavItem";
 import { Outlet } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 
 const DashBoardRoot = () => {
@@ -18,6 +19,9 @@ const DashBoardRoot = () => {
     return (
 
         <div className=" relative grid  lg:grid-cols-12  md:grid-cols-12  grid-cols-1 w-full  bg-color-p ">
+            <Helmet>
+                <title> Dashboard|| Ride Hub</title>
+            </Helmet>
 
             {/* for big screen */}
 

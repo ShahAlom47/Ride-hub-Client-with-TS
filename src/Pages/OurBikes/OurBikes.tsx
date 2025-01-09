@@ -10,6 +10,7 @@ import { BikeData } from './BikeDataInterFace/bikeDataIterFace';
 import Loading from '../../SharedComponent/Loading/Loading';
 import ErrorPage from '../../SharedComponent/ErrorPage/ErrorPage';
 import PaginationButtons from '../../SharedComponent/PaginationButtons/PaginationButtons';
+import { Helmet } from 'react-helmet-async';
 
 interface BikeResponse {
     data: BikeData[];
@@ -62,6 +63,9 @@ const OurBikes: React.FC = () => {
 
     return (
         <div className=" ">
+            <Helmet>
+                <title>Our Bike || Ride Hub</title>
+            </Helmet>
             
             <PageHeading img={headingImg} title="OUR BIKE" path={path} pathName={pathName} />
             {

@@ -11,6 +11,7 @@ import useProductManage from '../../CustomHocks/useProductManage ';
 import useHandelCoupon from '../../CustomHocks/useHandelCoupon';
 import useUser from '../../CustomHocks/useUser';
 import useAxiosSecure from '../../CustomHocks/useAxiosSecure';
+import { Helmet } from 'react-helmet-async';
 
 
 interface RenterData {
@@ -261,6 +262,9 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
 
     return (
         <div className=' p-5'>
+            <Helmet>
+                <title>Payment || Ride Hub</title>
+            </Helmet>
             <form className=' lg:w-8/12 md:w-8/12 w-11/12 mx-auto space-y-4' onSubmit={handleSubmit}>
                 <p className=' text-color-s '>{errMsg}</p>
                 <div className='border border-white p-2 rounded-sm'>

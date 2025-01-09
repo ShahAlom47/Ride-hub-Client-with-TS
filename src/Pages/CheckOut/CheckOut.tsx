@@ -13,6 +13,7 @@ import StripePayment from "../StripePayment/StripePayment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentMethodBtn from "./PaymentMethodBtn/PaymentMethodBtn";
+import { Helmet } from "react-helmet-async";
 
 export interface Product {
     productId: string;
@@ -129,6 +130,9 @@ const CheckOut = () => {
 
     return (
         <div className="bg-color-p">
+            <Helmet>
+                <title>CheckOut || Ride Hub</title>
+            </Helmet>
             <PageHeading img={headingImg} title="CHECK OUT" path={path} pathName={pathName} />
             <div className="grid  gap-4 lg;grid-cols-12 md:grid-cols-12 grid-cols-1 max-w min-h-10 p-6">
                 <div className="lg:col-span-8 md:col-span-7 ">

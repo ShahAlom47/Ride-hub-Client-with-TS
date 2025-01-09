@@ -7,6 +7,7 @@ import Loading from "../../SharedComponent/Loading/Loading";
 import headingImg from '../../assets/Banner-Img/bike-page-banner.jpg';
 import ProductCard from "./ProductCard/ProductCard";
 import PaginationButtons from "../../SharedComponent/PaginationButtons/PaginationButtons";
+import { Helmet } from "react-helmet-async";
 
 export interface Products {
     _id: string;
@@ -58,6 +59,9 @@ const totalPages = products?.totalPage || 1
 
     return (
         <div className="">
+            <Helmet>
+                <title>Shop || Ride Hub</title>
+            </Helmet>
             <PageHeading img={headingImg} title="PRODUCT" path={path} pathName={pathName} />
             {
                 error ? <ErrorPage></ErrorPage> :

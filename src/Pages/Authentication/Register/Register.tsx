@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import useAxiosPublic from "../../../CustomHocks/useAxiosPublic";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FiEyeOff } from "react-icons/fi";
+import { Helmet } from "react-helmet-async";
 
 // Define the form field types
 interface IFormInput {
@@ -35,8 +36,8 @@ const Register: React.FC = () => {
     const { registerUser } = useUser();
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
-    const [showPass, setShowPass]=useState <boolean>();
-   
+    const [showPass, setShowPass] = useState<boolean>();
+
     const addUser = async (userData: UserDataType): Promise<AddUserResponse | null> => {
         try {
             const addUserRes = await axiosPublic.post<AddUserResponse>('/users/addUser', userData);
@@ -47,7 +48,7 @@ const Register: React.FC = () => {
             return addUserRes.data;
         } catch (error) {
             console.error("Error adding user", error);
-            return null;  
+            return null;
         }
     };
 
@@ -55,17 +56,17 @@ const Register: React.FC = () => {
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
             const registerRes = await registerUser({ email: data.email, password: data.password });
-    
+
             if (registerRes.user) {
                 await updateProfile(registerRes.user, { displayName: data.name });
-    
+
                 const userData = {
                     userName: data.name,
                     userEmail: data.email,
                     userPassword: '',
                     userRole: 'user',
                 };
-    
+
                 // Add user to database
                 const addRes = await addUser(userData);
                 if (addRes?.status === true) {
@@ -77,7 +78,7 @@ const Register: React.FC = () => {
                         timer: 1500,
                         toast: true
                     });
-    
+
                     navigate('/');
                 } else {
                     Swal.fire({
@@ -90,9 +91,9 @@ const Register: React.FC = () => {
                     });
                 }
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-          
+
             if (error.code === 'auth/email-already-in-use') {
                 Swal.fire({
                     position: 'top-end',
@@ -112,10 +113,13 @@ const Register: React.FC = () => {
             }
         }
     };
-    
+
 
     return (
         <div className="min-h-screen bg-gradient-to-bl from-black via-slate-900 to-black flex items-center justify-center mt-5 py-16 ">
+            <Helmet>
+                <title> Register || Ride Hub</title>
+            </Helmet>
             <div className="bg-black p-8 rounded-lg shadow-lg w-full max-w-md ">
                 <h2 className="text-center text-white text-3xl mb-6 font-bold">User Register</h2>
 
@@ -147,21 +151,21 @@ const Register: React.FC = () => {
                     {/* Password Field */}
                     <div className="mb-4">
                         <label className="block text-gray-300 text-sm mb-2" htmlFor="password">Password</label>
-                     <div className=" relative  ">
-                     <input
-                            type={showPass?'text':"password"}
-                            id="password"
-                            {...register("password", {
-                                required: "Password is required",
-                                minLength: {
-                                    value: 6,
-                                    message: "Password must be at least 6 characters long"
-                                }
-                            })}
-                            className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        />
-                        <button className="absolute top-1/3 right-6" type="button" onClick={()=>setShowPass(!showPass)}>{showPass? <MdOutlineRemoveRedEye />:<FiEyeOff />}</button>
-                     </div>
+                        <div className=" relative  ">
+                            <input
+                                type={showPass ? 'text' : "password"}
+                                id="password"
+                                {...register("password", {
+                                    required: "Password is required",
+                                    minLength: {
+                                        value: 6,
+                                        message: "Password must be at least 6 characters long"
+                                    }
+                                })}
+                                className="w-full px-3 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            />
+                            <button className="absolute top-1/3 right-6" type="button" onClick={() => setShowPass(!showPass)}>{showPass ? <MdOutlineRemoveRedEye /> : <FiEyeOff />}</button>
+                        </div>
                         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </div>
 
