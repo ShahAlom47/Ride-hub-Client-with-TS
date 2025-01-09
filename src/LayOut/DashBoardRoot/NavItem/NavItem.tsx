@@ -23,7 +23,7 @@ const NavItems: React.FC = () => {
                             <>
                                 <NavLink
                                     key="order"
-                                    to="/my-dashBoard"
+                                    to="/my-dashBoard/my-order"
                                     className={({ isActive }) =>
                                         `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
                                         }`
