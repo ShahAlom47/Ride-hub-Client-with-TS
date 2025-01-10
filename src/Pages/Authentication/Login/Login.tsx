@@ -7,6 +7,7 @@ import { FiEyeOff } from "react-icons/fi";
 import useUser from "../../../CustomHocks/useUser";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import ReactModal from "../../../SharedComponent/ReactModal/ReactModal";
 
 // Define the form field types
 interface IFormInput {
@@ -18,10 +19,12 @@ const Login: React.FC = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<IFormInput>();
     const [showPass, setShowPass] = useState<boolean>();
-    const { loginUser } = useUser();
+    const { loginUser, sendResetPasswordEmail } = useUser();
     const navigate = useNavigate();
     const location = useLocation()
-    console.log(location);
+    const [modalIsOpen, setIsOpen] = useState(false)
+
+  const [email, setEmail] = useState("");
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
@@ -74,6 +77,50 @@ const Login: React.FC = () => {
         }
     };
 
+    // forget pass 
+
+
+
+    const handleForget = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+    
+      if (!email) {
+        Swal.fire({
+          icon: "warning",
+          title: "Missing Email Address",
+          text: "Please enter your email address.",
+        });
+        return;
+      }
+    
+      try {
+    
+        const res = await sendResetPasswordEmail(email);
+    
+        Swal.fire({
+          icon: res ? "success" : "error",
+          title: res
+            ? "Check Your Email"
+            : "Something Went Wrong",
+          text: res
+            ? "We have sent you an email with instructions to reset your password."
+            : "Please try again later.",
+        });
+    
+        if (res) {
+          setIsOpen(false);
+          (e.target as HTMLFormElement).reset(); 
+        }
+      } catch (error) {
+        console.error("Error during password reset:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An unexpected error occurred. Please try again.",
+        });
+      }
+    };
+    
     return (
         <div className="min-h-screen bg-gradient-to-bl from-black via-slate-900 to-black flex items-center justify-center mt-5 py-16 ">
             <Helmet>
@@ -124,7 +171,7 @@ const Login: React.FC = () => {
                     {/* Remember Me and Forgot Password */}
                     <div className="flex flex-col items-center justify-between mb-4">
                         <p>Already have an Account ? <Link className={'btn btn-link'} to={'/register'}> Register</Link></p>
-                        <button className=" btn btn-link">Forget Password</button>
+                        <button onClick={() => setIsOpen(!modalIsOpen)} type="button" className=" btn btn-link">Forget Password</button>
                     </div>
 
                     {/* Sign In Button */}
@@ -148,6 +195,29 @@ const Login: React.FC = () => {
                     </div>
                 </form>
             </div>
+
+            {/* forget pass modal   */}
+
+
+            <ReactModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} label={'forget password Modal'} >
+                <div className="forget-password p-4 pt-10 ">
+                    <h2 className=" font-semibold py-2 border-b-2 mb-3">Forget Password</h2>
+                    <form className=" bg-slate-400 bg-opacity-55 rounded-sm  p-3" onSubmit={handleForget}>
+                        <div className=" flex flex-col gap-2">
+                            <label htmlFor="email">Email Address:</label>
+                            <input
+                            className=" input input-accent rounded-sm"
+                                type="email"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button className="btn-p mt-2" type="submit">Submit</button>
+                    </form>
+                </div>
+            </ReactModal>
         </div>
     );
 };
