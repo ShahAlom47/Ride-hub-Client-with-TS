@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import DashPageHeading from "../../../../SharedComponent/DashPageHeading/DashPageHeading";
 import useUser from "../../../../CustomHocks/useUser";
 import useAxiosSecure from "../../../../CustomHocks/useAxiosSecure";
-import { BikeData } from "../../../OurBikes/BikeDataInterFace/bikeDataIterFace";
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 
 
@@ -37,7 +36,8 @@ const MyBikes = () => {
         },
         enabled: !!user?.email,
     });
-    console.log(bikes);
+
+
 
     return (
         <div>
@@ -52,24 +52,49 @@ const MyBikes = () => {
                             <Th className="text-start p-3 ">Brand</Th>
                             <Th className="text-start p-3">Model</Th>
                             <Th className="text-start p-3">Price Per Day</Th>
-                            <Th className="text-start p-3">Renter Email</Th>
+                            <Th className="text-start p-3">Total Day</Th>
                             <Th className="text-start p-3">Start Date</Th>
                             <Th className="text-start p-3">End Date </Th>
                         </Tr>
                     </Thead>
-                    <Tbody className=" py-2  my-6 text-xl ">
-                        {bikes?.map((bike:Bike) => (
-                            <Tr key={bike.bikeId} className="my-2 pb-2" >
-                                <Td className=" p-3 py-1 "><img className="" src={bike?.bikeImage} alt="bike Photo" /></Td>
-                                <Td className=" p-3 py-1">{bike?.brand}</Td>
-                                <Td className=" p-3 py-1">{bike?.model}</Td>
-                                <Td className=" p-3 py-1">{bike?.rental_price_per_day}</Td>
-                                <Td className=" p-3 py-1">{bike?.rentalDetails?.renterUser}</Td>
-                                <Td className=" p-3 py-1">{new Date(bike?.rentalDetails?.rent_start_date||'').toLocaleDateString()}</Td>
-                                <Td className=" p-3 py-1">{new Date(bike?.rentalDetails?.rent_end_date ||'').toLocaleDateString()}</Td>
-                            </Tr>
-                        ))}
+                    <Tbody className="py-2 my-6 text-xl">
+                        {bikes?.map((bike: Bike) => {
+                            // Calculate the rental duration in days
+                            const rentStartDate = bike.rentalDetails?.rent_start_date
+                                ? new Date(bike.rentalDetails.rent_start_date)
+                                : null;
+                            const rentEndDate = bike.rentalDetails?.rent_end_date
+                                ? new Date(bike.rentalDetails.rent_end_date)
+                                : null;
+
+                            const rentalDuration =
+                                rentStartDate && rentEndDate
+                                    ? Math.ceil(
+                                        (rentEndDate.getTime() - rentStartDate.getTime()) /
+                                        (1000 * 60 * 60 * 24)
+                                    )
+                                    : 0;
+
+                            return (
+                                <Tr key={bike.bikeId} className="my-4 pb-2">
+                                    <Td className="p-3 py-1">
+                                        <img className="w-20" src={bike.bikeImage} alt="Bike Photo" />
+                                    </Td>
+                                    <Td className="p-3 py-1">{bike.brand}</Td>
+                                    <Td className="p-3 py-1">{bike.model}</Td>
+                                    <Td className="p-3 py-1">{bike.rental_price_per_day}</Td>
+                                    <Td className="p-3 py-1">{rentalDuration +1} days</Td>
+                                    <Td className="p-3 py-1">
+                                        {rentStartDate ? rentStartDate.toLocaleDateString() : "N/A"}
+                                    </Td>
+                                    <Td className="p-3 py-1">
+                                        {rentEndDate ? rentEndDate.toLocaleDateString() : "N/A"}
+                                    </Td>
+                                </Tr>
+                            );
+                        })}
                     </Tbody>
+
                 </Table>
 
 
