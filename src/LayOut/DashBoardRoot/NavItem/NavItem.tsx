@@ -99,6 +99,17 @@ const NavItems: React.FC = () => {
                             >
                                <RiFunctionAddFill />  Add Product
                             </NavLink>
+
+                            <NavLink
+                                key="admin-panel"
+                                to="/my-dashBoard/manageUser"
+                                className={({ isActive }) =>
+                                    `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
+                                    }`
+                                }
+                            >
+                               <RiFunctionAddFill />  Manage User
+                            </NavLink>
                         </>
 
                     )}

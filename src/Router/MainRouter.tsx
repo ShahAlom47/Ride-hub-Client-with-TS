@@ -29,6 +29,7 @@ import ManageProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/Manag
 import EditProduct from "../Pages/DashBoard/AdminComponent/ManageProduct/EditProduct/EditProduct";
 import AddProduct from "../Pages/DashBoard/AdminComponent/AddProduct/AddProduct";
 import Settings from "../Pages/Settings/Settings";
+import ManageUser from "../Pages/DashBoard/AdminComponent/ManageUser/ManageUser";
 
 
 
@@ -139,6 +140,10 @@ const router = createBrowserRouter([
       {
         path: `/my-dashBoard/addProduct`,
         element: <AdminRoute> <AddProduct></AddProduct> </AdminRoute>
+      },
+      {
+        path: `/my-dashBoard/manageUser`,
+        element: <AdminRoute> <ManageUser></ManageUser> </AdminRoute>
       },
 
 
