@@ -28,6 +28,7 @@ interface UserDataType {
     userEmail: string;
     userPassword: string;
     userRole: string;
+    userPhoto?: string;
 }
 
 const Register: React.FC = () => {
@@ -65,6 +66,7 @@ const Register: React.FC = () => {
                     userEmail: data.email,
                     userPassword: '',
                     userRole: 'user',
+                    userPhoto:'',
                 };
 
                 // Add user to database

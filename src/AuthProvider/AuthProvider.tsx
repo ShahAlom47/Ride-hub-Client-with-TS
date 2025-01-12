@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, User as Fi
 import auth from '../../firebase.config'; // Ensure the path is correct
 import useAxiosPublic from "../CustomHocks/useAxiosPublic";
 
+
 interface AuthContextType {
   user: FirebaseUser | null;
   loading: boolean;
@@ -120,6 +121,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw error;
     }
   };
+
+
+
+
 
 
 
