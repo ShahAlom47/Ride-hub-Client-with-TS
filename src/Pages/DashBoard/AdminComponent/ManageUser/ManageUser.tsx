@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../CustomHocks/useAxiosSecure";
 import DashPageHeading from "../../../../SharedComponent/DashPageHeading/DashPageHeading";
+import { ResponsiveTable } from "responsive-table-react";
+import { MdDeleteSweep } from "react-icons/md";
 
 // User interface from database
 interface User {
@@ -97,21 +99,86 @@ const ManageUser = () => {
 
   console.log(combinedData);
 
+  const handleDeleteUser = async(id:string)=>{
+    console.log(id);
+
+    
+  }
+  const handleRoleChange = async(roll:string,id:string)=>{
+    console.log(roll,id);
+
+    
+  }
+
+
+  const columns = [
+    {
+      "id": "img",
+      "text": "Photo"
+    },
+    {
+      "id": "name",
+      "text": "Name"
+    },
+    {
+      "id": "email",
+      "text": "Email"
+    },
+
+    {
+      "id": "roll",
+      "text": "Roll"
+    },
+ 
+  
+    {
+      "id": "delete",
+      "text": "Delete"
+    },
+  ]
+
+  const tableData = combinedData?.map((user) => ({
+    img: (
+      <img
+        className="w-14 h-14"
+        src={user?.firebasePhotoUrl}
+        alt="user photo"
+      />
+    ),
+    name: user?.firebaseName,
+    email: user?.firebaseEmail,
+    roll: (
+      <select
+        value={user.firebaseRole} 
+        onChange={(e) => handleRoleChange(user.databaseUserId, e.target.value as "Admin" | "User" | "Moderator")}
+        className="border rounded px-2 py-1"
+      >
+        <option value="Admin">Admin</option>
+        <option value="User">User</option>
+        <option value="Moderator">Moderator</option>
+      </select>
+    ),
+    delete: (
+      <button
+        type="button"
+        onClick={() => handleDeleteUser(user?.databaseUserId)}
+        className="text-3xl text-color-s hover:text-4xl transition-all duration-300"
+      >
+        <MdDeleteSweep />
+      </button>
+    ),
+  }));
+
   return (
     <div>
       <DashPageHeading title="Manage User" path={path} pathName={pathName}></DashPageHeading>
 
       <div className="my-4">
-        {/* Render combined data or any other content */}
-        {combinedData.map((user, index) => (
-          <div key={index}>
-            <p>Email: {user.firebaseEmail}</p>
-            <p>Name: {user.firebaseName}</p>
-            <p>Role: {user.firebaseRole}</p>
-            <p>Database User ID: {user.databaseUserId}</p>
-            <img src={user.firebasePhotoUrl} alt="User Photo" />
-          </div>
-        ))}
+        <ResponsiveTable
+          columns={columns}
+          data={tableData }
+
+        />
       </div>
     </div>
   );
