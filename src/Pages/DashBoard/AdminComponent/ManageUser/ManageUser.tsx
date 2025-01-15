@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../../CustomHocks/useAxiosSecure";
 import DashPageHeading from "../../../../SharedComponent/DashPageHeading/DashPageHeading";
 import { ResponsiveTable } from "responsive-table-react";
 import { MdDeleteSweep } from "react-icons/md";
+import Swal from "sweetalert2";
 
 // User interface from database
 interface User {
@@ -54,6 +55,10 @@ interface CombinedData {
   firebaseUserId: string;
   databaseUserId: string;
 }
+interface DeleteResType {
+  status: boolean;
+  message: string ;
+}
 
 const path: string[] = ['/my-dashBoard', '/my-dashBoard/manageUser'];
 const pathName: string[] = ['DashBoard', 'Manage User'];
@@ -71,7 +76,7 @@ const ManageUser = () => {
   });
 
   // Fetch all Firebase users
-  const { data: fireBaseUser } = useQuery<FirebaseUser[]>({
+  const { data: fireBaseUser , refetch} = useQuery<FirebaseUser[]>({
     queryKey: ['manage firebase User'],
     queryFn: async () => {
       const res = await axiosSecure.get<FirebaseUser[]>('/users/getAllFireBaseUser');
@@ -88,26 +93,77 @@ const ManageUser = () => {
         firebaseEmail: firebaseUser.email,
         firebaseName: firebaseUser.displayName,
         firebasePhotoUrl: firebaseUser.photoURL,
-        firebaseRole: matchedUser.userRole, // Role from the database
-        firebaseUserId: firebaseUser.uid, // Firebase User ID
-        databaseUserId: matchedUser._id, // Database User ID
+        firebaseRole: matchedUser.userRole,
+        firebaseUserId: firebaseUser.uid,
+        databaseUserId: matchedUser._id,
       };
     }
 
     return null;
   }).filter((item): item is CombinedData => item !== null); // Ensure correct type after filter
 
-  console.log(combinedData);
+ 
 
-  const handleDeleteUser = async(id:string)=>{
-    console.log(id);
+  const handleDeleteUser = async (dataBaseId: string, firebaseId: string) => {
+    try {
 
-    
-  }
-  const handleRoleChange = async(roll:string,id:string)=>{
-    console.log(roll,id);
+      
+      const confirmResult = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to delete this user? This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+      });
+  
+      if (!confirmResult.isConfirmed) {
+        return;
+      }
+  
+ 
+      const deleteRes = await axiosSecure.delete <DeleteResType>(
+        `/users/delete-user?firebaseId=${firebaseId}&databaseId=${dataBaseId}`
+      );
+  
+  
+      if (deleteRes?.data?.status) {
+        refetch()
+        // Success: Show success message
+        await Swal.fire({
+          title: "Deleted!",
+          text: deleteRes?.data?.message || "The user has been successfully deleted.",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        });
+      } else {
+        // Failure: Show error message
+        await Swal.fire({
+          title: "Failed!",
+          text: deleteRes?.data?.message || "Failed to delete the user. Please try again.",
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+  
+      // Step 4: Handle unexpected errors
+      await Swal.fire({
+        title: "Error!",
+        text: "An unexpected error occurred while deleting the user.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
+    }
+  };
+  
 
-    
+
+  const handleRoleChange = async (roll: string, id: string) => {
+    console.log(roll, id);
   }
 
 
@@ -129,8 +185,8 @@ const ManageUser = () => {
       "id": "roll",
       "text": "Roll"
     },
- 
-  
+
+
     {
       "id": "delete",
       "text": "Delete"
@@ -149,11 +205,11 @@ const ManageUser = () => {
     email: user?.firebaseEmail,
     roll: (
       <select
-        value={user.firebaseRole} 
+        value={user.firebaseRole}
         onChange={(e) => handleRoleChange(user.databaseUserId, e.target.value as "Admin" | "User" | "Moderator")}
         className="border rounded px-2 py-1"
       >
-        <option value="Admin">Admin</option>
+        <option value="Admin">User</option>
         <option value="User">User</option>
         <option value="Moderator">Moderator</option>
       </select>
@@ -161,7 +217,7 @@ const ManageUser = () => {
     delete: (
       <button
         type="button"
-        onClick={() => handleDeleteUser(user?.databaseUserId)}
+        onClick={() => handleDeleteUser(user.databaseUserId , user.firebaseUserId)}
         className="text-3xl text-color-s hover:text-4xl transition-all duration-300"
       >
         <MdDeleteSweep />
@@ -176,7 +232,7 @@ const ManageUser = () => {
       <div className="my-4">
         <ResponsiveTable
           columns={columns}
-          data={tableData }
+          data={tableData}
 
         />
       </div>

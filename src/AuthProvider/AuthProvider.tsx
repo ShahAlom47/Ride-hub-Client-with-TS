@@ -1,5 +1,8 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, User as FirebaseUser, UserCredential, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut,
+   User as FirebaseUser, UserCredential, signInWithEmailAndPassword,
+    updateProfile, sendPasswordResetEmail ,
+  } from "firebase/auth";
 import auth from '../../firebase.config'; // Ensure the path is correct
 import useAxiosPublic from "../CustomHocks/useAxiosPublic";
 
@@ -103,6 +106,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw error;
     }
   };
+
+
   const updateName = async (name: string) => {
     if (!auth.currentUser) {
       console.error("User is not authenticated.");
@@ -121,6 +126,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw error;
     }
   };
+
 
 
 
@@ -173,7 +179,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loginUser,
     updatePhoto,
     updateName,
-    sendResetPasswordEmail
+    sendResetPasswordEmail,
   };
 
   return (
