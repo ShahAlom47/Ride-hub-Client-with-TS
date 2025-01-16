@@ -49,12 +49,12 @@ const Root = () => {
   return (
     loading ? <Loading></Loading> :
       <div className={` relative `}>
-        <div className={` drawer transition-all ease-in-out duration-500 flex flex-col   fixed  ${navbarPosition?'h-[90vh]':'h-[100vh]'} -right-1  bg-color-p  z-50   border-color-s border-l border-b ${navbarPosition?'top-[65px]':'top-0'}  ${drawerContent !== false ? 'lg:w-[40vw] md:w-[50vw] right-0 ' : 'w-0 -right-30'}`}>
+        <div className={` drawer transition-all ease-in-out duration-500 flex flex-col   fixed  ${navbarPosition?'h-[90vh]':'h-[100vh]'} -right-1  bg-color-p  z-50   border-color-s border-l border-b ${navbarPosition?'top-[75px]':'top-0'}  ${drawerContent !== false ? 'lg:w-[40vw] md:w-[50vw] right-0 ' : 'w-0 -right-30'}`}>
           <button onClick={() => setDrawerContent(false)} className=" hover:bg-red-800 group text-white bg-color-s h-16 rounded-r-xl absolute left-0 top-1/2  text-xl"><MdOutlineKeyboardArrowRight /></button>
           <h1 className=" w-full  text-xl font-bold font-pFont text-center  bg-color-s text-white p-2 ">{drawerContent==='wishList'?'Wish List':'Cart List'}</h1>
           {
             drawerLoading ? <div className={` ${drawerContent !== false ? '' : 'hidden'}`}><Loading></Loading></div> :
-              <div className={` w-full px-4  h-[90%]  `}>
+              <div className={` w-full px-4  h-[90%] bb  `}>
                 {drawerContent === 'wishList' ? <WishList></WishList> : ''}
                 {drawerContent === 'cartList' && user ? <CartList></CartList> : ''}
               </div>

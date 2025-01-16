@@ -233,7 +233,7 @@ const ManageUser = () => {
 
     {
       "id": "roll",
-      "text": "Roll"
+      "text": "Role"
     },
 
 
