@@ -8,6 +8,7 @@ import WishList from "../../Pages/DrawerComponent/WishList/WishList";
 import CartList from "../../Pages/DrawerComponent/CartList/CartList"
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import useUser from "../../CustomHocks/useUser";
+import useAnalytics from "../../CustomHocks/useAnalytics";
 
 
 
@@ -18,6 +19,8 @@ const Root = () => {
   const [drawerContent, setDrawerContent] = useState<boolean | string>(false)
   const [drawerLoading, setDrawerLoading] = useState<boolean>(false)
   const [navbarPosition,setNavbarPosition]=useState<boolean>(false)
+
+  useAnalytics()
 
   const { pageLoading } = usePageLoading()
 
