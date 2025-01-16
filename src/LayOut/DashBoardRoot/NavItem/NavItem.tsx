@@ -1,10 +1,12 @@
 import React from 'react';
+import summeryIcon from '../../../assets/icons/summery-icon.png'
 import { NavLink } from 'react-router-dom';
 import { BsCartCheckFill } from 'react-icons/bs';
 import { RiFunctionAddFill, RiMenuAddFill, RiMotorbikeFill } from 'react-icons/ri';
 import useUserData from '../../../CustomHocks/useUserData';
-import { MdOutlineDirectionsBike } from 'react-icons/md';
+import { MdConnectWithoutContact, MdOutlineDirectionsBike } from 'react-icons/md';
 import { AiFillProduct } from 'react-icons/ai';
+import { FaUsersCog } from 'react-icons/fa';
 
 
 
@@ -49,6 +51,16 @@ const NavItems: React.FC = () => {
                     {/* Admin-রোল ভিত্তিক লিংক */}
                     {userData?.userRole === 'admin' && (
                         <>
+                            <NavLink
+                                key="admin-panel"
+                                to="/my-dashBoard/overview"
+                                className={({ isActive }) =>
+                                    `hover:text-color-s rounded-sm flex items-center gap-2 ${isActive ? 'text-color-s font-bold' : 'text-white'
+                                    }`
+                                }
+                            >
+                                <img className=' w-4' src={summeryIcon} alt="summeryIcon" />Overview
+                            </NavLink>
                             <NavLink
                                 key="admin-panel"
                                 to="/my-dashBoard/orders"
@@ -108,7 +120,7 @@ const NavItems: React.FC = () => {
                                     }`
                                 }
                             >
-                               <RiFunctionAddFill />  Manage User
+                               <FaUsersCog />  Manage User
                             </NavLink>
                             <NavLink
                                 key="admin-panel"
@@ -118,7 +130,7 @@ const NavItems: React.FC = () => {
                                     }`
                                 }
                             >
-                               <RiFunctionAddFill />   User Contact
+                              <MdConnectWithoutContact />   User Contact
                             </NavLink>
                         </>
 

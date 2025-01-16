@@ -31,6 +31,7 @@ import AddProduct from "../Pages/DashBoard/AdminComponent/AddProduct/AddProduct"
 import Settings from "../Pages/Settings/Settings";
 import ManageUser from "../Pages/DashBoard/AdminComponent/ManageUser/ManageUser";
 import UserContact from "../Pages/DashBoard/AdminComponent/UserContact/UserContact";
+import Overview from "../Pages/DashBoard/AdminComponent/Overview/Overview";
 
 
 
@@ -149,6 +150,10 @@ const router = createBrowserRouter([
       {
         path: `/my-dashBoard/userContact`,
         element: <AdminRoute> <UserContact></UserContact> </AdminRoute>
+      },
+      {
+        path: `/my-dashBoard/overview`,
+        element: <AdminRoute> <Overview></Overview></AdminRoute>
       },
 
 
