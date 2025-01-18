@@ -53,7 +53,7 @@ const Overview = () => {
             <DashPageHeading title="Overview" path={path} pathName={pathName}></DashPageHeading>
             <div id="overview-container " className=" py-4">
 
-                <div className=" grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 ">
+                <div className=" grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:gap-5  gap-3 ">
 
                     <div className="p-5 rounded-md bg-stone-950 shadow-[inset_0_0_20px_10px_rgba(255,255,255,0.2)] ">
                         <h1 className="flex items-center gap-3 font-bold "><FaUsers className=" p-1 text-2xl bg-gray-800 rounded-sm" /> Total Visitor</h1>
@@ -102,10 +102,10 @@ const Overview = () => {
 
                 </div>
 
-                <div className="grid grid-cols-2  gap-5  mt-5 ">
+                <div className="grid lg:grid-cols-2 grid-cols-1  lg:gap-5  gap-3  mt-5 ">
 
                     <div className="  flex flex-col ">
-                        <div className=" grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-5  ">
+                        <div className=" grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 lg:gap-5  gap-3  ">
 
 
                             <div className="p-5 rounded-md bg-stone-950 shadow-[inset_0_0_20px_10px_rgba(255,255,255,0.2)] ">
