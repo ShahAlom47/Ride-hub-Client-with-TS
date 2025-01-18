@@ -74,7 +74,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
     const getDashboardLink = () => {
         switch (userData?.userRole) {
             case 'admin':
-                return '/my-dashBoard/orders';
+                return '/my-dashBoard/overview';
             case 'moderator':
                 return '/moderator-dashboard';
             case 'user':

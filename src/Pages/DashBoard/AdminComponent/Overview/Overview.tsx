@@ -5,6 +5,20 @@ import { AiFillProduct } from "react-icons/ai";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { FaRegMoneyBill1 } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../CustomHocks/useAxiosSecure";
+
+interface AmountResType {
+    monthlyData: {
+        month: string;
+        Shop: number;
+        Bike: number;
+        totalMonthAmount: number;
+    }[];
+    totalShopAmount: number;
+    totalBikeAmount: number;
+    totalAmount: number;
+}
 
 
 const path: string[] = ['/my-dashBoard', '/my-dashBoard/overview'];
@@ -14,17 +28,26 @@ const visitorChatData = [
     { name: "Shop", value: 400 },
     { name: "Bike", value: 300 },
 ];
-const totalRevenueData = [
-    { month: "Jan", Shop: 4000, Bike: 2400 },
-    { month: "Feb", Shop: 3000, Bike: 1398 },
-    { month: "Mar", Shop: 2000, Bike: 2800 },
-    { month: "Apr", Shop: 2780, Bike: 3908 },
-    { month: "May", Shop: 1890, Bike: 4800 },
-    { month: "Jun", Shop: 2390, Bike: 3800 },
-];
 
-const COLORS = ["#5342f4", "#c7c1fa"];
+
+const COLORS = ["#5342f4", "#c8df1c"];
 const Overview = () => {
+
+    const axiosSecure = useAxiosSecure()
+
+    const { data:amountSummery } = useQuery({
+        queryKey: ['getSummery'],
+        queryFn: async () => {
+            const res = await axiosSecure.get<AmountResType>(`/payment/getSummery`)
+            return res?.data
+        }
+    })
+
+
+    console.log(amountSummery);
+
+
+
     return (
         <div>
             <DashPageHeading title="Overview" path={path} pathName={pathName}></DashPageHeading>
@@ -87,15 +110,15 @@ const Overview = () => {
 
                             <div className="p-5 rounded-md bg-stone-950 shadow-[inset_0_0_20px_10px_rgba(255,255,255,0.2)] ">
                                 <h1 className="flex items-center gap-3 font-bold "><AiFillProduct className=" p-1 text-2xl bg-gray-800 rounded-sm" /> Shop Revenue</h1>
-                                <p className="text-2xl font-bold mt-4 text-white ml-1">$3446.67</p>
-                                <p className="flex items-center gap-2 mt-1"><MdArrowOutward className=" text-green-800" />This Month</p>
+                                <p className="text-2xl font-bold mt-4 text-white ml-1">Tk {amountSummery?.totalShopAmount || 0}</p>
+                                <p className="flex items-center gap-2 mt-1"><MdArrowOutward className=" text-green-800" />total</p>
 
                             </div>
 
                             <div className="p-5 rounded-md bg-stone-950 shadow-[inset_0_0_20px_10px_rgba(255,255,255,0.2)] ">
                                 <h1 className="flex items-center gap-3 font-bold "><RiMotorbikeFill className=" p-1 text-2xl bg-gray-800 rounded-sm" /> Bike Revenue</h1>
-                                <p className="text-2xl font-bold mt-4 text-white ml-1">$2446.67</p>
-                                <p className="flex items-center gap-2 mt-1"><MdArrowOutward className=" text-green-800" />This Month</p>
+                                <p className="text-2xl font-bold mt-4 text-white ml-1"> Tk {amountSummery?.totalBikeAmount || 0}</p>
+                                <p className="flex items-center gap-2 mt-1"><MdArrowOutward className=" text-green-800" />Total</p>
 
                             </div>
 
@@ -126,15 +149,16 @@ const Overview = () => {
                     </div>
 
                     <div className="p-5 rounded-md bg-stone-950 shadow-[inset_0_0_20px_10px_rgba(255,255,255,0.2)] ">
-                        <h1 className="flex items-center gap-3 font-bold "><FaRegMoneyBill1 className=" p-1 text-2xl bg-gray-800 rounded-sm" /> Total Revenue</h1>
-                        <p className="text-3xl font-bold mt-4 text-white ml-1">$2446.67</p>
+                        <h1 className="flex items-center gap-3 font-bold "><FaRegMoneyBill1 className=" p-1 text-2xl bg-gray-800 rounded-sm" /> Total Revenue <span className=" text-sm font-normal text-green-500">(last 6 Month)</span></h1>
+                        <p className="text-3xl font-bold mt-4 text-white ml-1">Tk {amountSummery?.totalAmount || 0}</p>
 
                         <div className="flex justify-center items-center mt-5 ">
                             <BarChart
                                 width={400}
                                 height={300}
-                                data={totalRevenueData}
+                                data={amountSummery?.monthlyData}
                                 margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+                                
                             >
                                 <CartesianGrid strokeDasharray="2 2" />
                                 <XAxis dataKey="month" />
@@ -142,7 +166,7 @@ const Overview = () => {
                                 <Tooltip />
                                 <Legend />
                                 <Bar dataKey="Shop" fill="#5342f4" />
-                                <Bar dataKey="Bike" fill="#c7c1fa" />
+                                <Bar dataKey="Bike" fill="#a3a601" />
                             </BarChart>
                         </div>
 

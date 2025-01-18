@@ -5,7 +5,7 @@ interface PropsType {
 }
 
 const OrderSummary = ({ summary }: PropsType) => {
-    console.log(summary);
+
 
     return (
         <div className="grid grid-cols-12 gap-4">

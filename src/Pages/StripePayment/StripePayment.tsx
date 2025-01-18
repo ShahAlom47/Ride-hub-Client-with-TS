@@ -23,15 +23,15 @@ interface RenterData {
     bikeId: string | undefined;
     totalRentalDays: number;
     finalAmount: number;
-    products?: Product[]; 
-    couponValue?: number; 
-    discountAmount?: number; 
+    products?: Product[];
+    couponValue?: number;
+    discountAmount?: number;
 }
 
 type StripeDataType = FinalDataType | RenterData & {
-    products?: Product[]; 
-    couponValue?: number; 
-    discountAmount?: number; 
+    products?: Product[];
+    couponValue?: number;
+    discountAmount?: number;
 };
 
 interface StripePaymentProps {
@@ -57,7 +57,7 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
     const elements = useElements();
     const { user } = useUser();
     const AxiosPublic = useAxiosPublic();
-    const axiosSecure= useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
     const { sendEmail } = useSendEmail();
     const { updateProductStock } = useProductManage();
     const { addCouponUser } = useHandelCoupon();
@@ -70,7 +70,7 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
     const isAxiosError = (error: unknown): error is { response: { data: { error: string } } } => {
         return typeof error === 'object' && error !== null && 'response' in error;
     };
-    
+
     const isRenterData = (data: StripeDataType): data is RenterData => {
         return (data as RenterData).startDate !== undefined && (data as RenterData).endDate !== undefined;
     };
@@ -152,14 +152,18 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
 
                     if (paymentIntent.status === 'succeeded') {
 
-                        // setTransactionId(paymentIntent.id)
+                       
                         setBtnLoading(false)
                         const paymentData = {
                             transactionId: paymentIntent.id,
-                            type: "product_purchase",
-
+                            type: category === 'shopProduct'
+                                ? "product_purchase"
+                                : category === 'rentBike'
+                                    ? "rent_bike"
+                                    : undefined,
+                            createdAt: new Date().toISOString(), 
                             ...checkOutData
-                        }
+                        };
 
                         const paymentRes = await AxiosPublic.post<PaymentResType>('/payment/addPaymentData', { paymentData })
 
@@ -202,22 +206,22 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                                         finalAmount: checkOutData?.finalAmount || 0
                                     });
                                 }
-                                 await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
-                               
+                                await AxiosPublic.delete(`/users/clearCartProduct/${user?.email}`)
+
                             }
 
                             if (checkOutData && isRenterData(checkOutData) && category === 'rentBike') {
-                            
 
-                                const rentDate={
-                                    rent_start_date:checkOutData?.startDate,
-                                    rent_end_date:checkOutData?.endDate,
-                                    renterUser:checkOutData?.email,
+
+                                const rentDate = {
+                                    rent_start_date: checkOutData?.startDate,
+                                    rent_end_date: checkOutData?.endDate,
+                                    renterUser: checkOutData?.email,
                                 }
-                                console.log(rentDate);
-                                const res = await axiosSecure.patch(`/bikeData/updateRentStatus/${checkOutData?.bikeId}`,rentDate)
 
-                                 console.log(res.data);
+                                const res = await axiosSecure.patch(`/bikeData/updateRentStatus/${checkOutData?.bikeId}`, rentDate)
+
+                                console.log(res.data);
 
                             }
 
@@ -238,9 +242,9 @@ const StripePayment = ({ checkOutData, category }: StripePaymentProps) => {
                                 allowOutsideClick: false,
                                 allowEscapeKey: false
                             }).then(() => {
-                               
-                               
-                                navigate(category != 'shopProduct'? '/our-bikes':'/shop')
+
+
+                                navigate(category != 'shopProduct' ? '/our-bikes' : '/shop')
                             });
                         } else {
                             Swal.fire({
