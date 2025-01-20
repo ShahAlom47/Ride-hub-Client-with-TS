@@ -3,6 +3,7 @@ import useSendEmail, { ResType } from "../../CustomHocks/useSendEmail";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import ButtonLoading from "../ButtonLoading/ButtonLoading";
+import useAxiosPublic from "../../CustomHocks/useAxiosPublic";
 
 
 interface IFormInput {
@@ -18,6 +19,7 @@ const ContactForm = () => {
   const { register, handleSubmit, reset } = useForm<IFormInput>();
   const { sendEmail } = useSendEmail();
   const [isLoading, setIsLoading] = useState(false)
+  const AxiosPublic = useAxiosPublic()
 
 
 
@@ -31,6 +33,8 @@ const ContactForm = () => {
       html: `Hi, I'm ${data.name} . ${data.message}`,
     };
 
+  
+
 
     const mailRes: ResType = await sendEmail(mailData);
     if (mailRes) {
@@ -38,6 +42,10 @@ const ContactForm = () => {
     }
 
     if (mailRes?.success) {
+
+       await AxiosPublic.post('/userContact/addUserMessage',mailData)
+
+
       reset();
       Swal.fire({
         toast: true,
@@ -59,6 +67,8 @@ const ContactForm = () => {
       showConfirmButton: false,
       timer: 3000,
     });
+
+
   };
 
 
