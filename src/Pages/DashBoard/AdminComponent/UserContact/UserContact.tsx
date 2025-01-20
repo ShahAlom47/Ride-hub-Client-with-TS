@@ -7,6 +7,7 @@ import { ResponsiveTable } from "responsive-table-react";
 import { MdDeleteSweep } from "react-icons/md";
 import Loading from "../../../../SharedComponent/Loading/Loading";
 import ReactModal from "../../../../SharedComponent/ReactModal/ReactModal";
+import Swal from "sweetalert2";
 
 interface MessageType {
     _id: string;
@@ -14,6 +15,11 @@ interface MessageType {
     to: string;
     subject: string;
     html: string;
+}
+
+interface DeleteRes {
+    status:boolean;
+    message:string;
 }
 
 const path: string[] = ["/my-dashBoard", "/my-userContact/"];
@@ -27,7 +33,6 @@ const UserContact = () => {
 
     const axiosSecure = useAxiosSecure();
 
-
     const [currentData, setCurrentData] = useState<MessageType>({
         _id: "",
         from: "",
@@ -39,7 +44,7 @@ const UserContact = () => {
 const [modalIsOpen,setIsOpen]=useState(false)
 
    
-    const { data: messagesData, isLoading } = useQuery<{
+    const { data: messagesData, isLoading,refetch } = useQuery<{
         messages: MessageType[];
         total: number;
     }>({
@@ -60,10 +65,40 @@ const [modalIsOpen,setIsOpen]=useState(false)
     const messages = messagesData?.messages || [];
     const totalPages = Math.ceil((messagesData?.total || 0) / pageItem);
 
+ 
+
     const handleDeleteMsg = async (id: string) => {
-        console.log(id);
-        // Add delete functionality here
+        const confirmResult = await Swal.fire({
+            title: "Are you sure?",
+            text: "Do you really want to delete this message? This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+        });
+    
+        if (confirmResult.isConfirmed) {
+            try {
+                const res = await axiosSecure.delete<DeleteRes>(`/userContact/deleteUserMessage/${id}`);
+               
+               
+                if (res.status === 200) {
+                    Swal.fire("Deleted!", res.data.message, "success");
+                    refetch()
+                } else {
+                    Swal.fire("Error!", "Failed to delete the message. Please try again.", "error");
+                }
+            } catch (error) {
+                Swal.fire("Error!", "Something went wrong while deleting the message.", "error");
+                console.error("Error:", error);
+            }
+        } else {
+            console.log("Delete action was canceled.");
+        }
     };
+    
 
     const handelView =(data:MessageType)=>{
         setCurrentData(data)
@@ -116,7 +151,7 @@ const [modalIsOpen,setIsOpen]=useState(false)
                         placeholder="Search by email..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full px-4 py-2 input input-bordered rounded-sm rounded-lg"
                     />
                 </div>
 
