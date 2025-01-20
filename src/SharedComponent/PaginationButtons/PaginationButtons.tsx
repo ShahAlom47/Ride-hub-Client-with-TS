@@ -11,7 +11,7 @@ interface PropsType {
 
 const PaginationButtons = ({ setCurrentPage, currentPage, totalPages }:PropsType) => {
     return (
-        <div className=" flex justify-center w-full  items-center gap-3 ">
+        <div className=" flex justify-center w-full  items-center gap-3 pt-5 ">
             {/* Prev Button */}
             {currentPage > 1 && (
                 <button
