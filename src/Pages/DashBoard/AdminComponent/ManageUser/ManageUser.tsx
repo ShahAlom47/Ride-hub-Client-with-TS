@@ -108,7 +108,7 @@ const ManageUser = () => {
     return null;
   }).filter((item): item is CombinedData => item !== null); // Ensure correct type after filter
 
-  console.log(combinedData);
+ 
 
   const handleDeleteUser = async (dataBaseId: string, firebaseId: string) => {
     try {

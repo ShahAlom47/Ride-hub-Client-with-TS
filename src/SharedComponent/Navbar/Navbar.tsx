@@ -36,18 +36,19 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
 
         const handleScroll = () => {
             const currentScrollPos = window.pageYOffset;
-            const isHeadVisible = currentScrollPos >= 150;
+            const isHeadVisible = currentScrollPos > 130;
 
             const isVisibleD = currentScrollPos > 400;
 
+
             const isScrollingUp = prevScrollPos > currentScrollPos;
 
-            if (isVisibleD) {
-                setVisible(false);
-                setNavbarPosition(false);
-            } else if (isScrollingUp) {
+            if (isScrollingUp) {
                 setVisible(true);
                 setNavbarPosition(true);
+            } else if (isVisibleD) {
+                setVisible(false);
+                setNavbarPosition(false);
             }
 
             setHeadVisible(isHeadVisible);
@@ -207,7 +208,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                         </div>
 
                         :
-                        <Link to={'/login'} className="btn btn-sm rounded-sm bg-opacity-70">Login</Link>
+                        <Link to={'/login'} className="btn btn-sm rounded-sm bg-opacity-70 ml-2">Login</Link>
                 }
 
 

@@ -41,7 +41,6 @@ const ManageProduct = () => {
 
     const tableData = data?.data || []
 
-    console.log(tableData);
 
     return (
         <div className=" flex flex-col gap-3">
