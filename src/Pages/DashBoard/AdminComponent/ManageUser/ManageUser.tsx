@@ -5,7 +5,6 @@ import { ResponsiveTable } from "responsive-table-react";
 import { MdDeleteSweep } from "react-icons/md";
 import Swal from "sweetalert2";
 import useUserData from "../../../../CustomHocks/useUserData";
-import { useState } from "react";
 
 // User interface from database
 interface User {
@@ -68,8 +67,8 @@ const pathName: string[] = ['DashBoard', 'Manage User'];
 const ManageUser = () => {
   const axiosSecure = useAxiosSecure();
   const { userData } = useUserData();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentRole, setCurrentRoll]= useState('')
+
+  
 
   // Fetch all users from the database
   const { data ,refetch:dataRefetch} = useQuery<UserResType>({
@@ -169,7 +168,7 @@ const ManageUser = () => {
 
 
   const handleRoleChange = async (id: string, roll: string) => {
-    setCurrentRoll(roll)
+  
     // কনফার্মেশন ডায়ালগ
     const confirmResult = await Swal.fire({
       title: "Are you sure?",

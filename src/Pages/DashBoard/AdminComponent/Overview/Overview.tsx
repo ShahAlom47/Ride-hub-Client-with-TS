@@ -90,8 +90,8 @@ const Overview = () => {
                                 dataKey="value"
                                 stroke="none"
                             >
-                                {visitorChatData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                {visitorChatData?.map((entry, index) => (
+                                    <Cell key={`cell-${index+entry?.value}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
                             <Tooltip />
@@ -138,7 +138,7 @@ const Overview = () => {
                                     stroke="none"
                                 >
                                     {visitorChatData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        <Cell key={`cell-${index+entry?.value}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
                                 <Tooltip />

@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./src/react-lottie.d.ts","./src/vite-env.d.ts","./src/pages/ourbikes/bikedata.ts","./src/pages/ourbikes/bikedatainterface/bikedataiterface.ts","./firebase.config.ts"],"version":"5.6.2"}
+{"root":["./vite.config.ts","./src/custom-typings.d.ts.ts","./src/vite-env.d.ts","./src/pages/ourbikes/bikedata.ts","./src/pages/ourbikes/bikedatainterface/bikedataiterface.ts","./firebase.config.ts","./env.d.ts"],"version":"5.6.2"}
