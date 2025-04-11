@@ -13,8 +13,8 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue,totalAvail
 
 
     return (
-        <div className="  my-5 p-4 w-11/12 mx-auto">
-            <div className=" flex gap-4 items-center justify-between  lg:flex-row md:flex-row flex-col mb-4">
+        <div className="  my-5  mx-auto ">
+            <div className=" flex gap-4 items-center justify-between  lg:flex-row md:flex-row flex-col mb-4 max-w pb-5 px-5">
                 <h1 className=" text-white font-medium">Available Bike <span className="text-xl  ">{totalAvailableBike}</span></h1>
                 <div className=" flex gap-5 items-center justify-end">
                     <div className=" flex justify-center items-center gap-3 ">
@@ -40,7 +40,7 @@ const ViewOptions = ({ cardView, setCardView, sortValue, setSortValue,totalAvail
 
             </div>
 
-            <div className="border-b border-white"></div>
+            <div className="border-b border-white w-full"></div>
         </div>
     );
 };

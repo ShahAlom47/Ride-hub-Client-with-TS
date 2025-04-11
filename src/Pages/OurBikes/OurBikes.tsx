@@ -72,7 +72,7 @@ const OurBikes: React.FC = () => {
                 error ? <ErrorPage></ErrorPage> :
                     <div className="bg-color-p">
 
-                        <div className="my-5">
+                        <div className="py-5 ">
                             <BikeFinder
                                 brand={brand}
                                 setBrand={setBrand}
@@ -85,7 +85,7 @@ const OurBikes: React.FC = () => {
                             />
                         </div>
 
-                        <div className="sortSection max-w">
+                        <div className="sortSection  w-full">
                             <ViewOptions
                                 cardView={cardView}
                                 setCardView={setCardView}

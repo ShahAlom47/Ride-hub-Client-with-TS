@@ -132,8 +132,8 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
     ];
 
     return (
-        <div className={` ${visible ? 'top-0' : '-top-16'}  ${headVisible ? '' : (screenWidth > 1025 ? 'grid grid-cols-12 grid-rows-2 ' : '')} transition-all duration-500 ease-in-out   navbar bg-black  sticky z-50 text-gray-300 `}>
-            <div className={`navbar-start    ${headVisible ? '' : (screenWidth > 1025 ? 'col-span-2 row-span-2 row-start-1 border-r border-gray-600  h-full w-full ' : '')}  `}>
+        <div className={` ${visible ? 'top-0' : '-top-16'}  ${headVisible ? '' : (screenWidth > 1025 ? 'grid grid-cols-12 grid-rows-2 ' : '')} transition-all duration-500 ease-in-out   navbar bg-black   sticky z-50 text-gray-300 `}>
+            <div className={`navbar-start     ${headVisible ? '' : (screenWidth > 1025 ? 'col-span-2 row-span-2 row-start-1 border-r border-gray-600  h-full w-full ' : '')}  `}>
 
                 <div className="dropdown flex justify-between">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -141,7 +141,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-sm z-[1] mt-3 min-w-40 p-2 shadow">
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-sm z-[1] mt-  min-w-40 p-2 shadow">
                         <ul className="menu menu-horizontal px-1 flex flex-col text-white uppercase">
                             {
                                 nav.map((item, idx) => <li key={idx}>{item}</li>)
@@ -153,11 +153,11 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
 
             </div>
 
-            <div className={` h-10 w-full  col-span-10 row-span-1 row-start-1 lg:border-b md:border-b  border-gray-600 justify-between  ${headVisible ? 'hidden' : (screenWidth > 1025 ? 'lg:flex hidden  ' : 'lg:flex hidden')}`}>
+            <div className={` h-7 w-full  col-span-10 row-span-1 row-start-1 lg:border-b md:border-b  border-gray-600 justify-between  ${headVisible ? 'hidden' : (screenWidth > 1025 ? 'lg:flex hidden  ' : 'lg:flex hidden')}`}>
                 <div className=" flex items-center px-3">
                     <p className="text-gray-500 mr-4 ">5617 Glassford Street New York, NY 10000, USA </p>
                     |
-                    <p className="text-white mx-5">info@autobike.com</p>
+                    <p className="text-white mx-5">info@ridehub.com</p>
                 </div>
                 <div className=" flex items-center gap-5 text-white pr-4">
                    <a href=""><FaFacebook /></a>
@@ -166,8 +166,8 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
                 </div>
             </div>
 
-            <div className={`navbar-center hidden lg:flex  ${headVisible ? '' : (screenWidth > 1025 ? ' col-span-7 row-span-1 row-start-2' : '')} pt-2 `}>
-                <ul className="menu menu-horizontal px-1  uppercase  ">
+            <div className={`navbar-center  hidden lg:flex  ${headVisible ? '' : (screenWidth > 1025 ? ' col-span-7 row-span-1 row-start-2' : '')} pt- `}>
+                <ul className="menu menu-horizontal px-1  uppercase  p-0  ">
                     {
                         nav.map((item, idx) => <li key={idx}>{item}</li>)
                     }
@@ -175,7 +175,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
 
             </div>
 
-            <div className={`navbar-end pr-5 col-span-3 row-span-1 row-start-2 justify-end   ${headVisible ? '' : (screenWidth > 1025 ? 'w-full' : '')}`} >
+            <div className={`navbar-end  pr-5 col-span-3 row-span-1 row-start-2 justify-end   ${headVisible ? '' : (screenWidth > 1025 ? 'w-full' : '')}`} >
 
                 {
                     drawerNav

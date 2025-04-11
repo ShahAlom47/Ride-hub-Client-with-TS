@@ -36,9 +36,9 @@ const BikeFinder = ({ brand, setBrand, model, setModel, engine, setEngine, handl
 
 
     return (
-        <div className="max-w">
-            <div className="bg-color-p p-6 w-11/12 m-auto h-auto">
-                <div className=" flex gap-4 justify-between items-center lg:flex-row md:flex-row flex-col border-b-2 border-white pb-4  ">
+        <div className="border-b-2 border-white  bg-color-p pt-5 px-5 ">
+            <div className=" px-6 w-11/12 m-auto h-auto max-w">
+                <div className=" flex gap-4 justify-between items-center lg:flex-row md:flex-row flex-col   ">
                     <h1 className="text-white font-bold  text-2xl font-pFont">FIND YOUR MOTORBIKE</h1>
                     <form onSubmit={handleSearch} className=' h-10  flex justify-center items-center'>
                         <input className='px-3 py-1 h-full bg-gray-800' type="text" name="search" placeholder='Search Brand Or Model ' />
