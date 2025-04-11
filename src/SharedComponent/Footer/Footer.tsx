@@ -16,7 +16,7 @@ const Footer = () => {
             <div className=" max-w p-5 py-16  grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1  gap-4 items-start ">
 
                 <div  >
-                    <h1 className=" text-3xl font-bold font-pFont mb-4 ">DO YOU HAVE QUESTIONS?<br />
+                    <h1 className="lg:text-3xl md:text-2xl text-xl font-bold font-pFont mb-4 ">DO YOU HAVE QUESTIONS?<br />
                         <span className=" text-color-s"> LET'S TALK US !</span>
                     </h1>
                     < p className=" flex gap-2  items-center "><MdLocationPin />  5617 Glassford Street New York, NY 10000, USA</p>
@@ -24,7 +24,7 @@ const Footer = () => {
                     < p className=" flex gap-2  items-center "><TfiEmail />  ridehub47@gmail.com</p>
                 </div>
                 <div className="">
-                    <h1 className="uppercase text-2xl font-bold font-pFont mb-4">Quick links</h1>
+                    <h1 className="uppercase lg:text-2xl md:text-xl text-lg font-bold font-pFont mb-4">Quick links</h1>
                     <div className="flex flex-col text-xl">
                         <NavLink
                             key="home" to="/"
@@ -47,7 +47,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div>
-                    <h1 className="uppercase text-2xl font-bold font-pFont mb-4">Quick Contact</h1>
+                    <h1 className="uppercase lg:text-2xl md:text-xl text-lg font-bold font-pFont mb-4">Quick Contact</h1>
                     <p className="mb-3">Have any questions or need assistance? Click the 'Contact Us' button to reach out to us directly. Simply enter your name and email, and we'll get back to you as soon as possible. We're here to help make your bike rental experience smooth and enjoyable!</p>
                     <button onClick={() => setIsOpen(true)} className="btn-p  h-10 font-bold "> Send a Message</button>
                     <ReactModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} label="footer contact modal" >

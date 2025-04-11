@@ -137,7 +137,7 @@ const Navbar = ({ drawerContent, setDrawerContent, setNavbarPosition }: DrawerPr
 
                 <div className="dropdown flex justify-between">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                        <GiHamburgerMenu />
+                        <GiHamburgerMenu className="text-3xl" />
                     </div>
                     <ul
                         tabIndex={0}

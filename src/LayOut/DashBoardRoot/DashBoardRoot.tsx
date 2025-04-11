@@ -47,7 +47,7 @@ const DashBoardRoot = () => {
 
             <div className={`  absolute ${isOpen ? 'w-6/12 left-0' : 'w-0  -left-52'} bg-color-op h-screen lg:col-span-3 md:col-span-3  flex-col  lg:hidden md:hidden flex   transition-all ease-in-out duration-500 overflow-hidden z-50 `}>
                 <div className="p-2 flex gap-2 items-end  ">
-                    <button onClick={() => setOpen(!isOpen)} className="mb-1"> <GiHamburgerMenu /> </button>
+                    <button onClick={() => setOpen(!isOpen)} className="mb-1"> <GiHamburgerMenu  className=" text-3xl"/> </button>
                     <Logo></Logo>
                 </div>
 

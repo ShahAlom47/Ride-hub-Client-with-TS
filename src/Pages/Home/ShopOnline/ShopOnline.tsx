@@ -32,8 +32,8 @@ const ShopOnline = () => {
         <div className=" max-w p-4 py-10 ">
             <div className="header flex justify-between items-end my-4 p-2">
                 <div className=" text-white space-y-3 uppercase">
-                    <p className=" bg-color-s px-3 py-1 inline  ">Shop Online</p>
-                    <h1 className="text-4xl font-bold font-pFont "> Our Products</h1>
+                    <p className=" bg-color-s px-3 py-1 inline  md:text-base text-sm ">Shop Online</p>
+                    <h1 className="lg:text-4xl md:text-3xl text-xl font-bold font-pFont "> Our Products</h1>
                 </div>
                 <Link to={'/shop'}>
                     <button className=" flex items-center gap-1 transition-all duration-300 border-opacity-0 hover:border-opacity-100 ease-in-out   border-b-2 border-color-s group font-semibold">

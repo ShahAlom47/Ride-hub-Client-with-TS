@@ -5,6 +5,7 @@ table.rtr-table {
     border: 0px;
     background-color: #1e1d1d;
     color: wheat;
+    
 }
 
 table.rtr-table tbody td {
@@ -14,7 +15,15 @@ table.rtr-table tbody td {
     padding: 1rem;
     text-align: left;
     word-break: break-word;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    
 }
+
 table.rtr-table tbody tr:hover {
     border:  0px ;
   

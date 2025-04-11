@@ -25,12 +25,12 @@ const ActionBar = ({ setSearchValue, setFilterDate, filterDate, searchValue }: P
     
 
     return (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center lg:flex-row flex-col">
             <div>
                 <h1 className="text-2xl font-bold">Orders</h1>
             </div>
 
-            <div className="flex my-4 justify-end gap-3">
+            <div className="flex my-4 justify-end lg:flex-row md:flex-row flex-col gap-3">
                 <form onSubmit={handleSubmit} className="flex border border-gray-800 rounded-md bg-slate-100">
                     <input
                         className="bg-slate-100 rounded-l-md outline-none px-3 text-black"
@@ -39,7 +39,7 @@ const ActionBar = ({ setSearchValue, setFilterDate, filterDate, searchValue }: P
                         defaultValue={searchValue}
                        
                     />
-                    <button type="submit" className="p-2 border-l bg-slate-300 text-black rounded-r-md hover:bg-slate-400">
+                    <button type="submit" className="p-2 border-l bg-slate-300 flex justify-center items-center  text-black rounded-r-md hover:bg-slate-400">
                         <CiSearch />
                     </button>
                 </form>
@@ -55,7 +55,7 @@ const ActionBar = ({ setSearchValue, setFilterDate, filterDate, searchValue }: P
                         placeholderText="Date"
                         className="w-26 bg-slate-300 text-black"
                     />
-                    <button onClick={() => setFilterDate(null)}>
+                    <button onClick={() => setFilterDate(null)} className="flex justify-center items-center   w-full">
                         <RxCross1 className="hover:text-color-s" />
                     </button>
                 </div>

@@ -60,6 +60,7 @@ table.rtr-table tbody tr:hover td  {
 }
 table.rtr-table tbody {
     text-align: center !important;
+    bottom: 10px;
     background-color: black !important;
 }
 @media screen and (max-width: 600px) {
