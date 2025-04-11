@@ -257,7 +257,7 @@ const ManageUser = () => {
         disabled={userData?.userEmail === user?.firebaseEmail}
         value={user.userRole}
         onChange={(e) => handleRoleChange(user.databaseUserId, e.target.value as "admin" | "user" | "moderator")}
-        className="border rounded px-2 py-1"
+        className="border rounded px-2 py-1 bg-white text-black text-sm m-3"
       >
         <option value="admin">Admin</option>
         <option value="user">User</option>
