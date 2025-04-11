@@ -112,9 +112,9 @@ const AddBikeForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="p-4   text-white  rounded-md">
             <h2 className="text-xl font-bold mb-4">Add Bike Form</h2>
 
-            <div className="image-upload-container  grid grid-cols-2  items-center  gap-0  p-3 pl-0" style={{ textAlign: 'center' }}>
+            <div className="image-upload-container  grid grid-cols-2  items-center justify-center  gap-0  p-3 pl-0" style={{ textAlign: 'center' }}>
 
-                <div className=" relative bb rounded-md p-3">
+                <div className=" relative bb rounded-md p-3 flex justify-center items-center lg:col-span-1 md:col-span-1 col-span-2 ">
                     {imagePreview ?
                         <div className="   w-full h-60 overflow-hidden" style={{ marginTop: '20px' }}>
                             <h3 className=" mb-2">Image Preview:</h3>
@@ -126,7 +126,7 @@ const AddBikeForm = () => {
 
                     }
 
-                    <div className=" cursor-pointer  bb absolute top-1/2 left-[20%] bg-gray-500 bg-opacity-50  rounded-full p-2 text-black " {...getRootProps()} >
+                    <div className=" cursor-pointer    absolute top-1/2 inset-x-0 mx-3 bg-gray-500 bg-opacity-50  rounded-lg p-2 text-black " {...getRootProps()} >
                         <input {...getInputProps()} />
                         <p>Drag & Drop an image here, or click to select a file</p>
                     </div>
