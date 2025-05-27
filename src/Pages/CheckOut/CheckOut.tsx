@@ -14,6 +14,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentMethodBtn from "./PaymentMethodBtn/PaymentMethodBtn";
 import { Helmet } from "react-helmet-async";
+import Loading from "../../SharedComponent/Loading/Loading";
 
 export interface Product {
     productId: string;
@@ -75,6 +76,9 @@ const CheckOut = () => {
     const handleSubmitClick = () => {
         if (formRef.current) {
             formRef.current.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+            
+
+
         }
     };
 
@@ -134,7 +138,7 @@ const CheckOut = () => {
                 <title>CheckOut || Ride Hub</title>
             </Helmet>
             <PageHeading img={headingImg} title="CHECK OUT" path={path} pathName={pathName} />
-            <div className="grid  gap-4 lg;grid-cols-12 md:grid-cols-12 grid-cols-1 max-w min-h-10 p-6">
+            <div className="grid  gap-4 lg;grid-cols-12 md:grid-cols-12 grid-cols-1 max-w min-h-10 p-6 " >
                 <div className="lg:col-span-8 md:col-span-7 ">
                     {checkOutData === null ? (
                         <CheckOutForm onSubmit={handleFormSubmit} ref={formRef} />
@@ -145,14 +149,12 @@ const CheckOut = () => {
                                 <h1 className=" uppercase font-bold text-xl">{selectedMethod} Payment</h1>
                             </div>
                             <div className=" border border-gray-500 py-3 my-4 h-full">
-                                {selectedMethod === 'mastercard' && (
+                                {selectedMethod === 'Stripe' && (
                                     <Elements stripe={stripePromise}>
                                         <StripePayment category={'shopProduct'} checkOutData={checkOutData !== null ? checkOutData: null} />
                                     </Elements>
                                 )}
-                                {selectedMethod === 'visa' && <div>'Visa Payment'</div>}
-                                {selectedMethod === 'nagad' && <div className="text-2xl font-bold text-center h-full m-auto mt-16">'Nagad Payment' <h1 >This feature is currently under development</h1></div>}
-                                {selectedMethod === 'bkash' && <div className="text-2xl font-bold text-center h-full m-auto mt-16">'Bkash Payment' <h1 >This feature is currently under development</h1></div>}
+                                {selectedMethod === 'SSLCommerz' && <div className="text-2xl font-bold text-center h-full m-auto mt-16"><h1 ><Loading></Loading></h1></div>}
 
                             </div>
                         </div>

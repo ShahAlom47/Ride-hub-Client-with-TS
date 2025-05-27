@@ -23,7 +23,7 @@ const CheckOutForm = forwardRef<HTMLFormElement, CheckOutFormProps>((props, ref)
     };
 
     return (
-        <div className="mx-auto mt-10 p-6 bg-color-p shadow-lg rounded-sm text-white">
+        <div className="mx-auto mt-10 p-6 bg-color-p shadow-lg rounded-sm text-white ">
             <h2 className="text-2xl font-semibold font-pFont mb-4">Billing details</h2>
             <form onSubmit={handleSubmit(handleFormSubmit)} ref={ref} className="space-y-4">
                 
@@ -76,11 +76,7 @@ const CheckOutForm = forwardRef<HTMLFormElement, CheckOutFormProps>((props, ref)
                     {errors.state && <span className="text-red-500 text-sm">Please select a state</span>}
                 </div>
                 
-                {/* Submit Button */}
-                {/* আপনি যদি চান, এখানেও সাবমিট বাটন রাখতে পারেন */}
-                {/* <div className="text-center">
-                    <button type="submit" className="btn btn-primary w-full">Place Order</button>
-                </div> */}
+            
             </form>
         </div>
     );

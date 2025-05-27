@@ -1,13 +1,13 @@
-import mastercardIcon from '../../../assets/icons/masterCard.jpg';
-import visaIcon from '../../../assets/icons/visaCard.jpg';
+// import mastercardIcon from '../../../assets/icons/masterCard.jpg';
+// import visaIcon from '../../../assets/icons/visaCard.jpg';
 import bkashIcon from '../../../assets/icons/bkash.jpg';
 import nagadIcon from '../../../assets/icons/nagad.jpg';
 
 const paymentMethodData: PaymentMethodType[] = [
-    { methodName: 'Mastercard', img: mastercardIcon, value: 'mastercard' },
-    { methodName: 'Visa', img: visaIcon, value: 'visa' },
-    { methodName: 'BKash', img: bkashIcon, value: 'bkash' },
-    { methodName: 'Nagad', img: nagadIcon, value: 'nagad' },
+    // { methodName: 'Mastercard', img: mastercardIcon, value: 'mastercard' },
+    // { methodName: 'Visa', img: visaIcon, value: 'visa' },
+    { methodName: 'Stripe', img: bkashIcon, value: 'Stripe' },
+    { methodName: 'SSLCommerz', img: nagadIcon, value: 'SSLCommerz' },
 ];
 
 type PaymentMethodType = {
