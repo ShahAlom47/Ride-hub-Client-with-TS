@@ -76,7 +76,7 @@ const CheckOut = () => {
     const handleSubmitClick = () => {
         if (formRef.current) {
             formRef.current.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
-            
+            console.log(checkOutData)
 
 
         }
